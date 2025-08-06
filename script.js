@@ -104,6 +104,21 @@ function setupEventListeners() {
             adminModal.classList.add('active');
         });
     }
+
+    // Back to Home button
+    const backHomeBtn = document.getElementById('back-home');
+    if (backHomeBtn) {
+        backHomeBtn.addEventListener('click', () => {
+            // Scroll to top and close any modals
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelectorAll('.modal.active').forEach(modal => {
+                modal.classList.remove('active');
+            });
+            
+            // Hide back button after use
+            backHomeBtn.style.display = 'none';
+        });
+    }
     
     // Modal close buttons
     document.querySelectorAll('.close-modal').forEach(btn => {
@@ -182,39 +197,88 @@ async function loadCategories() {
             }
         }
         
-        // Fallback to default categories
+        // Fallback to default categories - Updated comprehensive list
         const defaultCategories = [
             {
                 id: 'skincare',
-                name: 'Skincare',
-                nameAr: 'العناية بالجلد',
-                description: 'Natural skincare products for healthy glowing skin',
-                descriptionAr: 'منتجات العناية الطبيعية بالجلد للحصول على بشرة صحية ونضرة',
-                icon: 'fas fa-spa'
+                name: 'Skin Care',
+                nameAr: 'العناية بالبشرة',
+                description: 'Moisturizing Creams, Face Wash, Serums, Toner, Face Masks, Sunscreen, Makeup Remover',
+                descriptionAr: 'كريمات مرطبة، غسول وجه، سيروم، تونر، ماسكات، واقي شمس، مزيل مكياج',
+                icon: 'fas fa-spa',
+                subcategories: ['moisturizing-creams', 'face-wash', 'serums', 'toner', 'face-masks', 'sunscreen', 'makeup-remover']
             },
             {
                 id: 'bodycare',
                 name: 'Body Care',
                 nameAr: 'العناية بالجسم',
-                description: 'Nourishing body care essentials',
-                descriptionAr: 'أساسيات العناية المغذية للجسم',
-                icon: 'fas fa-heart'
+                description: 'Body Oils, Body Scrubs, Body Lotion, Whitening Creams, Deodorants, Hand & Foot Creams',
+                descriptionAr: 'زيوت الجسم، مقشرات، لوشن، كريمات تفتيح، مزيلات عرق، كريمات يد وقدم',
+                icon: 'fas fa-heart',
+                subcategories: ['body-oils', 'body-scrubs', 'body-lotion', 'whitening-creams', 'deodorants', 'hand-foot-creams']
             },
             {
                 id: 'haircare',
                 name: 'Hair Care',
                 nameAr: 'العناية بالشعر',
-                description: 'Natural hair care products for healthy hair',
-                descriptionAr: 'منتجات العناية الطبيعية بالشعر للحصول على شعر صحي',
-                icon: 'fas fa-cut'
+                description: 'Shampoo, Conditioner, Hair Mask, Hair Oils, Hair Serum, Hair Loss Treatments',
+                descriptionAr: 'شامبو، بلسم، ماسك شعر، زيوت شعر، سيروم، علاجات تساقط الشعر',
+                icon: 'fas fa-cut',
+                subcategories: ['shampoo', 'conditioner', 'hair-mask', 'hair-oils', 'hair-serum', 'hair-loss-treatments']
             },
             {
-                id: 'aromatherapy',
-                name: 'Aromatherapy',
-                nameAr: 'العلاج العطري',
-                description: 'Essential oils and aromatherapy products',
-                descriptionAr: 'الزيوت الأساسية ومنتجات العلاج العطري',
-                icon: 'fas fa-leaf'
+                id: 'oralcare',
+                name: 'Oral Care',
+                nameAr: 'العناية بالفم',
+                description: 'Natural Toothpaste, Mouthwash, Teeth Whitening Products',
+                descriptionAr: 'معجون أسنان طبيعي، غسول فم، منتجات تبييض الأسنان',
+                icon: 'fas fa-tooth',
+                subcategories: ['natural-toothpaste', 'mouthwash', 'teeth-whitening']
+            },
+            {
+                id: 'natural-products',
+                name: 'Natural Products',
+                nameAr: 'المنتجات الطبيعية',
+                description: 'Organic Products, Chemical-Free, Fragrance-Free',
+                descriptionAr: 'منتجات عضوية، خالية من الكيماويات، خالية من العطور',
+                icon: 'fas fa-leaf',
+                subcategories: ['organic-products', 'chemical-free', 'fragrance-free']
+            },
+            {
+                id: 'special-care',
+                name: 'Special Care',
+                nameAr: 'العناية الخاصة',
+                description: 'For Children, For Men, For Pregnant Women',
+                descriptionAr: 'للأطفال، للرجال، للحوامل',
+                icon: 'fas fa-baby',
+                subcategories: ['for-children', 'for-men', 'for-pregnant-women']
+            },
+            {
+                id: 'fragrances',
+                name: 'Fragrances',
+                nameAr: 'العطور',
+                description: 'Body Perfumes, Natural Perfumes, Hair Perfumes',
+                descriptionAr: 'عطور الجسم، عطور طبيعية، عطور الشعر',
+                icon: 'fas fa-spray-can',
+                subcategories: ['body-perfumes', 'natural-perfumes', 'hair-perfumes']
+            },
+            {
+                id: 'soaps-cleansers',
+                name: 'Soaps & Cleansers',
+                nameAr: 'الصابون والمنظفات',
+                description: 'Natural Soap, Body Wash, Natural Cleaners',
+                descriptionAr: 'صابون طبيعي، غسول جسم، منظفات طبيعية',
+                icon: 'fas fa-soap',
+                subcategories: ['natural-soap', 'body-wash', 'natural-cleaners']
+            },
+            {
+                id: 'candles-aromatherapy',
+                name: 'Candles & Aromatherapy',
+                nameAr: 'الشموع والعلاج العطري',
+                description: 'Scented Candles, Essential Oils, Natural Incense',
+                descriptionAr: 'شموع معطرة، زيوت أساسية، بخور طبيعي',
+                icon: 'fas fa-candle-holder',
+                subcategories: ['scented-candles', 'essential-oils', 'natural-incense']
             }
         ];
         
@@ -289,7 +353,7 @@ async function loadProducts() {
             }
         }
         
-        // Fallback to default products
+        // Fallback to default products with updated categories
         const defaultProducts = [
             {
                 id: '1',
@@ -299,7 +363,9 @@ async function loadProducts() {
                 descriptionAr: 'صابون اللافندر المصنوع يدوياً بمكونات عضوية. مثالي للبشرة الحساسة.',
                 price: 85,
                 discount: 0,
-                category: 'skincare',
+                category: 'soaps-cleansers',
+                categoryName: 'Soaps & Cleansers',
+                categoryNameAr: 'الصابون والمنظفات',
                 image: 'https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                 deliveryAvailable: true,
                 deliveryPrice: 25,
@@ -317,6 +383,8 @@ async function loadProducts() {
                 price: 120,
                 discount: 10,
                 category: 'haircare',
+                categoryName: 'Hair Care',
+                categoryNameAr: 'العناية بالشعر',
                 image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                 deliveryAvailable: true,
                 deliveryPrice: 25,
@@ -333,7 +401,9 @@ async function loadProducts() {
                 descriptionAr: 'شمعة شمع العسل النقي بالزيوت الأساسية للعلاج العطري والاسترخاء.',
                 price: 65,
                 discount: 0,
-                category: 'aromatherapy',
+                category: 'candles-aromatherapy',
+                categoryName: 'Candles & Aromatherapy',
+                categoryNameAr: 'الشموع والعلاج العطري',
                 image: 'https://images.unsplash.com/photo-1605464315542-f6344c543d5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                 deliveryAvailable: true,
                 deliveryPrice: 20,
@@ -351,6 +421,8 @@ async function loadProducts() {
                 price: 95,
                 discount: 15,
                 category: 'bodycare',
+                categoryName: 'Body Care',
+                categoryNameAr: 'العناية بالجسم',
                 image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
                 deliveryAvailable: true,
                 deliveryPrice: 25,
@@ -358,6 +430,44 @@ async function loadProducts() {
                 quantity: 0,
                 rating: 4.6,
                 reviews: 45
+            },
+            {
+                id: '5',
+                title: 'Face Moisturizer',
+                titleAr: 'مرطب الوجه',
+                description: 'Hydrating face cream with natural ingredients for all skin types.',
+                descriptionAr: 'كريم الوجه المرطب بمكونات طبيعية لجميع أنواع البشرة.',
+                price: 110,
+                discount: 20,
+                category: 'skincare',
+                categoryName: 'Skin Care',
+                categoryNameAr: 'العناية بالبشرة',
+                image: 'https://images.unsplash.com/photo-1556228578-dd6c8c6d9b5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                deliveryAvailable: true,
+                deliveryPrice: 25,
+                inStock: true,
+                quantity: 35,
+                rating: 4.5,
+                reviews: 78
+            },
+            {
+                id: '6',
+                title: 'Natural Toothpaste',
+                titleAr: 'معجون الأسنان الطبيعي',
+                description: 'Fluoride-free natural toothpaste with mint and herbs.',
+                descriptionAr: 'معجون أسنان طبيعي خالي من الفلورايد بالنعناع والأعشاب.',
+                price: 45,
+                discount: 0,
+                category: 'oralcare',
+                categoryName: 'Oral Care',
+                categoryNameAr: 'العناية بالفم',
+                image: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+                deliveryAvailable: true,
+                deliveryPrice: 20,
+                inStock: true,
+                quantity: 60,
+                rating: 4.3,
+                reviews: 92
             }
         ];
         
@@ -378,10 +488,15 @@ function renderProducts(products) {
             const description = currentLang === 'ar' ? product.descriptionAr : product.description;
             const finalPrice = product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price;
             
+            const categoryName = getCurrentLanguage() === 'ar' ? 
+                (product.categoryNameAr || product.category) : 
+                (product.categoryName || product.category);
+
             return `
                 <div class="product-card" data-category="${product.category}" data-aos="fade-up">
                     <div class="product-image">
                         <img src="${product.image}" alt="${title}" class="product-img">
+                        <div class="product-category">${categoryName}</div>
                         ${product.discount > 0 ? `<div class="product-badge">-${product.discount}%</div>` : ''}
                     </div>
                     <div class="product-info">
@@ -393,6 +508,14 @@ function renderProducts(products) {
                                 ${generateStars(product.rating)}
                             </div>
                             <span class="rating-text">${product.rating} (${product.reviews} ${languageManager.t('reviews')})</span>
+                        </div>
+
+                        <div class="product-stock">
+                            <div class="stock-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                                <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                <span>${product.inStock ? languageManager.t('available') : languageManager.t('out_of_stock')}</span>
+                            </div>
+                            ${product.inStock ? `<span class="stock-quantity">${languageManager.t('stock_quantity')}: ${languageManager.formatNumber(product.quantity)}</span>` : ''}
                         </div>
                         
                         <div class="product-price">
@@ -409,7 +532,7 @@ function renderProducts(products) {
                                 <i class="fas fa-info-circle"></i>
                                 <span data-translate="view_details">Details</span>
                             </button>
-                            <button class="btn btn-small btn-primary whatsapp-btn" onclick="orderViaWhatsApp('${title}')">
+                            <button class="btn btn-small btn-primary whatsapp-btn" onclick="orderViaWhatsApp('${title}')" ${!product.inStock ? 'disabled' : ''}>
                                 <i class="fab fa-whatsapp"></i>
                                 <span data-translate="order_whatsapp">Order</span>
                             </button>
@@ -506,6 +629,7 @@ function showProductDetails(productId) {
     const modal = document.getElementById('product-modal');
     const modalTitle = document.getElementById('product-modal-title');
     const modalContent = document.getElementById('product-modal-content');
+    const backHomeBtn = document.getElementById('back-home');
     
     if (modal && modalTitle && modalContent) {
         modalTitle.textContent = title;
@@ -527,9 +651,10 @@ function showProductDetails(productId) {
                 
                 <div class="detail-item">
                     <strong data-translate="stock_status">Stock Status:</strong>
-                    <span style="color: ${product.inStock ? 'var(--olive-green)' : 'var(--accent-color)'}">
-                        ${product.inStock ? languageManager.t('in_stock') : languageManager.t('out_of_stock')}
-                    </span>
+                    <div class="stock-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                        <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                        <span>${product.inStock ? languageManager.t('available') : languageManager.t('out_of_stock')}</span>
+                    </div>
                 </div>
                 
                 <div class="detail-item">
@@ -541,10 +666,22 @@ function showProductDetails(productId) {
                     <strong data-translate="rating">Rating:</strong>
                     <span>${product.rating}/5 (${product.reviews} ${languageManager.t('reviews')})</span>
                 </div>
+
+                <div class="detail-actions" style="margin-top: var(--spacing-lg); display: flex; gap: var(--spacing-md);">
+                    <button class="btn btn-primary" onclick="orderViaWhatsApp('${title}')" ${!product.inStock ? 'disabled' : ''}>
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-translate="order_whatsapp">Order via WhatsApp</span>
+                    </button>
+                </div>
             </div>
         `;
         
         modal.classList.add('active');
+        
+        // Show back to home button
+        if (backHomeBtn) {
+            backHomeBtn.style.display = 'flex';
+        }
         
         // Update translations
         if (languageManager) {
@@ -997,6 +1134,335 @@ function getCurrentLanguage() {
     return languageManager ? languageManager.getCurrentLanguage() : 'en';
 }
 
+// Custom Modal System
+class CustomModal {
+    constructor() {
+        this.modal = document.getElementById('custom-modal');
+        this.modalIcon = document.getElementById('modal-icon');
+        this.modalTitle = document.getElementById('modal-title');
+        this.modalMessage = document.getElementById('modal-message');
+        this.modalCancel = document.getElementById('modal-cancel');
+        this.modalConfirm = document.getElementById('modal-confirm');
+        
+        this.setupEventListeners();
+    }
+    
+    setupEventListeners() {
+        this.modalCancel?.addEventListener('click', () => this.hide());
+        this.modal?.addEventListener('click', (e) => {
+            if (e.target === this.modal) this.hide();
+        });
+    }
+    
+    show(options) {
+        const {
+            type = 'warning',
+            title = 'Confirmation',
+            message = 'Are you sure?',
+            confirmText = 'Confirm',
+            cancelText = 'Cancel',
+            onConfirm = () => {},
+            onCancel = () => {}
+        } = options;
+        
+        // Update icon
+        this.modalIcon.className = `modal-icon ${type}`;
+        const iconMap = {
+            warning: 'fas fa-exclamation-triangle',
+            danger: 'fas fa-trash-alt',
+            success: 'fas fa-check-circle',
+            info: 'fas fa-info-circle'
+        };
+        this.modalIcon.querySelector('i').className = iconMap[type] || iconMap.warning;
+        
+        // Update content
+        this.modalTitle.textContent = title;
+        this.modalMessage.textContent = message;
+        this.modalConfirm.querySelector('span').textContent = confirmText;
+        this.modalCancel.querySelector('span').textContent = cancelText;
+        
+        // Setup handlers
+        this.modalConfirm.onclick = () => {
+            onConfirm();
+            this.hide();
+        };
+        
+        this.modalCancel.onclick = () => {
+            onCancel();
+            this.hide();
+        };
+        
+        // Show modal
+        this.modal.classList.add('active');
+    }
+    
+    hide() {
+        this.modal?.classList.remove('active');
+    }
+}
+
+// Comments System
+class CommentsSystem {
+    constructor() {
+        this.comments = [];
+        this.currentUser = null;
+        this.isAdmin = false;
+        this.init();
+    }
+    
+    init() {
+        this.setupEventListeners();
+        this.loadComments();
+        
+        // Listen for auth changes
+        document.addEventListener('authStateChanged', (e) => {
+            this.currentUser = e.detail.user;
+            this.isAdmin = e.detail.isAdmin;
+            this.updateCommentsUI();
+        });
+    }
+    
+    setupEventListeners() {
+        // Comment form submission
+        const commentForm = document.getElementById('comment-form');
+        commentForm?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.submitComment(new FormData(commentForm));
+        });
+        
+        // Login to comment button
+        const loginBtn = document.getElementById('login-to-comment-btn');
+        loginBtn?.addEventListener('click', () => {
+            if (authManager) {
+                authManager.signInWithGoogle();
+            }
+        });
+        
+        // Load more comments
+        const loadMoreBtn = document.querySelector('#load-more-comments button');
+        loadMoreBtn?.addEventListener('click', () => {
+            this.loadMoreComments();
+        });
+    }
+    
+    async submitComment(formData) {
+        if (!this.currentUser) {
+            showToast(languageManager.t('login_to_comment'), 'warning');
+            return;
+        }
+        
+        const commentData = {
+            productId: formData.get('productId'),
+            comment: formData.get('comment'),
+            rating: parseInt(formData.get('rating')),
+            userId: this.currentUser.uid,
+            userEmail: this.currentUser.email,
+            userName: this.currentUser.displayName,
+            userAvatar: this.currentUser.photoURL,
+            timestamp: new Date().toISOString()
+        };
+        
+        try {
+            if (dataManager) {
+                const result = await dataManager.create('comments', commentData);
+                if (result.success) {
+                    showToast(languageManager.t('comment_posted'), 'success');
+                    document.getElementById('comment-form').reset();
+                    this.loadComments();
+                }
+            }
+        } catch (error) {
+            console.error('Error posting comment:', error);
+            showToast(languageManager.t('error_general'), 'error');
+        }
+    }
+    
+    async loadComments() {
+        try {
+            if (dataManager) {
+                const result = await dataManager.read('comments', 'timestamp', 'desc');
+                if (result.success) {
+                    this.comments = result.data;
+                    this.renderComments();
+                }
+            }
+        } catch (error) {
+            console.error('Error loading comments:', error);
+        }
+    }
+    
+    renderComments() {
+        const commentsList = document.getElementById('comments-list');
+        if (!commentsList) return;
+        
+        if (this.comments.length === 0) {
+            commentsList.innerHTML = `
+                <div class="no-comments">
+                    <i class="fas fa-comments"></i>
+                    <p data-translate="no_comments">No comments yet. Be the first to share your experience!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        commentsList.innerHTML = this.comments.map(comment => this.renderCommentCard(comment)).join('');
+    }
+    
+    renderCommentCard(comment) {
+        const product = window.allProducts?.find(p => p.id === comment.productId);
+        const canEdit = this.currentUser && (this.currentUser.uid === comment.userId || this.isAdmin);
+        const commentDate = new Date(comment.timestamp).toLocaleDateString(
+            getCurrentLanguage() === 'ar' ? 'ar-EG' : 'en-US'
+        );
+        
+        return `
+            <div class="comment-card" data-comment-id="${comment.id}">
+                <div class="comment-header">
+                    <div class="comment-user-info">
+                        <img src="${comment.userAvatar || '/default-avatar.png'}" alt="${comment.userName}" class="user-avatar">
+                        <div class="comment-meta">
+                            <h5>${comment.userName}</h5>
+                            <span class="comment-date">${commentDate}</span>
+                        </div>
+                    </div>
+                    ${canEdit ? `
+                        <div class="comment-actions">
+                            <button class="btn btn-small btn-secondary" onclick="commentsSystem.editComment('${comment.id}')">
+                                <i class="fas fa-edit"></i>
+                                <span data-translate="edit_comment">Edit</span>
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="commentsSystem.deleteComment('${comment.id}')">
+                                <i class="fas fa-trash"></i>
+                                <span data-translate="delete_comment">Delete</span>
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                ${product ? `
+                    <div class="comment-product" onclick="showProductDetails('${product.id}')">
+                        <img src="${product.image}" alt="${product.title}" class="comment-product-image">
+                        <span class="comment-product-name">${getCurrentLanguage() === 'ar' ? product.titleAr : product.title}</span>
+                    </div>
+                ` : ''}
+                
+                <div class="comment-text">${comment.comment}</div>
+                
+                <div class="comment-rating">
+                    <div class="stars">
+                        ${generateStars(comment.rating)}
+                    </div>
+                    <span class="rating-text">${comment.rating}/5</span>
+                </div>
+            </div>
+        `;
+    }
+    
+    editComment(commentId) {
+        const comment = this.comments.find(c => c.id === commentId);
+        if (!comment) return;
+        
+        const modal = document.getElementById('edit-comment-modal');
+        const form = document.getElementById('edit-comment-form');
+        const textArea = document.getElementById('edit-comment-text');
+        
+        // Populate form
+        textArea.value = comment.comment;
+        document.querySelector(`input[name="editRating"][value="${comment.rating}"]`).checked = true;
+        
+        // Setup form submission
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const updatedComment = {
+                comment: textArea.value,
+                rating: parseInt(document.querySelector('input[name="editRating"]:checked').value),
+                updatedAt: new Date().toISOString()
+            };
+            
+            try {
+                if (dataManager) {
+                    const result = await dataManager.update('comments', commentId, updatedComment);
+                    if (result.success) {
+                        showToast(languageManager.t('comment_updated'), 'success');
+                        modal.classList.remove('active');
+                        this.loadComments();
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating comment:', error);
+                showToast(languageManager.t('error_general'), 'error');
+            }
+        };
+        
+        modal.classList.add('active');
+    }
+    
+    deleteComment(commentId) {
+        customModal.show({
+            type: 'danger',
+            title: languageManager.t('delete_comment'),
+            message: languageManager.t('delete_comment_confirm'),
+            confirmText: languageManager.t('yes'),
+            cancelText: languageManager.t('no'),
+            onConfirm: async () => {
+                try {
+                    if (dataManager) {
+                        const result = await dataManager.delete('comments', commentId);
+                        if (result.success) {
+                            showToast(languageManager.t('comment_deleted'), 'success');
+                            this.loadComments();
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error deleting comment:', error);
+                    showToast(languageManager.t('error_general'), 'error');
+                }
+            }
+        });
+    }
+    
+    updateCommentsUI() {
+        const addCommentSection = document.getElementById('add-comment-section');
+        const loginPrompt = document.getElementById('login-prompt');
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        const commentProductSelect = document.getElementById('comment-product');
+        
+        if (this.currentUser) {
+            // Show comment form
+            addCommentSection.style.display = 'block';
+            loginPrompt.style.display = 'none';
+            
+            // Update user info
+            userAvatar.src = this.currentUser.photoURL || '/default-avatar.png';
+            userName.textContent = this.currentUser.displayName;
+            
+            // Populate product select
+            if (window.allProducts && commentProductSelect) {
+                commentProductSelect.innerHTML = '<option value="" data-translate="choose_product">Choose a product...</option>' +
+                    window.allProducts.map(product => {
+                        const title = getCurrentLanguage() === 'ar' ? product.titleAr : product.title;
+                        return `<option value="${product.id}">${title}</option>`;
+                    }).join('');
+            }
+        } else {
+            // Show login prompt
+            addCommentSection.style.display = 'none';
+            loginPrompt.style.display = 'block';
+        }
+    }
+}
+
+// Initialize systems
+let customModal;
+let commentsSystem;
+
+// Add to initialization
+document.addEventListener('DOMContentLoaded', () => {
+    customModal = new CustomModal();
+    commentsSystem = new CommentsSystem();
+});
+
 // Language change event listener
 document.addEventListener('languageChanged', (e) => {
     // Reload dynamic content when language changes
@@ -1011,34 +1477,96 @@ document.addEventListener('languageChanged', (e) => {
 // Extend DataManager with render methods for admin panel
 if (typeof dataManager !== 'undefined') {
     // Products list rendering
-    dataManager.renderProductsList = function(products) {
-        const productsList = document.getElementById('products-list');
-        if (!productsList) return;
-        
-        productsList.innerHTML = products.map(product => `
-            <div class="admin-item">
-                <div class="admin-item-content">
-                    <img src="${product.image || '/placeholder.jpg'}" alt="${product.title}" class="admin-item-image">
-                    <div class="admin-item-details">
-                        <h4>${product.title}</h4>
-                        <p class="admin-item-meta">
-                            ${languageManager.formatCurrency(product.price)} | 
-                            ${product.category} | 
-                            ${product.inStock ? 'In Stock' : 'Out of Stock'}
-                        </p>
+            dataManager.renderProductsList = function(products) {
+            const productsList = document.getElementById('products-list');
+            if (!productsList) return;
+            
+            productsList.innerHTML = products.map(product => {
+                const categoryName = getCurrentLanguage() === 'ar' ? 
+                    (product.categoryNameAr || product.category) : 
+                    (product.categoryName || product.category);
+                
+                return `
+                    <div class="admin-item">
+                        <div class="admin-item-content">
+                            <img src="${product.image || '/placeholder.jpg'}" alt="${product.title}" class="admin-item-image">
+                            <div class="admin-item-details">
+                                <h4>${product.title}</h4>
+                                <p class="admin-item-meta">
+                                    ${languageManager.formatCurrency(product.price)} | 
+                                    ${categoryName} | 
+                                    <span class="stock-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                                        <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                        ${product.inStock ? languageManager.t('available') : languageManager.t('out_of_stock')}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="admin-item-actions">
+                            <button class="btn btn-small btn-secondary" onclick="editProduct('${product.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="deleteProductWithConfirm('${product.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="admin-item-actions">
-                    <button class="btn btn-small btn-secondary" onclick="editProduct('${product.id}')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-small btn-danger" onclick="deleteProduct('${product.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    };
+                `;
+            }).join('');
+        };
+
+        // Enhanced delete function with custom modal
+        window.deleteProductWithConfirm = function(productId) {
+            const product = window.allProducts?.find(p => p.id === productId);
+            const productName = product ? product.title : 'this product';
+            
+            customModal.show({
+                type: 'danger',
+                title: languageManager.t('delete_product'),
+                message: `${languageManager.t('delete_product_confirm')} "${productName}"?`,
+                confirmText: languageManager.t('yes'),
+                cancelText: languageManager.t('no'),
+                onConfirm: async () => {
+                    try {
+                        if (dataManager) {
+                            const result = await dataManager.delete('products', productId);
+                            if (result.success) {
+                                showToast(languageManager.t('product_deleted'), 'success');
+                                loadProducts();
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error deleting product:', error);
+                        showToast(languageManager.t('error_general'), 'error');
+                    }
+                }
+            });
+        };
+
+        // Enhanced delete FAQ function
+        window.deleteFAQWithConfirm = function(faqId) {
+            customModal.show({
+                type: 'danger',
+                title: languageManager.t('delete_faq'),
+                message: languageManager.t('delete_faq_confirm'),
+                confirmText: languageManager.t('yes'),
+                cancelText: languageManager.t('no'),
+                onConfirm: async () => {
+                    try {
+                        if (dataManager) {
+                            const result = await dataManager.delete('faqs', faqId);
+                            if (result.success) {
+                                showToast(languageManager.t('faq_deleted'), 'success');
+                                loadFAQs();
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error deleting FAQ:', error);
+                        showToast(languageManager.t('error_general'), 'error');
+                    }
+                }
+            });
+        };
     
     // Similar methods for categories, FAQs, and testimonials...
     // (Implementation continues in the same pattern)

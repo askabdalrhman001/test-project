@@ -194,6 +194,65 @@ const translations = {
         whatsapp_product_message: "Hi, I'm interested in ordering: ",
         whatsapp_general_message: "Hi, I'd like to know more about your products.",
 
+        // Social Media
+        follow_us: "Follow us on social media",
+
+        // Comments System
+        comments_title: "Customer Comments",
+        write_comment: "Write a comment",
+        select_product: "Select Product",
+        choose_product: "Choose a product...",
+        your_comment: "Your Comment",
+        comment_placeholder: "Share your experience with this product...",
+        post_comment: "Post Comment",
+        login_to_comment: "Login to post comments",
+        login_comment_desc: "Sign in with your Google account to share your experience with our products.",
+        sign_in_google: "Sign in with Google",
+        load_more_comments: "Load More Comments",
+        edit_comment: "Edit Comment",
+        delete_comment: "Delete Comment",
+        save_changes: "Save Changes",
+        comment_updated: "Comment updated successfully!",
+        comment_deleted: "Comment deleted successfully!",
+        comment_posted: "Comment posted successfully!",
+
+        // Custom Modal
+        confirm: "Confirm",
+        are_you_sure: "Are you sure?",
+        delete_comment_confirm: "Are you sure you want to delete this comment?",
+        delete_product_confirm: "Are you sure you want to delete this product?",
+        delete_faq_confirm: "Are you sure you want to delete this FAQ?",
+        delete_product: "Delete Product",
+        delete_faq: "Delete FAQ", 
+        product_deleted: "Product deleted successfully!",
+        faq_deleted: "FAQ deleted successfully!",
+
+        // Stock Status
+        available: "Available",
+        out_of_stock: "Out of Stock",
+        stock_quantity: "Stock Quantity",
+        delivery_available: "Delivery Available",
+        delivery_not_available: "Delivery Not Available",
+        delivery_price: "Delivery Price",
+        stock_status: "Stock Status",
+        quantity_available: "Quantity Available",
+        in_stock: "In Stock",
+        no_comments: "No comments yet. Be the first to share your experience!",
+        yes: "Yes",
+        no: "No",
+        error_general: "An error occurred. Please try again.",
+
+        // Categories
+        skincare: "Skin Care",
+        bodycare: "Body Care", 
+        haircare: "Hair Care",
+        oralcare: "Oral Care",
+        natural_products: "Natural Products",
+        special_care: "Special Care",
+        fragrances: "Fragrances",
+        soaps_cleansers: "Soaps & Cleansers",
+        candles_aromatherapy: "Candles & Aromatherapy",
+
         // Default FAQ Content
         default_faqs: [
             {
@@ -416,6 +475,65 @@ const translations = {
         whatsapp_product_message: "مرحباً، أريد طلب المنتج: ",
         whatsapp_general_message: "مرحباً، أريد معرفة المزيد عن منتجاتكم.",
 
+        // Social Media
+        follow_us: "تابعونا على وسائل التواصل الاجتماعي",
+
+        // Comments System
+        comments_title: "تعليقات العملاء",
+        write_comment: "اكتب تعليقاً",
+        select_product: "اختر المنتج",
+        choose_product: "اختر منتجاً...",
+        your_comment: "تعليقك",
+        comment_placeholder: "شارك تجربتك مع هذا المنتج...",
+        post_comment: "نشر التعليق",
+        login_to_comment: "سجل دخولك لكتابة التعليقات",
+        login_comment_desc: "سجل الدخول بحساب جوجل لمشاركة تجربتك مع منتجاتنا.",
+        sign_in_google: "تسجيل الدخول بجوجل",
+        load_more_comments: "تحميل المزيد من التعليقات",
+        edit_comment: "تعديل التعليق",
+        delete_comment: "حذف التعليق",
+        save_changes: "حفظ التغييرات",
+        comment_updated: "تم تحديث التعليق بنجاح!",
+        comment_deleted: "تم حذف التعليق بنجاح!",
+        comment_posted: "تم نشر التعليق بنجاح!",
+
+        // Custom Modal
+        confirm: "تأكيد",
+        are_you_sure: "هل أنت متأكد؟",
+        delete_comment_confirm: "هل أنت متأكد من حذف هذا التعليق؟",
+        delete_product_confirm: "هل أنت متأكد من حذف هذا المنتج؟",
+        delete_faq_confirm: "هل أنت متأكد من حذف هذا السؤال؟",
+        delete_product: "حذف المنتج",
+        delete_faq: "حذف السؤال",
+        product_deleted: "تم حذف المنتج بنجاح!",
+        faq_deleted: "تم حذف السؤال بنجاح!",
+
+        // Stock Status
+        available: "متوفر",
+        out_of_stock: "غير متوفر",
+        stock_quantity: "الكمية المتوفرة",
+        delivery_available: "التوصيل متاح",
+        delivery_not_available: "التوصيل غير متاح",
+        delivery_price: "سعر التوصيل",
+        stock_status: "حالة المخزون",
+        quantity_available: "الكمية المتاحة",
+        in_stock: "متوفر في المخزن",
+        no_comments: "لا توجد تعليقات حتى الآن. كن أول من يشارك تجربته!",
+        yes: "نعم",
+        no: "لا",
+        error_general: "حدث خطأ. يرجى المحاولة مرة أخرى.",
+
+        // Categories
+        skincare: "العناية بالبشرة",
+        bodycare: "العناية بالجسم",
+        haircare: "العناية بالشعر",
+        oralcare: "العناية بالفم",
+        natural_products: "المنتجات الطبيعية",
+        special_care: "العناية الخاصة",
+        fragrances: "العطور",
+        soaps_cleansers: "الصابون والمنظفات",
+        candles_aromatherapy: "الشموع والعلاج العطري",
+
         // Default FAQ Content
         default_faqs: [
             {
@@ -537,14 +655,14 @@ class LanguageManager {
 
     updateLanguageToggle() {
         const languageToggle = document.getElementById('language-toggle');
-        const langText = languageToggle?.querySelector('.lang-text');
+        const langIndicator = languageToggle?.querySelector('.lang-indicator');
         
-        if (langText) {
-            langText.textContent = this.currentLanguage === 'en' ? 'عر' : 'EN';
+        if (langIndicator) {
+            langIndicator.textContent = this.currentLanguage === 'en' ? 'EN' : 'عر';
         }
         
         if (languageToggle) {
-            languageToggle.title = this.currentLanguage === 'en' ? 'التبديل إلى العربية' : 'Switch to English';
+            languageToggle.setAttribute('data-tooltip', this.currentLanguage === 'en' ? 'التبديل إلى العربية' : 'Switch to English');
         }
     }
 
