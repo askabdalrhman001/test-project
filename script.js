@@ -8,11 +8,72 @@ let isAdmin = false;
 let products = [];
 let faqs = [];
 let comments = [];
+let categories = [];
 let currentRating = 0;
 let visibleFAQs = 5;
 
 // Admin email configuration - replace with your specific email
-const ADMIN_EMAIL = 'admin@naturalessence.com'; // Change this to your admin email
+const ADMIN_EMAIL = 'askacounts001@gmail.com'; // Change this to your admin email
+
+// Comprehensive Category System
+const PRODUCT_CATEGORIES = [
+    { id: 'all', parent: null },
+    // Skin Care
+    { id: 'skincare', parent: null },
+    { id: 'moisturizing_creams', parent: 'skincare' },
+    { id: 'face_wash', parent: 'skincare' },
+    { id: 'serums', parent: 'skincare' },
+    { id: 'toner', parent: 'skincare' },
+    { id: 'face_masks', parent: 'skincare' },
+    { id: 'sunscreen', parent: 'skincare' },
+    { id: 'makeup_remover', parent: 'skincare' },
+    // Body Care
+    { id: 'bodycare', parent: null },
+    { id: 'body_oils', parent: 'bodycare' },
+    { id: 'body_scrubs', parent: 'bodycare' },
+    { id: 'body_lotion', parent: 'bodycare' },
+    { id: 'whitening_creams', parent: 'bodycare' },
+    { id: 'deodorants', parent: 'bodycare' },
+    { id: 'hand_foot_creams', parent: 'bodycare' },
+    // Hair Care
+    { id: 'haircare', parent: null },
+    { id: 'shampoo', parent: 'haircare' },
+    { id: 'conditioner', parent: 'haircare' },
+    { id: 'hair_mask', parent: 'haircare' },
+    { id: 'hair_oils', parent: 'haircare' },
+    { id: 'hair_serum', parent: 'haircare' },
+    { id: 'hair_loss_treatments', parent: 'haircare' },
+    // Oral Care
+    { id: 'oralcare', parent: null },
+    { id: 'natural_toothpaste', parent: 'oralcare' },
+    { id: 'mouthwash', parent: 'oralcare' },
+    { id: 'teeth_whitening', parent: 'oralcare' },
+    // Natural Products
+    { id: 'natural_products', parent: null },
+    { id: 'organic_products', parent: 'natural_products' },
+    { id: 'chemical_free', parent: 'natural_products' },
+    { id: 'fragrance_free', parent: 'natural_products' },
+    // Special Care
+    { id: 'special_care', parent: null },
+    { id: 'for_children', parent: 'special_care' },
+    { id: 'for_men', parent: 'special_care' },
+    { id: 'for_pregnant', parent: 'special_care' },
+    // Fragrances
+    { id: 'fragrances', parent: null },
+    { id: 'body_perfumes', parent: 'fragrances' },
+    { id: 'natural_perfumes', parent: 'fragrances' },
+    { id: 'hair_perfumes', parent: 'fragrances' },
+    // Soaps & Cleansers
+    { id: 'soaps_cleansers', parent: null },
+    { id: 'natural_soap', parent: 'soaps_cleansers' },
+    { id: 'body_wash', parent: 'soaps_cleansers' },
+    { id: 'natural_cleaners', parent: 'soaps_cleansers' },
+    // Candles & Aromatherapy
+    { id: 'candles_aromatherapy', parent: null },
+    { id: 'scented_candles', parent: 'candles_aromatherapy' },
+    { id: 'essential_oils', parent: 'candles_aromatherapy' },
+    { id: 'natural_incense', parent: 'candles_aromatherapy' }
+];
 
 // Translations object
 const translations = {
@@ -25,10 +86,63 @@ const translations = {
         },
         categories: {
             title: "Product Categories",
+            selectCategory: "Select Category",
             all: "All Products",
-            skincare: "Skincare",
+            // Skin Care
+            skincare: "Skin Care",
+            moisturizing_creams: "Moisturizing Creams",
+            face_wash: "Face Wash",
+            serums: "Serums",
+            toner: "Toner",
+            face_masks: "Face Masks",
+            sunscreen: "Sunscreen",
+            makeup_remover: "Makeup Remover",
+            // Body Care
             bodycare: "Body Care",
-            haircare: "Hair Care"
+            body_oils: "Body Oils",
+            body_scrubs: "Body Scrubs",
+            body_lotion: "Body Lotion",
+            whitening_creams: "Whitening Creams",
+            deodorants: "Deodorants",
+            hand_foot_creams: "Hand & Foot Creams",
+            // Hair Care
+            haircare: "Hair Care",
+            shampoo: "Shampoo",
+            conditioner: "Conditioner",
+            hair_mask: "Hair Mask",
+            hair_oils: "Hair Oils",
+            hair_serum: "Hair Serum",
+            hair_loss_treatments: "Hair Loss Treatments",
+            // Oral Care
+            oralcare: "Oral Care",
+            natural_toothpaste: "Natural Toothpaste",
+            mouthwash: "Mouthwash",
+            teeth_whitening: "Teeth Whitening Products",
+            // Natural Products
+            natural_products: "Natural Products",
+            organic_products: "Organic Products",
+            chemical_free: "Chemical-Free",
+            fragrance_free: "Fragrance-Free",
+            // Special Care
+            special_care: "Special Care",
+            for_children: "For Children",
+            for_men: "For Men",
+            for_pregnant: "For Pregnant Women",
+            // Fragrances
+            fragrances: "Fragrances",
+            body_perfumes: "Body Perfumes",
+            natural_perfumes: "Natural Perfumes",
+            hair_perfumes: "Hair Perfumes",
+            // Soaps & Cleansers
+            soaps_cleansers: "Soaps & Cleansers",
+            natural_soap: "Natural Soap",
+            body_wash: "Body Wash",
+            natural_cleaners: "Natural Cleaners",
+            // Candles & Aromatherapy
+            candles_aromatherapy: "Candles & Aromatherapy",
+            scented_candles: "Scented Candles",
+            essential_oils: "Essential Oils",
+            natural_incense: "Natural Incense"
         },
         products: {
             title: "Our Products",
@@ -132,6 +246,14 @@ const translations = {
             adminOnly: "Admin access required.",
             saved: "Changes saved successfully!",
             deleted: "Item deleted successfully!"
+        },
+        modal: {
+            confirm: "Confirm Action",
+            alert: "Alert",
+            yes: "Yes",
+            no: "No",
+            ok: "OK",
+            cancel: "Cancel"
         }
     },
     ar: {
@@ -143,10 +265,63 @@ const translations = {
         },
         categories: {
             title: "فئات المنتجات",
+            selectCategory: "اختر الفئة",
             all: "جميع المنتجات",
+            // Skin Care
             skincare: "العناية بالبشرة",
+            moisturizing_creams: "كريمات الترطيب",
+            face_wash: "غسول الوجه",
+            serums: "السيروم",
+            toner: "التونر",
+            face_masks: "أقنعة الوجه",
+            sunscreen: "واقي الشمس",
+            makeup_remover: "مزيل المكياج",
+            // Body Care
             bodycare: "العناية بالجسم",
-            haircare: "العناية بالشعر"
+            body_oils: "زيوت الجسم",
+            body_scrubs: "مقشر الجسم",
+            body_lotion: "لوشن الجسم",
+            whitening_creams: "كريمات التبييض",
+            deodorants: "مزيلات العرق",
+            hand_foot_creams: "كريمات اليدين والقدمين",
+            // Hair Care
+            haircare: "العناية بالشعر",
+            shampoo: "الشامبو",
+            conditioner: "البلسم",
+            hair_mask: "ماسك الشعر",
+            hair_oils: "زيوت الشعر",
+            hair_serum: "سيروم الشعر",
+            hair_loss_treatments: "علاجات تساقط الشعر",
+            // Oral Care
+            oralcare: "العناية بالفم",
+            natural_toothpaste: "معجون أسنان طبيعي",
+            mouthwash: "غسول الفم",
+            teeth_whitening: "منتجات تبييض الأسنان",
+            // Natural Products
+            natural_products: "المنتجات الطبيعية",
+            organic_products: "المنتجات العضوية",
+            chemical_free: "خالية من المواد الكيميائية",
+            fragrance_free: "خالية من العطور",
+            // Special Care
+            special_care: "العناية الخاصة",
+            for_children: "للأطفال",
+            for_men: "للرجال",
+            for_pregnant: "للحوامل",
+            // Fragrances
+            fragrances: "العطور",
+            body_perfumes: "عطور الجسم",
+            natural_perfumes: "العطور الطبيعية",
+            hair_perfumes: "عطور الشعر",
+            // Soaps & Cleansers
+            soaps_cleansers: "الصابون والمنظفات",
+            natural_soap: "الصابون الطبيعي",
+            body_wash: "جل الاستحمام",
+            natural_cleaners: "المنظفات الطبيعية",
+            // Candles & Aromatherapy
+            candles_aromatherapy: "الشموع والعلاج العطري",
+            scented_candles: "الشموع المعطرة",
+            essential_oils: "الزيوت العطرية",
+            natural_incense: "البخور الطبيعي"
         },
         products: {
             title: "منتجاتنا",
@@ -250,6 +425,14 @@ const translations = {
             adminOnly: "يتطلب صلاحية المدير.",
             saved: "تم حفظ التغييرات بنجاح!",
             deleted: "تم حذف العنصر بنجاح!"
+        },
+        modal: {
+            confirm: "تأكيد العملية",
+            alert: "تنبيه",
+            yes: "نعم",
+            no: "لا",
+            ok: "موافق",
+            cancel: "إلغاء"
         }
     }
 };
@@ -268,6 +451,61 @@ function t(key) {
     }
     
     return value || key;
+}
+
+// Custom Modal Functions
+function showConfirmModal(message, onConfirm, title = null) {
+    const modal = document.getElementById('confirmModal');
+    const titleEl = document.getElementById('confirmModalTitle');
+    const messageEl = document.getElementById('confirmModalMessage');
+    const yesBtn = document.getElementById('confirmModalYes');
+    
+    titleEl.textContent = title || t('modal.confirm');
+    messageEl.textContent = message;
+    
+    // Remove previous event listeners
+    yesBtn.replaceWith(yesBtn.cloneNode(true));
+    const newYesBtn = document.getElementById('confirmModalYes');
+    
+    newYesBtn.addEventListener('click', () => {
+        closeConfirmModal();
+        if (onConfirm) onConfirm();
+    });
+    
+    modal.classList.add('active');
+}
+
+function closeConfirmModal() {
+    document.getElementById('confirmModal').classList.remove('active');
+}
+
+function showAlertModal(message, type = 'info', title = null) {
+    const modal = document.getElementById('alertModal');
+    const titleEl = document.getElementById('alertModalTitle');
+    const messageEl = document.getElementById('alertModalMessage');
+    const iconEl = document.getElementById('alertIcon');
+    
+    titleEl.textContent = title || t('modal.alert');
+    messageEl.textContent = message;
+    
+    // Set icon based on type
+    const icons = {
+        info: 'ℹ️',
+        success: '✅',
+        warning: '⚠️',
+        error: '❌'
+    };
+    iconEl.textContent = icons[type] || icons.info;
+    
+    modal.classList.add('active');
+}
+
+function closeAlertModal() {
+    document.getElementById('alertModal').classList.remove('active');
+}
+
+function closeProductDetailsModal() {
+    document.getElementById('productDetailsModal').classList.remove('active');
 }
 
 // Show notification
@@ -345,10 +583,106 @@ function toggleTheme() {
 }
 
 function updateThemeIcon() {
-    const themeIcon = document.querySelector('.theme-icon');
-    if (themeIcon) {
-        themeIcon.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+    const lightIcon = document.querySelector('.light-icon');
+    const darkIcon = document.querySelector('.dark-icon');
+    
+    if (lightIcon && darkIcon) {
+        if (currentTheme === 'light') {
+            lightIcon.style.display = 'block';
+            darkIcon.style.display = 'none';
+        } else {
+            lightIcon.style.display = 'none';
+            darkIcon.style.display = 'block';
+        }
     }
+}
+
+// ===============================================
+// Category Management
+// ===============================================
+
+function initCategories() {
+    categories = PRODUCT_CATEGORIES;
+    renderCategoryDropdown();
+    renderCategoryFilter();
+}
+
+function renderCategoryDropdown() {
+    const dropdown = document.getElementById('categoryDropdownMenu');
+    if (!dropdown) return;
+    
+    const mainCategories = categories.filter(cat => cat.parent === null);
+    
+    dropdown.innerHTML = mainCategories.map(category => {
+        const subCategories = categories.filter(cat => cat.parent === category.id);
+        const categoryName = t(`categories.${category.id}`);
+        
+        let html = `<div class="dropdown-category" data-category="${category.id}">${categoryName}</div>`;
+        
+        if (subCategories.length > 0) {
+            html += subCategories.map(sub => 
+                `<div class="dropdown-category subcategory" data-category="${sub.id}">
+                    &nbsp;&nbsp;• ${t(`categories.${sub.id}`)}
+                </div>`
+            ).join('');
+        }
+        
+        return html;
+    }).join('');
+    
+    // Add event listeners
+    dropdown.querySelectorAll('.dropdown-category').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const category = e.target.dataset.category;
+            selectCategory(category);
+        });
+    });
+}
+
+function renderCategoryFilter() {
+    const filter = document.getElementById('categoryFilter');
+    if (!filter) return;
+    
+    const mainCategories = categories.filter(cat => cat.parent === null && cat.id !== 'all');
+    
+    // Keep the "All Products" button and add main categories
+    const allButton = filter.querySelector('[data-category="all"]');
+    filter.innerHTML = '';
+    filter.appendChild(allButton);
+    
+    mainCategories.slice(0, 6).forEach(category => { // Show only first 6 main categories
+        const button = document.createElement('button');
+        button.className = 'category-btn';
+        button.dataset.category = category.id;
+        button.textContent = t(`categories.${category.id}`);
+        button.addEventListener('click', () => filterProducts(category.id));
+        filter.appendChild(button);
+    });
+}
+
+function selectCategory(categoryId) {
+    const dropdownBtn = document.getElementById('categoryDropdownBtn');
+    const dropdown = document.querySelector('.categories__dropdown');
+    
+    // Update dropdown button text
+    dropdownBtn.querySelector('span').textContent = t(`categories.${categoryId}`);
+    
+    // Close dropdown
+    dropdown.classList.remove('active');
+    
+    // Filter products
+    filterProducts(categoryId);
+    
+    // Update active states
+    document.querySelectorAll('.dropdown-category').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector(`[data-category="${categoryId}"]`).classList.add('active');
+}
+
+function toggleCategoryDropdown() {
+    const dropdown = document.querySelector('.categories__dropdown');
+    dropdown.classList.toggle('active');
 }
 
 // ===============================================
@@ -389,6 +723,8 @@ function updateLanguage() {
     });
     
     // Reload dynamic content with new language
+    renderCategoryDropdown();
+    renderCategoryFilter();
     loadProducts();
     loadFAQs();
     loadComments();
@@ -421,19 +757,22 @@ function initAuth() {
 
 function updateAuthUI(user) {
     const loginBtn = document.getElementById('loginBtn');
-    const userInfo = document.getElementById('userInfo');
+    const userProfile = document.getElementById('userProfile');
+    const userAvatar = document.getElementById('userAvatar');
+    const userName = document.getElementById('userName');
     const commentForm = document.getElementById('commentForm');
     
     if (user) {
         if (loginBtn) loginBtn.style.display = 'none';
-        if (userInfo) {
-            userInfo.style.display = 'block';
-            userInfo.textContent = `Welcome, ${user.displayName || user.email}`;
+        if (userProfile) {
+            userProfile.style.display = 'flex';
+            if (userAvatar) userAvatar.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=8B7355&color=fff`;
+            if (userName) userName.textContent = user.displayName || user.email.split('@')[0];
         }
         if (commentForm) commentForm.style.display = 'block';
     } else {
         if (loginBtn) loginBtn.style.display = 'block';
-        if (userInfo) userInfo.style.display = 'none';
+        if (userProfile) userProfile.style.display = 'none';
         if (commentForm) commentForm.style.display = 'none';
     }
 }
@@ -542,21 +881,45 @@ function renderProducts() {
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
     
-    const currentCategory = document.querySelector('.category-btn.active')?.dataset.category || 'all';
-    const filteredProducts = currentCategory === 'all' 
-        ? products 
-        : products.filter(p => p.category === currentCategory);
+    const currentCategory = document.querySelector('.category-btn.active')?.dataset.category || 
+                           document.querySelector('.dropdown-category.active')?.dataset.category || 'all';
+    
+    let filteredProducts = products;
+    if (currentCategory !== 'all') {
+        // Check if it's a parent category or subcategory
+        const categoryObj = categories.find(cat => cat.id === currentCategory);
+        if (categoryObj) {
+            if (categoryObj.parent === null) {
+                // Parent category - show all products from this category and its subcategories
+                const subcategories = categories.filter(cat => cat.parent === currentCategory).map(cat => cat.id);
+                filteredProducts = products.filter(p => 
+                    p.category === currentCategory || subcategories.includes(p.category)
+                );
+            } else {
+                // Subcategory - show only products from this specific subcategory
+                filteredProducts = products.filter(p => p.category === currentCategory);
+            }
+        }
+    }
     
     grid.innerHTML = filteredProducts.map(product => {
         const title = product.title?.[currentLanguage] || product.title?.en || 'Product';
         const description = product.description?.[currentLanguage] || product.description?.en || '';
         const hasTranslation = product.title?.[currentLanguage] && product.description?.[currentLanguage];
+        const categoryName = t(`categories.${product.category}`);
         
         return `
-            <div class="product-card" data-aos="fade-up">
+            <div class="product-card" data-aos="fade-up" data-category="${product.category}">
+                <div class="product-card__category">${categoryName}</div>
                 <div class="product-card__image">
                     <img src="${product.image}" alt="${title}" class="product-card__img">
                     ${product.discount > 0 ? `<div class="product-card__discount">-${product.discount}%</div>` : ''}
+                    <div class="product-card__stock-indicator">
+                        <div class="stock-toggle ${product.inStock ? 'in-stock' : 'out-of-stock'}" 
+                             title="${product.inStock ? t('products.inStock') : t('products.outOfStock')}">
+                            ${product.inStock ? '✓' : '✗'}
+                        </div>
+                    </div>
                 </div>
                 <div class="product-card__content">
                     <h3 class="product-card__title">${title}</h3>
@@ -568,18 +931,27 @@ function renderProducts() {
                             `EGP ${product.price}`
                         }
                     </div>
-                    <div class="product-card__rating">
-                        <span class="rating-stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
-                        <span class="rating-count">${product.rating}/5 (${product.reviewCount})</span>
+                    <div class="product-card__rating" onclick="showProductRating('${product.id}')">
+                        <span class="rating-stars">${generateStars(product.rating || 0)}</span>
+                        <span class="rating-count">${(product.rating || 0).toFixed(1)}/5 (${product.reviewCount || 0})</span>
                     </div>
                     <div class="product-card__actions">
                         <button class="product-card__btn btn-secondary" onclick="toggleProductTranslation('${product.id}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                            </svg>
                             ${t('products.translate')}
                         </button>
-                        <button class="product-card__btn btn-secondary" onclick="showProductDetails('${product.id}')">
+                        <button class="product-card__btn btn-secondary" onclick="showProductDetailsModal('${product.id}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                            </svg>
                             ${t('products.details')}
                         </button>
                         <button class="product-card__btn btn-primary" onclick="orderViaWhatsApp('${product.id}')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                            </svg>
                             ${t('products.whatsapp')}
                         </button>
                     </div>
@@ -587,6 +959,14 @@ function renderProducts() {
             </div>
         `;
     }).join('');
+}
+
+function generateStars(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    
+    return '★'.repeat(fullStars) + (hasHalfStar ? '☆' : '') + '☆'.repeat(emptyStars);
 }
 
 function filterProducts(category) {
@@ -614,30 +994,88 @@ function toggleProductTranslation(productId) {
     }
 }
 
-function showProductDetails(productId) {
+function showProductDetailsModal(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
     
-    const modal = document.createElement('div');
-    modal.className = 'modal active';
-    modal.innerHTML = `
-        <div class="modal__content">
-            <div class="modal__header">
-                <h2>${product.title?.[currentLanguage] || product.title?.en}</h2>
-                <button class="modal__close" onclick="this.closest('.modal').remove()">&times;</button>
+    const modal = document.getElementById('productDetailsModal');
+    const title = document.getElementById('productDetailsTitle');
+    const content = document.getElementById('productDetailsContent');
+    
+    const productTitle = product.title?.[currentLanguage] || product.title?.en;
+    const productDescription = product.description?.[currentLanguage] || product.description?.en;
+    
+    title.textContent = productTitle;
+    
+    content.innerHTML = `
+        <div class="product-details-content">
+            <div class="product-details-image">
+                <img src="${product.image}" alt="${productTitle}" style="width: 100%; max-width: 200px; border-radius: var(--radius-md);">
             </div>
-            <div class="modal__body">
-                <div class="product-details">
-                    <p><strong>${t('products.deliveryAvailable')}:</strong> ${product.deliveryAvailable ? t('products.deliveryAvailable') : t('products.deliveryNotAvailable')}</p>
-                    ${product.deliveryAvailable ? `<p><strong>Delivery Price:</strong> EGP ${product.deliveryPrice}</p>` : ''}
-                    <p><strong>Stock Status:</strong> ${product.inStock ? t('products.inStock') : t('products.outOfStock')}</p>
-                    <p><strong>${t('products.quantity')}:</strong> ${product.quantity}</p>
+            <div class="product-details-info">
+                <h3>${productTitle}</h3>
+                <p class="product-description">${productDescription}</p>
+                
+                <div class="detail-item">
+                    <strong>${t('products.deliveryAvailable')}:</strong>
+                    <span class="${product.deliveryAvailable ? 'text-success' : 'text-danger'}">
+                        ${product.deliveryAvailable ? '✓ ' + t('products.deliveryAvailable') : '✗ ' + t('products.deliveryNotAvailable')}
+                    </span>
+                </div>
+                
+                ${product.deliveryAvailable ? `
+                    <div class="detail-item">
+                        <strong>Delivery Price:</strong>
+                        <span>EGP ${product.deliveryPrice}</span>
+                    </div>
+                ` : ''}
+                
+                <div class="detail-item">
+                    <strong>Stock Status:</strong>
+                    <span class="${product.inStock ? 'text-success' : 'text-danger'}">
+                        ${product.inStock ? '✓ ' + t('products.inStock') : '✗ ' + t('products.outOfStock')}
+                    </span>
+                </div>
+                
+                <div class="detail-item">
+                    <strong>${t('products.quantity')}:</strong>
+                    <span>${product.quantity} items</span>
+                </div>
+                
+                <div class="detail-item">
+                    <strong>Category:</strong>
+                    <span>${t(`categories.${product.category}`)}</span>
+                </div>
+                
+                <div class="detail-item">
+                    <strong>Rating:</strong>
+                    <span>${generateStars(product.rating || 0)} ${(product.rating || 0).toFixed(1)}/5 (${product.reviewCount || 0} reviews)</span>
+                </div>
+                
+                <div class="product-actions">
+                    <button class="btn btn-primary" onclick="orderViaWhatsApp('${product.id}'); closeProductDetailsModal();">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                        </svg>
+                        Order via WhatsApp
+                    </button>
                 </div>
             </div>
         </div>
     `;
     
-    document.body.appendChild(modal);
+    modal.classList.add('active');
+}
+
+function showProductRating(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    
+    showAlertModal(
+        `This product has a rating of ${(product.rating || 0).toFixed(1)}/5 stars based on ${product.reviewCount || 0} customer reviews.`,
+        'info',
+        'Product Rating'
+    );
 }
 
 function orderViaWhatsApp(productId) {
@@ -943,21 +1381,24 @@ function updateRatingDisplay() {
 }
 
 async function deleteComment(commentId) {
-    if (!confirm(t('admin.confirmDelete'))) return;
-    
-    try {
-        if (typeof window.db !== 'undefined') {
-            await window.deleteDoc(window.doc(window.db, 'comments', commentId));
-        } else {
-            comments = comments.filter(c => c.id !== commentId);
+    showConfirmModal(
+        t('admin.confirmDelete'),
+        async () => {
+            try {
+                if (typeof window.db !== 'undefined') {
+                    await window.deleteDoc(window.doc(window.db, 'comments', commentId));
+                } else {
+                    comments = comments.filter(c => c.id !== commentId);
+                }
+                
+                loadComments();
+                showNotification(t('notifications.deleted'));
+            } catch (error) {
+                console.error('Error deleting comment:', error);
+                showNotification(t('notifications.error'), 'error');
+            }
         }
-        
-        loadComments();
-        showNotification(t('notifications.deleted'));
-    } catch (error) {
-        console.error('Error deleting comment:', error);
-        showNotification(t('notifications.error'), 'error');
-    }
+    );
 }
 
 // ===============================================
@@ -1205,22 +1646,25 @@ async function addProduct(event) {
 }
 
 async function deleteProduct(productId) {
-    if (!confirm(t('admin.confirmDelete'))) return;
-    
-    try {
-        if (typeof window.db !== 'undefined') {
-            await window.deleteDoc(window.doc(window.db, 'products', productId));
-        } else {
-            products = products.filter(p => p.id !== productId);
+    showConfirmModal(
+        t('admin.confirmDelete'),
+        async () => {
+            try {
+                if (typeof window.db !== 'undefined') {
+                    await window.deleteDoc(window.doc(window.db, 'products', productId));
+                } else {
+                    products = products.filter(p => p.id !== productId);
+                }
+                
+                loadProducts();
+                document.getElementById('productsList').innerHTML = renderAdminProducts();
+                showNotification(t('notifications.deleted'));
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                showNotification(t('notifications.error'), 'error');
+            }
         }
-        
-        loadProducts();
-        document.getElementById('productsList').innerHTML = renderAdminProducts();
-        showNotification(t('notifications.deleted'));
-    } catch (error) {
-        console.error('Error deleting product:', error);
-        showNotification(t('notifications.error'), 'error');
-    }
+    );
 }
 
 async function addFAQ(event) {
@@ -1259,22 +1703,25 @@ async function addFAQ(event) {
 }
 
 async function deleteFAQ(faqId) {
-    if (!confirm(t('admin.confirmDelete'))) return;
-    
-    try {
-        if (typeof window.db !== 'undefined') {
-            await window.deleteDoc(window.doc(window.db, 'faqs', faqId));
-        } else {
-            faqs = faqs.filter(f => f.id !== faqId);
+    showConfirmModal(
+        t('admin.confirmDelete'),
+        async () => {
+            try {
+                if (typeof window.db !== 'undefined') {
+                    await window.deleteDoc(window.doc(window.db, 'faqs', faqId));
+                } else {
+                    faqs = faqs.filter(f => f.id !== faqId);
+                }
+                
+                loadFAQs();
+                document.getElementById('faqsList').innerHTML = renderAdminFAQs();
+                showNotification(t('notifications.deleted'));
+            } catch (error) {
+                console.error('Error deleting FAQ:', error);
+                showNotification(t('notifications.error'), 'error');
+            }
         }
-        
-        loadFAQs();
-        document.getElementById('faqsList').innerHTML = renderAdminFAQs();
-        showNotification(t('notifications.deleted'));
-    } catch (error) {
-        console.error('Error deleting FAQ:', error);
-        showNotification(t('notifications.error'), 'error');
-    }
+    );
 }
 
 // ===============================================
@@ -1314,6 +1761,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTheme();
     initLanguage();
     initAuth();
+    initCategories();
     
     // Load content
     loadProducts();
@@ -1337,6 +1785,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('closeAdminModal')?.addEventListener('click', closeAdminModal);
     document.getElementById('closeLightbox')?.addEventListener('click', closeLightbox);
     document.getElementById('faqLoadMore')?.addEventListener('click', loadMoreFAQs);
+    document.getElementById('categoryDropdownBtn')?.addEventListener('click', toggleCategoryDropdown);
+    document.getElementById('loginBtn')?.addEventListener('click', signInWithGoogle);
+    document.getElementById('signOutBtn')?.addEventListener('click', signOutUser);
     
     // Category filter buttons
     document.querySelectorAll('.category-btn').forEach(btn => {

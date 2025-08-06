@@ -39,19 +39,55 @@
             </div>
             
             <div class="nav__controls">
+                <!-- Back to Home Button -->
+                <button class="nav-btn back-home-btn" id="backHomeBtn" style="display: none;" 
+                        aria-label="Back to Home" title="Back to Home" onclick="scrollToSection('hero')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </button>
+                
+                <!-- User Profile -->
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <img class="user-avatar" id="userAvatar" src="" alt="User">
+                    <span class="user-name" id="userName"></span>
+                    <button class="nav-btn" id="signOutBtn" aria-label="Sign Out" title="Sign Out">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Login Button -->
+                <button class="nav-btn login-btn" id="loginBtn" aria-label="Login" title="Login with Google">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </button>
+                
                 <!-- Theme Toggle -->
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <span class="theme-icon">🌙</span>
+                <button class="nav-btn theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle Theme">
+                    <svg class="theme-icon light-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                    </svg>
+                    <svg class="theme-icon dark-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                    </svg>
                 </button>
                 
                 <!-- Language Toggle -->
-                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+                <button class="nav-btn lang-toggle" id="langToggle" aria-label="Toggle language" title="Switch Language">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                    </svg>
                     <span class="lang-text">عربي</span>
                 </button>
                 
                 <!-- Admin Button -->
-                <button class="admin-btn" id="adminBtn" style="display: none;" aria-label="Admin Dashboard">
-                    <span class="admin-icon">⚙️</span>
+                <button class="nav-btn admin-btn" id="adminBtn" style="display: none;" aria-label="Admin Dashboard" title="Admin Dashboard">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/>
+                    </svg>
                 </button>
             </div>
         </nav>
@@ -85,11 +121,18 @@
     <section class="categories" id="categories">
         <div class="container">
             <h2 class="section__title" data-i18n="categories.title">Product Categories</h2>
+            <div class="categories__dropdown">
+                <button class="categories__dropdown-btn" id="categoryDropdownBtn" data-i18n="categories.selectCategory">
+                    <span data-i18n="categories.all">All Products</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+                <div class="categories__dropdown-menu" id="categoryDropdownMenu">
+                    <!-- Categories will be dynamically loaded here -->
+                </div>
+            </div>
             <div class="categories__filter" id="categoryFilter">
                 <button class="category-btn active" data-category="all" data-i18n="categories.all">All Products</button>
-                <button class="category-btn" data-category="skincare" data-i18n="categories.skincare">Skincare</button>
-                <button class="category-btn" data-category="bodycare" data-i18n="categories.bodycare">Body Care</button>
-                <button class="category-btn" data-category="haircare" data-i18n="categories.haircare">Hair Care</button>
+                <!-- Additional category buttons will be dynamically added -->
             </div>
         </div>
     </section>
@@ -397,6 +440,54 @@
         <div class="lightbox__content">
             <button class="lightbox__close" id="closeLightbox">&times;</button>
             <img src="" alt="" class="lightbox__img" id="lightboxImg">
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal -->
+    <div class="modal custom-modal" id="confirmModal" style="display: none;">
+        <div class="modal__content confirmation-modal">
+            <div class="modal__header">
+                <h3 id="confirmModalTitle" data-i18n="modal.confirm">Confirm Action</h3>
+                <button class="modal__close" onclick="closeConfirmModal()">&times;</button>
+            </div>
+            <div class="modal__body">
+                <div class="confirm-icon">⚠️</div>
+                <p id="confirmModalMessage" class="confirm-message"></p>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn-secondary" onclick="closeConfirmModal()" data-i18n="modal.no">No</button>
+                <button class="btn btn-danger" id="confirmModalYes" data-i18n="modal.yes">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div class="modal custom-modal" id="alertModal" style="display: none;">
+        <div class="modal__content alert-modal">
+            <div class="modal__header">
+                <h3 id="alertModalTitle" data-i18n="modal.alert">Alert</h3>
+                <button class="modal__close" onclick="closeAlertModal()">&times;</button>
+            </div>
+            <div class="modal__body">
+                <div class="alert-icon" id="alertIcon">ℹ️</div>
+                <p id="alertModalMessage" class="alert-message"></p>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn-primary" onclick="closeAlertModal()" data-i18n="modal.ok">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal" id="productDetailsModal" style="display: none;">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 id="productDetailsTitle">Product Details</h2>
+                <button class="modal__close" onclick="closeProductDetailsModal()">&times;</button>
+            </div>
+            <div class="modal__body" id="productDetailsContent">
+                <!-- Product details will be loaded here -->
+            </div>
         </div>
     </div>
 
