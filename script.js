@@ -555,7 +555,7 @@ function showProductDetails(productId) {
 
 function orderViaWhatsApp(productName) {
     const message = languageManager.formatWhatsAppMessage(productName);
-    const phoneNumber = '201234567890'; // Replace with actual WhatsApp number
+    const phoneNumber = '201234567890'; // ضع رقمك هنا بدون علامة +
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     
     window.open(whatsappUrl, '_blank');
