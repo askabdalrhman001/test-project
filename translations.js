@@ -21,6 +21,7 @@ const translations = {
         hero_subtitle: "Nourish your skin naturally. No chemicals. No worries.",
         order_now: "Order Now",
         learn_more: "Learn More",
+        follow_us: "Follow us on social media",
 
         // Categories
         categories_title: "Product Categories",
@@ -38,6 +39,8 @@ const translations = {
         view_details: "Details",
         order_whatsapp: "Order via WhatsApp",
         translation_not_available: "Translation not available",
+        write_review: "Write a Review",
+        product_inquiry: "Product Inquiry",
         
         // Product Details
         delivery_price: "Delivery Price",
@@ -65,6 +68,21 @@ const translations = {
         testimonials_title: "What Our Customers Say",
         rating: "Rating",
         reviews: "reviews",
+
+        // Comments Section
+        comments_title: "Customer Comments",
+        write_comment: "Write a comment",
+        select_product: "Select Product:",
+        choose_product: "Choose a product...",
+        your_comment: "Your Comment:",
+        comment_placeholder: "Share your experience...",
+        post_comment: "Post Comment",
+        login_to_comment: "Login to post comments",
+        login_comment_desc: "Sign in with your Google account to share your experience with our products.",
+        sign_in_google: "Sign in with Google",
+        load_more_comments: "Load More Comments",
+        edit_comment: "Edit Comment",
+        save_changes: "Save Changes",
 
         // FAQ
         faq_title: "Frequently Asked Questions",
@@ -98,189 +116,133 @@ const translations = {
         footer_privacy: "Privacy Policy",
         footer_terms: "Terms of Service",
 
-        // Admin Panel
-        admin_login: "Admin Login",
-        admin_logout: "Logout",
-        admin_products: "Manage Products",
-        admin_faqs: "Manage FAQs",
-        admin_testimonials: "Manage Testimonials",
-        admin_categories: "Manage Categories",
+        // Authentication
+        login_title: "Sign In",
+        login_description: "Sign in with your Google account to access your profile and post comments.",
+        admin_note: "Only authorized admin accounts can access the dashboard.",
+        sign_out: "Sign Out",
+
+        // Admin Dashboard
+        admin_welcome: "Welcome, Admin!",
+        admin_description: "Manage your products, categories, FAQs, and customer interactions.",
+        total_products: "Total Products",
+        total_inquiries: "Total Inquiries",
+        pending_inquiries: "Pending Inquiries",
+        all_comments: "All Comments",
+        all_users: "All Users",
         
-        // Product Management
-        add_product: "Add New Product",
-        edit_product: "Edit Product",
-        delete_product: "Delete Product",
-        product_title: "Product Title",
-        product_title_ar: "Product Title (Arabic)",
-        product_description: "Product Description",
-        product_description_ar: "Product Description (Arabic)",
-        product_price: "Price (EGP)",
-        product_discount: "Discount (%)",
-        product_category: "Category",
-        product_image: "Product Image",
-        upload_image: "Upload Image",
-        delivery_available_label: "Delivery Available",
-        delivery_price_label: "Delivery Price (EGP)",
-        stock_status: "Stock Status",
-        quantity_in_stock: "Quantity in Stock",
-        save_product: "Save Product",
+        // Admin Tabs
+        admin_products: "Products",
+        admin_categories: "Categories",
+        admin_faqs: "FAQs",
+        admin_testimonials: "Testimonials",
+        admin_inquiries: "Product Inquiries",
+        admin_comments: "Comments",
+        admin_users: "Users",
+        admin_gallery: "Gallery",
+        
+        // Admin Actions
+        manage_products: "Manage Products",
+        manage_categories: "Manage Categories",
+        manage_faqs: "Manage FAQs",
+        manage_testimonials: "Manage Testimonials",
+        manage_inquiries: "Product Inquiries",
+        manage_comments: "Manage Comments",
+        manage_users: "Manage Users",
+        manage_gallery: "Manage Gallery",
+        
+        add_product: "Add Product",
+        add_category: "Add Category",
+        add_faq: "Add FAQ",
+        add_testimonial: "Add Testimonial",
+        add_gallery_item: "Add Image",
+        
+        // No Data Messages
+        no_products: "No products found.",
+        no_categories: "No categories found.",
+        no_faqs: "No FAQs found.",
+        no_testimonials: "No testimonials found.",
+        no_inquiries: "No inquiries found.",
+        no_comments: "No comments found.",
+        no_users: "No users found.",
+        no_gallery: "No gallery items found.",
+
+        // Modal Actions
+        confirm: "Confirm",
         cancel: "Cancel",
-        confirm_delete: "Are you sure you want to delete this product?",
-        yes: "Yes",
-        no: "No",
-
-        // FAQ Management
-        add_faq: "Add New FAQ",
-        edit_faq: "Edit FAQ",
-        delete_faq: "Delete FAQ",
-        faq_question: "Question",
-        faq_question_ar: "Question (Arabic)",
-        faq_answer: "Answer",
-        faq_answer_ar: "Answer (Arabic)",
-        faq_category: "FAQ Category",
-        save_faq: "Save FAQ",
-        confirm_delete_faq: "Are you sure you want to delete this FAQ?",
-
-        // Testimonials Management
-        add_testimonial: "Add New Testimonial",
-        edit_testimonial: "Edit Testimonial",
-        delete_testimonial: "Delete Testimonial",
-        testimonial_text: "Testimonial Text",
-        testimonial_text_ar: "Testimonial Text (Arabic)",
-        author_name: "Author Name",
-        author_location: "Author Location",
-        author_avatar: "Author Avatar",
-        testimonial_rating: "Rating (1-5)",
-        save_testimonial: "Save Testimonial",
-
-        // Categories Management
-        add_category: "Add New Category",
-        edit_category: "Edit Category",
-        delete_category: "Delete Category",
-        category_name: "Category Name",
-        category_name_ar: "Category Name (Arabic)",
-        category_description: "Category Description",
-        category_description_ar: "Category Description (Arabic)",
-        category_icon: "Category Icon",
-        save_category: "Save Category",
-
-        // Messages & Notifications
-        success_product_added: "Product added successfully!",
-        success_product_updated: "Product updated successfully!",
-        success_product_deleted: "Product deleted successfully!",
-        success_faq_added: "FAQ added successfully!",
-        success_faq_updated: "FAQ updated successfully!",
-        success_faq_deleted: "FAQ deleted successfully!",
-        success_testimonial_added: "Testimonial added successfully!",
-        success_testimonial_updated: "Testimonial updated successfully!",
-        success_testimonial_deleted: "Testimonial deleted successfully!",
-        success_category_added: "Category added successfully!",
-        success_category_updated: "Category updated successfully!",
-        success_category_deleted: "Category deleted successfully!",
-        error_general: "An error occurred. Please try again.",
-        error_auth: "Authentication failed. Please log in again.",
-        error_upload: "Image upload failed. Please try again.",
-        
-        // General UI
-        back_to_home: "Back to Home",
-        close: "Close",
-        edit: "Edit",
         delete: "Delete",
         save: "Save",
-        required_field: "This field is required",
-        optional: "Optional",
-        
-        // WhatsApp Messages
-        whatsapp_product_message: "Hi, I'm interested in ordering: ",
-        whatsapp_general_message: "Hi, I'd like to know more about your products.",
+        edit: "Edit",
+        close: "Close",
 
-        // Social Media
-        follow_us: "Follow us on social media",
+        // Toast Messages
+        login_success: "Login successful!",
+        login_failed: "Login failed. Please try again.",
+        logout_success: "Signed out successfully.",
+        item_deleted: "Item deleted successfully.",
+        item_saved: "Item saved successfully.",
+        error_occurred: "An error occurred. Please try again.",
 
-        // Comments System
-        comments_title: "Customer Comments",
-        write_comment: "Write a comment",
-        select_product: "Select Product",
-        choose_product: "Choose a product...",
-        your_comment: "Your Comment",
-        comment_placeholder: "Share your experience with this product...",
-        post_comment: "Post Comment",
-        login_to_comment: "Login to post comments",
-        login_comment_desc: "Sign in with your Google account to share your experience with our products.",
-        sign_in_google: "Sign in with Google",
-        load_more_comments: "Load More Comments",
-        edit_comment: "Edit Comment",
-        delete_comment: "Delete Comment",
-        save_changes: "Save Changes",
-        comment_updated: "Comment updated successfully!",
-        comment_deleted: "Comment deleted successfully!",
-        comment_posted: "Comment posted successfully!",
+        // User Profile
+        profile_title: "User Profile",
+        manage_account: "Manage your account information and preferences",
+        profile_photo: "Profile Photo",
+        upload_photo: "Upload Photo",
+        display_name: "Display Name",
+        nickname: "Nickname",
+        title: "Title",
+        account_created: "Account Created",
+        last_login: "Last Login",
 
-        // Custom Modal
-        confirm: "Confirm",
-        are_you_sure: "Are you sure?",
-        delete_comment_confirm: "Are you sure you want to delete this comment?",
-        delete_product_confirm: "Are you sure you want to delete this product?",
-        delete_faq_confirm: "Are you sure you want to delete this FAQ?",
-        delete_product: "Delete Product",
-        delete_faq: "Delete FAQ", 
-        product_deleted: "Product deleted successfully!",
-        faq_deleted: "FAQ deleted successfully!",
+        // Product Categories (Final List)
+        category_skincare: "Skin Care",
+        category_bodycare: "Body Care",
+        category_haircare: "Hair Care",
+        category_oralcare: "Oral Care",
+        category_natural: "Natural Products",
+        category_special: "Special Care",
+        category_fragrances: "Fragrances",
+        category_soaps: "Soaps & Cleansers",
+        category_candles: "Candles & Aromatherapy",
 
-        // Stock Status
-        available: "Available",
-        out_of_stock: "Out of Stock",
-        stock_quantity: "Stock Quantity",
-        delivery_available: "Delivery Available",
-        delivery_not_available: "Delivery Not Available",
-        delivery_price: "Delivery Price",
-        stock_status: "Stock Status",
-        quantity_available: "Quantity Available",
-        in_stock: "In Stock",
-        no_comments: "No comments yet. Be the first to share your experience!",
-        yes: "Yes",
-        no: "No",
-        error_general: "An error occurred. Please try again.",
-
-        // Categories
-        skincare: "Skin Care",
-        bodycare: "Body Care", 
-        haircare: "Hair Care",
-        oralcare: "Oral Care",
-        natural_products: "Natural Products",
-        special_care: "Special Care",
-        fragrances: "Fragrances",
-        soaps_cleansers: "Soaps & Cleansers",
-        candles_aromatherapy: "Candles & Aromatherapy",
-
-        // Default FAQ Content
-        default_faqs: [
-            {
-                question: "Is the lavender soap suitable for sensitive skin?",
-                answer: "Yes, our lavender soap is made with natural ingredients and is gentle enough for sensitive skin. We use organic oils and essential oils without any harsh chemicals.",
-                category: "products"
-            },
-            {
-                question: "Do you offer cash on delivery?",
-                answer: "Yes, we offer cash on delivery for orders within Egypt. Payment can be made upon receiving your order.",
-                category: "payment"
-            },
-            {
-                question: "How long does delivery take?",
-                answer: "Delivery typically takes 2-3 business days within Cairo and Giza, and 3-5 business days for other governorates.",
-                category: "delivery"
-            },
-            {
-                question: "What are the main ingredients in your products?",
-                answer: "Our products are made with natural ingredients like organic olive oil, coconut oil, essential oils, and natural herbs. We avoid all synthetic chemicals and preservatives.",
-                category: "products"
-            },
-            {
-                question: "Can I return or exchange products?",
-                answer: "We accept returns within 7 days of delivery if the product is unused and in its original packaging. Please contact us for return instructions.",
-                category: "general"
-            }
-        ]
+        // Subcategories
+        subcategory_moisturizing: "Moisturizing Creams",
+        subcategory_facewash: "Face Wash",
+        subcategory_serums: "Serums",
+        subcategory_toner: "Toner",
+        subcategory_facemasks: "Face Masks",
+        subcategory_sunscreen: "Sunscreen",
+        subcategory_makeup_remover: "Makeup Remover",
+        subcategory_body_oils: "Body Oils",
+        subcategory_body_scrubs: "Body Scrubs",
+        subcategory_body_lotion: "Body Lotion",
+        subcategory_whitening: "Whitening Creams",
+        subcategory_deodorants: "Deodorants",
+        subcategory_hand_foot: "Hand & Foot Creams",
+        subcategory_shampoo: "Shampoo",
+        subcategory_conditioner: "Conditioner",
+        subcategory_hair_mask: "Hair Mask",
+        subcategory_hair_oils: "Hair Oils",
+        subcategory_hair_serum: "Hair Serum",
+        subcategory_hair_loss: "Hair Loss Treatments",
+        subcategory_toothpaste: "Natural Toothpaste",
+        subcategory_mouthwash: "Mouthwash",
+        subcategory_teeth_whitening: "Teeth Whitening Products",
+        subcategory_organic: "Organic Products",
+        subcategory_chemical_free: "Chemical-Free",
+        subcategory_fragrance_free: "Fragrance-Free",
+        subcategory_children: "For Children",
+        subcategory_men: "For Men",
+        subcategory_pregnant: "For Pregnant Women",
+        subcategory_body_perfumes: "Body Perfumes",
+        subcategory_natural_perfumes: "Natural Perfumes",
+        subcategory_hair_perfumes: "Hair Perfumes",
+        subcategory_natural_soap: "Natural Soap",
+        subcategory_body_wash: "Body Wash",
+        subcategory_natural_cleaners: "Natural Cleaners",
+        subcategory_scented_candles: "Scented Candles",
+        subcategory_essential_oils: "Essential Oils",
+        subcategory_natural_incense: "Natural Incense"
     },
     
     ar: {
@@ -288,20 +250,21 @@ const translations = {
         brand_name: "العناية الطبيعية",
         nav_home: "الرئيسية",
         nav_products: "المنتجات",
-        nav_about: "من نحن",
+        nav_about: "حول",
         nav_testimonials: "التقييمات",
         nav_faq: "الأسئلة الشائعة",
-        nav_contact: "تواصل معنا",
-        admin_dashboard: "لوحة الإدارة",
+        nav_contact: "اتصل بنا",
+        admin_dashboard: "لوحة التحكم",
 
         // Loading
         loading: "جاري التحميل...",
 
         // Hero Section
-        hero_title: "صابون اللافندر - طبيعي ومصنوع يدوياً",
-        hero_subtitle: "اعتني بجلدك بطريقة طبيعية. بدون مواد كيميائية. بدون قلق.",
+        hero_title: "صابون اللافندر – مصنوع يدوياً ونقي",
+        hero_subtitle: "اعتن ببشرتك بشكل طبيعي. لا مواد كيميائية. لا قلق.",
         order_now: "اطلب الآن",
         learn_more: "اعرف المزيد",
+        follow_us: "تابعنا على وسائل التواصل الاجتماعي",
 
         // Categories
         categories_title: "فئات المنتجات",
@@ -309,16 +272,18 @@ const translations = {
         // Products
         products_title: "منتجاتنا الطبيعية",
         filter_all: "جميع المنتجات",
-        filter_skincare: "العناية بالجلد",
+        filter_skincare: "العناية بالبشرة",
         filter_bodycare: "العناية بالجسم",
         filter_haircare: "العناية بالشعر",
-        filter_aromatherapy: "العلاج العطري",
+        filter_aromatherapy: "العلاج بالروائح",
         
         // Product Actions
-        translate_product: "ترجم",
+        translate_product: "ترجمة",
         view_details: "التفاصيل",
         order_whatsapp: "اطلب عبر واتساب",
         translation_not_available: "الترجمة غير متوفرة",
+        write_review: "اكتب تقييماً",
+        product_inquiry: "استفسار عن المنتج",
         
         // Product Details
         delivery_price: "سعر التوصيل",
@@ -329,15 +294,15 @@ const translations = {
         quantity_available: "الكمية المتوفرة",
         
         // About Section
-        about_title: "عن منتجاتنا",
-        about_description: "منتجاتنا الطبيعية المصنوعة يدوياً يتم إعدادها بحب وعناية باستخدام أجود المكونات العضوية. كل منتج يُصنع في دفعات صغيرة لضمان الجودة والطازجة، نقدم لك جوهر الطبيعة النقي.",
+        about_title: "حول منتجاتنا",
+        about_description: "منتجاتنا الطبيعية المصنوعة يدوياً مصنوعة بحب وعناية باستخدام أفضل المكونات العضوية. كل منتج مصنوع بكميات صغيرة لضمان الجودة والنضارة، مما يجلب لك الجوهر النقي للطبيعة.",
         
-        benefit_natural_title: "طبيعي 100%",
-        benefit_natural_desc: "بدون مواد كيميائية ضارة أو إضافات صناعية",
+        benefit_natural_title: "100% طبيعي",
+        benefit_natural_desc: "لا مواد كيميائية ضارة أو إضافات صناعية",
         benefit_handmade_title: "مصنوع يدوياً",
-        benefit_handmade_desc: "مصنوع بالطرق التقليدية وبعناية فائقة",
+        benefit_handmade_desc: "مصنوع بطرق تقليدية وعناية",
         benefit_gentle_title: "لطيف وآمن",
-        benefit_gentle_desc: "مناسب لجميع أنواع البشرة، حتى الحساسة",
+        benefit_gentle_desc: "مناسب لجميع أنواع البشرة، حتى البشرة الحساسة",
 
         // Gallery
         gallery_title: "معرض المنتجات",
@@ -345,11 +310,26 @@ const translations = {
         // Testimonials
         testimonials_title: "ماذا يقول عملاؤنا",
         rating: "التقييم",
-        reviews: "تقييم",
+        reviews: "تقييمات",
+
+        // Comments Section
+        comments_title: "تعليقات العملاء",
+        write_comment: "اكتب تعليقاً",
+        select_product: "اختر المنتج:",
+        choose_product: "اختر منتجاً...",
+        your_comment: "تعليقك:",
+        comment_placeholder: "شارك تجربتك...",
+        post_comment: "نشر التعليق",
+        login_to_comment: "سجل دخول لنشر التعليقات",
+        login_comment_desc: "سجل دخول بحساب جوجل لمشاركة تجربتك مع منتجاتنا.",
+        sign_in_google: "سجل دخول بجوجل",
+        load_more_comments: "تحميل المزيد من التعليقات",
+        edit_comment: "تعديل التعليق",
+        save_changes: "حفظ التغييرات",
 
         // FAQ
         faq_title: "الأسئلة الشائعة",
-        faq_search_placeholder: "ابحث في الأسئلة الشائعة...",
+        faq_search_placeholder: "البحث في الأسئلة الشائعة...",
         faq_all: "الكل",
         faq_delivery: "التوصيل",
         faq_products: "المنتجات",
@@ -360,208 +340,152 @@ const translations = {
         // Contact
         contact_title: "تواصل معنا",
         contact_phone: "الهاتف",
-        contact_email: "البريد الإلكتروني",
+        contact_email: "البريد الإلكتروني", 
         contact_whatsapp: "واتساب",
         contact_whatsapp_text: "تحدث معنا",
 
         // Contact Form
         form_name: "اسمك",
         form_email: "بريدك الإلكتروني",
-        form_phone: "رقم هاتفك",
+        form_phone: "هاتفك",
         form_message: "رسالتك",
         form_submit: "إرسال الرسالة",
 
         // Footer
-        footer_description: "نقدم لك أجود المنتجات الطبيعية المصنوعة يدوياً لنمط حياة صحي.",
+        footer_description: "نقدم لك أفضل المنتجات الطبيعية المصنوعة يدوياً لحياة صحية أفضل.",
         footer_quick_links: "روابط سريعة",
         footer_connect: "تواصل معنا",
         footer_copyright: "© 2024 العناية الطبيعية. جميع الحقوق محفوظة.",
         footer_privacy: "سياسة الخصوصية",
         footer_terms: "شروط الخدمة",
 
-        // Admin Panel
-        admin_login: "دخول الإدارة",
-        admin_logout: "تسجيل الخروج",
-        admin_products: "إدارة المنتجات",
-        admin_faqs: "إدارة الأسئلة الشائعة",
-        admin_testimonials: "إدارة التقييمات",
-        admin_categories: "إدارة الفئات",
+        // Authentication
+        login_title: "تسجيل الدخول",
+        login_description: "سجل دخول بحساب جوجل للوصول إلى ملفك الشخصي ونشر التعليقات.",
+        admin_note: "فقط الحسابات المصرح لها يمكنها الوصول إلى لوحة التحكم.",
+        sign_out: "تسجيل الخروج",
+
+        // Admin Dashboard
+        admin_welcome: "مرحباً بك، المدير!",
+        admin_description: "إدارة منتجاتك وفئاتك والأسئلة الشائعة وتفاعلات العملاء.",
+        total_products: "إجمالي المنتجات",
+        total_inquiries: "إجمالي الاستفسارات",
+        pending_inquiries: "الاستفسارات المعلقة",
+        all_comments: "جميع التعليقات",
+        all_users: "جميع المستخدمين",
         
-        // Product Management
-        add_product: "إضافة منتج جديد",
-        edit_product: "تعديل المنتج",
-        delete_product: "حذف المنتج",
-        product_title: "اسم المنتج",
-        product_title_ar: "اسم المنتج (عربي)",
-        product_description: "وصف المنتج",
-        product_description_ar: "وصف المنتج (عربي)",
-        product_price: "السعر (جنيه)",
-        product_discount: "الخصم (%)",
-        product_category: "الفئة",
-        product_image: "صورة المنتج",
-        upload_image: "رفع صورة",
-        delivery_available_label: "التوصيل متوفر",
-        delivery_price_label: "سعر التوصيل (جنيه)",
-        stock_status: "حالة المخزون",
-        quantity_in_stock: "الكمية في المخزون",
-        save_product: "حفظ المنتج",
+        // Admin Tabs
+        admin_products: "المنتجات",
+        admin_categories: "الفئات",
+        admin_faqs: "الأسئلة الشائعة",
+        admin_testimonials: "التقييمات",
+        admin_inquiries: "استفسارات المنتجات",
+        admin_comments: "التعليقات",
+        admin_users: "المستخدمين",
+        admin_gallery: "المعرض",
+        
+        // Admin Actions
+        manage_products: "إدارة المنتجات",
+        manage_categories: "إدارة الفئات",
+        manage_faqs: "إدارة الأسئلة الشائعة",
+        manage_testimonials: "إدارة التقييمات",
+        manage_inquiries: "استفسارات المنتجات",
+        manage_comments: "إدارة التعليقات",
+        manage_users: "إدارة المستخدمين",
+        manage_gallery: "إدارة المعرض",
+        
+        add_product: "إضافة منتج",
+        add_category: "إضافة فئة",
+        add_faq: "إضافة سؤال",
+        add_testimonial: "إضافة تقييم",
+        add_gallery_item: "إضافة صورة",
+        
+        // No Data Messages
+        no_products: "لم يتم العثور على منتجات.",
+        no_categories: "لم يتم العثور على فئات.",
+        no_faqs: "لم يتم العثور على أسئلة شائعة.",
+        no_testimonials: "لم يتم العثور على تقييمات.",
+        no_inquiries: "لم يتم العثور على استفسارات.",
+        no_comments: "لم يتم العثور على تعليقات.",
+        no_users: "لم يتم العثور على مستخدمين.",
+        no_gallery: "لم يتم العثور على صور في المعرض.",
+
+        // Modal Actions
+        confirm: "تأكيد",
         cancel: "إلغاء",
-        confirm_delete: "هل أنت متأكد من حذف هذا المنتج؟",
-        yes: "نعم",
-        no: "لا",
-
-        // FAQ Management
-        add_faq: "إضافة سؤال جديد",
-        edit_faq: "تعديل السؤال",
-        delete_faq: "حذف السؤال",
-        faq_question: "السؤال",
-        faq_question_ar: "السؤال (عربي)",
-        faq_answer: "الإجابة",
-        faq_answer_ar: "الإجابة (عربي)",
-        faq_category: "فئة السؤال",
-        save_faq: "حفظ السؤال",
-        confirm_delete_faq: "هل أنت متأكد من حذف هذا السؤال؟",
-
-        // Testimonials Management
-        add_testimonial: "إضافة تقييم جديد",
-        edit_testimonial: "تعديل التقييم",
-        delete_testimonial: "حذف التقييم",
-        testimonial_text: "نص التقييم",
-        testimonial_text_ar: "نص التقييم (عربي)",
-        author_name: "اسم الكاتب",
-        author_location: "موقع الكاتب",
-        author_avatar: "صورة الكاتب",
-        testimonial_rating: "التقييم (1-5)",
-        save_testimonial: "حفظ التقييم",
-
-        // Categories Management
-        add_category: "إضافة فئة جديدة",
-        edit_category: "تعديل الفئة",
-        delete_category: "حذف الفئة",
-        category_name: "اسم الفئة",
-        category_name_ar: "اسم الفئة (عربي)",
-        category_description: "وصف الفئة",
-        category_description_ar: "وصف الفئة (عربي)",
-        category_icon: "أيقونة الفئة",
-        save_category: "حفظ الفئة",
-
-        // Messages & Notifications
-        success_product_added: "تم إضافة المنتج بنجاح!",
-        success_product_updated: "تم تحديث المنتج بنجاح!",
-        success_product_deleted: "تم حذف المنتج بنجاح!",
-        success_faq_added: "تم إضافة السؤال بنجاح!",
-        success_faq_updated: "تم تحديث السؤال بنجاح!",
-        success_faq_deleted: "تم حذف السؤال بنجاح!",
-        success_testimonial_added: "تم إضافة التقييم بنجاح!",
-        success_testimonial_updated: "تم تحديث التقييم بنجاح!",
-        success_testimonial_deleted: "تم حذف التقييم بنجاح!",
-        success_category_added: "تم إضافة الفئة بنجاح!",
-        success_category_updated: "تم تحديث الفئة بنجاح!",
-        success_category_deleted: "تم حذف الفئة بنجاح!",
-        error_general: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-        error_auth: "فشل في المصادقة. يرجى تسجيل الدخول مرة أخرى.",
-        error_upload: "فشل في رفع الصورة. يرجى المحاولة مرة أخرى.",
-        
-        // General UI
-        back_to_home: "العودة للرئيسية",
-        close: "إغلاق",
-        edit: "تعديل",
         delete: "حذف",
         save: "حفظ",
-        required_field: "هذا الحقل مطلوب",
-        optional: "اختياري",
-        
-        // WhatsApp Messages
-        whatsapp_product_message: "مرحباً، أريد طلب المنتج: ",
-        whatsapp_general_message: "مرحباً، أريد معرفة المزيد عن منتجاتكم.",
+        edit: "تعديل",
+        close: "إغلاق",
 
-        // Social Media
-        follow_us: "تابعونا على وسائل التواصل الاجتماعي",
+        // Toast Messages
+        login_success: "تم تسجيل الدخول بنجاح!",
+        login_failed: "فشل تسجيل الدخول. حاول مرة أخرى.",
+        logout_success: "تم تسجيل الخروج بنجاح.",
+        item_deleted: "تم حذف العنصر بنجاح.",
+        item_saved: "تم حفظ العنصر بنجاح.",
+        error_occurred: "حدث خطأ. حاول مرة أخرى.",
 
-        // Comments System
-        comments_title: "تعليقات العملاء",
-        write_comment: "اكتب تعليقاً",
-        select_product: "اختر المنتج",
-        choose_product: "اختر منتجاً...",
-        your_comment: "تعليقك",
-        comment_placeholder: "شارك تجربتك مع هذا المنتج...",
-        post_comment: "نشر التعليق",
-        login_to_comment: "سجل دخولك لكتابة التعليقات",
-        login_comment_desc: "سجل الدخول بحساب جوجل لمشاركة تجربتك مع منتجاتنا.",
-        sign_in_google: "تسجيل الدخول بجوجل",
-        load_more_comments: "تحميل المزيد من التعليقات",
-        edit_comment: "تعديل التعليق",
-        delete_comment: "حذف التعليق",
-        save_changes: "حفظ التغييرات",
-        comment_updated: "تم تحديث التعليق بنجاح!",
-        comment_deleted: "تم حذف التعليق بنجاح!",
-        comment_posted: "تم نشر التعليق بنجاح!",
+        // User Profile
+        profile_title: "الملف الشخصي",
+        manage_account: "إدارة معلومات حسابك وتفضيلاتك",
+        profile_photo: "صورة الملف الشخصي",
+        upload_photo: "رفع صورة",
+        display_name: "اسم العرض",
+        nickname: "الاسم المستعار",
+        title: "اللقب",
+        account_created: "تاريخ إنشاء الحساب",
+        last_login: "آخر تسجيل دخول",
 
-        // Custom Modal
-        confirm: "تأكيد",
-        are_you_sure: "هل أنت متأكد؟",
-        delete_comment_confirm: "هل أنت متأكد من حذف هذا التعليق؟",
-        delete_product_confirm: "هل أنت متأكد من حذف هذا المنتج؟",
-        delete_faq_confirm: "هل أنت متأكد من حذف هذا السؤال؟",
-        delete_product: "حذف المنتج",
-        delete_faq: "حذف السؤال",
-        product_deleted: "تم حذف المنتج بنجاح!",
-        faq_deleted: "تم حذف السؤال بنجاح!",
+        // Product Categories (Final List)
+        category_skincare: "العناية بالبشرة",
+        category_bodycare: "العناية بالجسم",
+        category_haircare: "العناية بالشعر",
+        category_oralcare: "العناية بالفم",
+        category_natural: "المنتجات الطبيعية",
+        category_special: "العناية الخاصة",
+        category_fragrances: "العطور",
+        category_soaps: "الصابون والمنظفات",
+        category_candles: "الشموع والعلاج بالروائح",
 
-        // Stock Status
-        available: "متوفر",
-        out_of_stock: "غير متوفر",
-        stock_quantity: "الكمية المتوفرة",
-        delivery_available: "التوصيل متاح",
-        delivery_not_available: "التوصيل غير متاح",
-        delivery_price: "سعر التوصيل",
-        stock_status: "حالة المخزون",
-        quantity_available: "الكمية المتاحة",
-        in_stock: "متوفر في المخزن",
-        no_comments: "لا توجد تعليقات حتى الآن. كن أول من يشارك تجربته!",
-        yes: "نعم",
-        no: "لا",
-        error_general: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-
-        // Categories
-        skincare: "العناية بالبشرة",
-        bodycare: "العناية بالجسم",
-        haircare: "العناية بالشعر",
-        oralcare: "العناية بالفم",
-        natural_products: "المنتجات الطبيعية",
-        special_care: "العناية الخاصة",
-        fragrances: "العطور",
-        soaps_cleansers: "الصابون والمنظفات",
-        candles_aromatherapy: "الشموع والعلاج العطري",
-
-        // Default FAQ Content
-        default_faqs: [
-            {
-                question: "هل صابون اللافندر مناسب للبشرة الحساسة؟",
-                answer: "نعم، صابون اللافندر مصنوع من مكونات طبيعية ولطيف بما يكفي للبشرة الحساسة. نحن نستخدم الزيوت العضوية والزيوت الأساسية بدون أي مواد كيميائية قاسية.",
-                category: "products"
-            },
-            {
-                question: "هل تقدمون خدمة الدفع عند الاستلام؟",
-                answer: "نعم، نحن نقدم خدمة الدفع عند الاستلام للطلبات داخل مصر. يمكن الدفع عند استلام طلبك.",
-                category: "payment"
-            },
-            {
-                question: "كم تستغرق مدة التوصيل؟",
-                answer: "عادة ما يستغرق التوصيل 2-3 أيام عمل داخل القاهرة والجيزة، و 3-5 أيام عمل للمحافظات الأخرى.",
-                category: "delivery"
-            },
-            {
-                question: "ما هي المكونات الرئيسية في منتجاتكم؟",
-                answer: "منتجاتنا مصنوعة من مكونات طبيعية مثل زيت الزيتون العضوي وزيت جوز الهند والزيوت الأساسية والأعشاب الطبيعية. نحن نتجنب جميع المواد الكيميائية الاصطناعية والمواد الحافظة.",
-                category: "products"
-            },
-            {
-                question: "هل يمكنني إرجاع أو استبدال المنتجات؟",
-                answer: "نحن نقبل الإرجاع خلال 7 أيام من التوصيل إذا كان المنتج غير مستخدم وفي عبوته الأصلية. يرجى التواصل معنا للحصول على تعليمات الإرجاع.",
-                category: "general"
-            }
-        ]
+        // Subcategories
+        subcategory_moisturizing: "كريمات الترطيب",
+        subcategory_facewash: "غسول الوجه",
+        subcategory_serums: "السيروم",
+        subcategory_toner: "التونر",
+        subcategory_facemasks: "أقنعة الوجه",
+        subcategory_sunscreen: "واقي الشمس",
+        subcategory_makeup_remover: "مزيل المكياج",
+        subcategory_body_oils: "زيوت الجسم",
+        subcategory_body_scrubs: "مقشرات الجسم",
+        subcategory_body_lotion: "لوشن الجسم",
+        subcategory_whitening: "كريمات التفتيح",
+        subcategory_deodorants: "مزيلات العرق",
+        subcategory_hand_foot: "كريمات اليدين والقدمين",
+        subcategory_shampoo: "الشامبو",
+        subcategory_conditioner: "البلسم",
+        subcategory_hair_mask: "قناع الشعر",
+        subcategory_hair_oils: "زيوت الشعر",
+        subcategory_hair_serum: "سيروم الشعر",
+        subcategory_hair_loss: "علاجات تساقط الشعر",
+        subcategory_toothpaste: "معجون أسنان طبيعي",
+        subcategory_mouthwash: "غسول الفم",
+        subcategory_teeth_whitening: "منتجات تبييض الأسنان",
+        subcategory_organic: "المنتجات العضوية",
+        subcategory_chemical_free: "خالية من المواد الكيميائية",
+        subcategory_fragrance_free: "خالية من العطور",
+        subcategory_children: "للأطفال",
+        subcategory_men: "للرجال",
+        subcategory_pregnant: "للنساء الحوامل",
+        subcategory_body_perfumes: "عطور الجسم",
+        subcategory_natural_perfumes: "العطور الطبيعية",
+        subcategory_hair_perfumes: "عطور الشعر",
+        subcategory_natural_soap: "صابون طبيعي",
+        subcategory_body_wash: "غسول الجسم",
+        subcategory_natural_cleaners: "المنظفات الطبيعية",
+        subcategory_scented_candles: "الشموع المعطرة",
+        subcategory_essential_oils: "الزيوت الأساسية",
+        subcategory_natural_incense: "البخور الطبيعي"
     }
 };
 
