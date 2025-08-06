@@ -1,643 +1,685 @@
-// Translation System for Natural Care Website
-// Supports English and Arabic with RTL support
-
+// Translations for English and Arabic
 const translations = {
-    en: {
-        // Header & Navigation
-        brand_name: "NaturalCare",
-        nav_home: "Home",
-        nav_products: "Products",
-        nav_about: "About",
-        nav_testimonials: "Reviews",
-        nav_faq: "FAQ",
-        nav_contact: "Contact",
-        admin_dashboard: "Admin Dashboard",
-
-        // Loading
-        loading: "Loading...",
-
-        // Hero Section
-        hero_title: "Lavender Soap – Handmade & Pure",
-        hero_subtitle: "Nourish your skin naturally. No chemicals. No worries.",
-        order_now: "Order Now",
-        learn_more: "Learn More",
-
-        // Categories
-        categories_title: "Product Categories",
-        
-        // Products
-        products_title: "Our Natural Products",
-        filter_all: "All Products",
-        filter_skincare: "Skincare",
-        filter_bodycare: "Body Care",
-        filter_haircare: "Hair Care",
-        filter_aromatherapy: "Aromatherapy",
-        
-        // Product Actions
-        translate_product: "Translate",
-        view_details: "Details",
-        order_whatsapp: "Order via WhatsApp",
-        translation_not_available: "Translation not available",
-        
-        // Product Details
-        delivery_price: "Delivery Price",
-        delivery_available: "Delivery Available",
-        delivery_not_available: "Delivery Not Available",
-        in_stock: "In Stock",
-        out_of_stock: "Out of Stock",
-        quantity_available: "Quantity Available",
-        
-        // About Section
-        about_title: "About Our Products",
-        about_description: "Our handmade natural products are crafted with love and care using the finest organic ingredients. Each product is made in small batches to ensure quality and freshness, bringing you the pure essence of nature.",
-        
-        benefit_natural_title: "100% Natural",
-        benefit_natural_desc: "No harmful chemicals or artificial additives",
-        benefit_handmade_title: "Handmade",
-        benefit_handmade_desc: "Crafted with traditional methods and care",
-        benefit_gentle_title: "Gentle & Safe",
-        benefit_gentle_desc: "Suitable for all skin types, even sensitive skin",
-
-        // Gallery
-        gallery_title: "Product Gallery",
-
-        // Testimonials
-        testimonials_title: "What Our Customers Say",
-        rating: "Rating",
-        reviews: "reviews",
-
-        // FAQ
-        faq_title: "Frequently Asked Questions",
-        faq_search_placeholder: "Search FAQs...",
-        faq_all: "All",
-        faq_delivery: "Delivery",
-        faq_products: "Products",
-        faq_payment: "Payment",
-        faq_general: "General",
-        load_more_faq: "View More FAQs",
-
-        // Contact
-        contact_title: "Get In Touch",
-        contact_phone: "Phone",
-        contact_email: "Email", 
-        contact_whatsapp: "WhatsApp",
-        contact_whatsapp_text: "Chat with us",
-
-        // Contact Form
-        form_name: "Your Name",
-        form_email: "Your Email",
-        form_phone: "Your Phone",
-        form_message: "Your Message",
-        form_submit: "Send Message",
-
-        // Footer
-        footer_description: "Bringing you the finest natural handmade products for a healthier lifestyle.",
-        footer_quick_links: "Quick Links",
-        footer_connect: "Connect With Us",
-        footer_copyright: "© 2024 NaturalCare. All rights reserved.",
-        footer_privacy: "Privacy Policy",
-        footer_terms: "Terms of Service",
-
-        // Admin Panel
-        admin_login: "Admin Login",
-        admin_logout: "Logout",
-        admin_products: "Manage Products",
-        admin_faqs: "Manage FAQs",
-        admin_testimonials: "Manage Testimonials",
-        admin_categories: "Manage Categories",
-        
-        // Product Management
-        add_product: "Add New Product",
-        edit_product: "Edit Product",
-        delete_product: "Delete Product",
-        product_title: "Product Title",
-        product_title_ar: "Product Title (Arabic)",
-        product_description: "Product Description",
-        product_description_ar: "Product Description (Arabic)",
-        product_price: "Price (EGP)",
-        product_discount: "Discount (%)",
-        product_category: "Category",
-        product_image: "Product Image",
-        upload_image: "Upload Image",
-        delivery_available_label: "Delivery Available",
-        delivery_price_label: "Delivery Price (EGP)",
-        stock_status: "Stock Status",
-        quantity_in_stock: "Quantity in Stock",
-        save_product: "Save Product",
-        cancel: "Cancel",
-        confirm_delete: "Are you sure you want to delete this product?",
-        yes: "Yes",
-        no: "No",
-
-        // FAQ Management
-        add_faq: "Add New FAQ",
-        edit_faq: "Edit FAQ",
-        delete_faq: "Delete FAQ",
-        faq_question: "Question",
-        faq_question_ar: "Question (Arabic)",
-        faq_answer: "Answer",
-        faq_answer_ar: "Answer (Arabic)",
-        faq_category: "FAQ Category",
-        save_faq: "Save FAQ",
-        confirm_delete_faq: "Are you sure you want to delete this FAQ?",
-
-        // Testimonials Management
-        add_testimonial: "Add New Testimonial",
-        edit_testimonial: "Edit Testimonial",
-        delete_testimonial: "Delete Testimonial",
-        testimonial_text: "Testimonial Text",
-        testimonial_text_ar: "Testimonial Text (Arabic)",
-        author_name: "Author Name",
-        author_location: "Author Location",
-        author_avatar: "Author Avatar",
-        testimonial_rating: "Rating (1-5)",
-        save_testimonial: "Save Testimonial",
-
-        // Categories Management
-        add_category: "Add New Category",
-        edit_category: "Edit Category",
-        delete_category: "Delete Category",
-        category_name: "Category Name",
-        category_name_ar: "Category Name (Arabic)",
-        category_description: "Category Description",
-        category_description_ar: "Category Description (Arabic)",
-        category_icon: "Category Icon",
-        save_category: "Save Category",
-
-        // Messages & Notifications
-        success_product_added: "Product added successfully!",
-        success_product_updated: "Product updated successfully!",
-        success_product_deleted: "Product deleted successfully!",
-        success_faq_added: "FAQ added successfully!",
-        success_faq_updated: "FAQ updated successfully!",
-        success_faq_deleted: "FAQ deleted successfully!",
-        success_testimonial_added: "Testimonial added successfully!",
-        success_testimonial_updated: "Testimonial updated successfully!",
-        success_testimonial_deleted: "Testimonial deleted successfully!",
-        success_category_added: "Category added successfully!",
-        success_category_updated: "Category updated successfully!",
-        success_category_deleted: "Category deleted successfully!",
-        error_general: "An error occurred. Please try again.",
-        error_auth: "Authentication failed. Please log in again.",
-        error_upload: "Image upload failed. Please try again.",
-        
-        // General UI
-        back_to_home: "Back to Home",
-        close: "Close",
-        edit: "Edit",
-        delete: "Delete",
-        save: "Save",
-        required_field: "This field is required",
-        optional: "Optional",
-        
-        // WhatsApp Messages
-        whatsapp_product_message: "Hi, I'm interested in ordering: ",
-        whatsapp_general_message: "Hi, I'd like to know more about your products.",
-
-        // Default FAQ Content
-        default_faqs: [
-            {
-                question: "Is the lavender soap suitable for sensitive skin?",
-                answer: "Yes, our lavender soap is made with natural ingredients and is gentle enough for sensitive skin. We use organic oils and essential oils without any harsh chemicals.",
-                category: "products"
-            },
-            {
-                question: "Do you offer cash on delivery?",
-                answer: "Yes, we offer cash on delivery for orders within Egypt. Payment can be made upon receiving your order.",
-                category: "payment"
-            },
-            {
-                question: "How long does delivery take?",
-                answer: "Delivery typically takes 2-3 business days within Cairo and Giza, and 3-5 business days for other governorates.",
-                category: "delivery"
-            },
-            {
-                question: "What are the main ingredients in your products?",
-                answer: "Our products are made with natural ingredients like organic olive oil, coconut oil, essential oils, and natural herbs. We avoid all synthetic chemicals and preservatives.",
-                category: "products"
-            },
-            {
-                question: "Can I return or exchange products?",
-                answer: "We accept returns within 7 days of delivery if the product is unused and in its original packaging. Please contact us for return instructions.",
-                category: "general"
-            }
-        ]
+  en: {
+    // Navigation
+    brand: "Pure Nature",
+    nav: {
+      home: "Home",
+      about: "About",
+      products: "Products",
+      testimonials: "Reviews",
+      contact: "Contact"
     },
     
-    ar: {
-        // Header & Navigation
-        brand_name: "العناية الطبيعية",
-        nav_home: "الرئيسية",
-        nav_products: "المنتجات",
-        nav_about: "من نحن",
-        nav_testimonials: "التقييمات",
-        nav_faq: "الأسئلة الشائعة",
-        nav_contact: "تواصل معنا",
-        admin_dashboard: "لوحة الإدارة",
-
-        // Loading
-        loading: "جاري التحميل...",
-
-        // Hero Section
-        hero_title: "صابون اللافندر - طبيعي ومصنوع يدوياً",
-        hero_subtitle: "اعتني بجلدك بطريقة طبيعية. بدون مواد كيميائية. بدون قلق.",
-        order_now: "اطلب الآن",
-        learn_more: "اعرف المزيد",
-
-        // Categories
-        categories_title: "فئات المنتجات",
-        
-        // Products
-        products_title: "منتجاتنا الطبيعية",
-        filter_all: "جميع المنتجات",
-        filter_skincare: "العناية بالجلد",
-        filter_bodycare: "العناية بالجسم",
-        filter_haircare: "العناية بالشعر",
-        filter_aromatherapy: "العلاج العطري",
-        
-        // Product Actions
-        translate_product: "ترجم",
-        view_details: "التفاصيل",
-        order_whatsapp: "اطلب عبر واتساب",
-        translation_not_available: "الترجمة غير متوفرة",
-        
-        // Product Details
-        delivery_price: "سعر التوصيل",
-        delivery_available: "التوصيل متوفر",
-        delivery_not_available: "التوصيل غير متوفر",
-        in_stock: "متوفر",
-        out_of_stock: "غير متوفر",
-        quantity_available: "الكمية المتوفرة",
-        
-        // About Section
-        about_title: "عن منتجاتنا",
-        about_description: "منتجاتنا الطبيعية المصنوعة يدوياً يتم إعدادها بحب وعناية باستخدام أجود المكونات العضوية. كل منتج يُصنع في دفعات صغيرة لضمان الجودة والطازجة، نقدم لك جوهر الطبيعة النقي.",
-        
-        benefit_natural_title: "طبيعي 100%",
-        benefit_natural_desc: "بدون مواد كيميائية ضارة أو إضافات صناعية",
-        benefit_handmade_title: "مصنوع يدوياً",
-        benefit_handmade_desc: "مصنوع بالطرق التقليدية وبعناية فائقة",
-        benefit_gentle_title: "لطيف وآمن",
-        benefit_gentle_desc: "مناسب لجميع أنواع البشرة، حتى الحساسة",
-
-        // Gallery
-        gallery_title: "معرض المنتجات",
-
-        // Testimonials
-        testimonials_title: "ماذا يقول عملاؤنا",
-        rating: "التقييم",
-        reviews: "تقييم",
-
-        // FAQ
-        faq_title: "الأسئلة الشائعة",
-        faq_search_placeholder: "ابحث في الأسئلة الشائعة...",
-        faq_all: "الكل",
-        faq_delivery: "التوصيل",
-        faq_products: "المنتجات",
-        faq_payment: "الدفع",
-        faq_general: "عام",
-        load_more_faq: "عرض المزيد من الأسئلة",
-
-        // Contact
-        contact_title: "تواصل معنا",
-        contact_phone: "الهاتف",
-        contact_email: "البريد الإلكتروني",
-        contact_whatsapp: "واتساب",
-        contact_whatsapp_text: "تحدث معنا",
-
-        // Contact Form
-        form_name: "اسمك",
-        form_email: "بريدك الإلكتروني",
-        form_phone: "رقم هاتفك",
-        form_message: "رسالتك",
-        form_submit: "إرسال الرسالة",
-
-        // Footer
-        footer_description: "نقدم لك أجود المنتجات الطبيعية المصنوعة يدوياً لنمط حياة صحي.",
-        footer_quick_links: "روابط سريعة",
-        footer_connect: "تواصل معنا",
-        footer_copyright: "© 2024 العناية الطبيعية. جميع الحقوق محفوظة.",
-        footer_privacy: "سياسة الخصوصية",
-        footer_terms: "شروط الخدمة",
-
-        // Admin Panel
-        admin_login: "دخول الإدارة",
-        admin_logout: "تسجيل الخروج",
-        admin_products: "إدارة المنتجات",
-        admin_faqs: "إدارة الأسئلة الشائعة",
-        admin_testimonials: "إدارة التقييمات",
-        admin_categories: "إدارة الفئات",
-        
-        // Product Management
-        add_product: "إضافة منتج جديد",
-        edit_product: "تعديل المنتج",
-        delete_product: "حذف المنتج",
-        product_title: "اسم المنتج",
-        product_title_ar: "اسم المنتج (عربي)",
-        product_description: "وصف المنتج",
-        product_description_ar: "وصف المنتج (عربي)",
-        product_price: "السعر (جنيه)",
-        product_discount: "الخصم (%)",
-        product_category: "الفئة",
-        product_image: "صورة المنتج",
-        upload_image: "رفع صورة",
-        delivery_available_label: "التوصيل متوفر",
-        delivery_price_label: "سعر التوصيل (جنيه)",
-        stock_status: "حالة المخزون",
-        quantity_in_stock: "الكمية في المخزون",
-        save_product: "حفظ المنتج",
-        cancel: "إلغاء",
-        confirm_delete: "هل أنت متأكد من حذف هذا المنتج؟",
-        yes: "نعم",
-        no: "لا",
-
-        // FAQ Management
-        add_faq: "إضافة سؤال جديد",
-        edit_faq: "تعديل السؤال",
-        delete_faq: "حذف السؤال",
-        faq_question: "السؤال",
-        faq_question_ar: "السؤال (عربي)",
-        faq_answer: "الإجابة",
-        faq_answer_ar: "الإجابة (عربي)",
-        faq_category: "فئة السؤال",
-        save_faq: "حفظ السؤال",
-        confirm_delete_faq: "هل أنت متأكد من حذف هذا السؤال؟",
-
-        // Testimonials Management
-        add_testimonial: "إضافة تقييم جديد",
-        edit_testimonial: "تعديل التقييم",
-        delete_testimonial: "حذف التقييم",
-        testimonial_text: "نص التقييم",
-        testimonial_text_ar: "نص التقييم (عربي)",
-        author_name: "اسم الكاتب",
-        author_location: "موقع الكاتب",
-        author_avatar: "صورة الكاتب",
-        testimonial_rating: "التقييم (1-5)",
-        save_testimonial: "حفظ التقييم",
-
-        // Categories Management
-        add_category: "إضافة فئة جديدة",
-        edit_category: "تعديل الفئة",
-        delete_category: "حذف الفئة",
-        category_name: "اسم الفئة",
-        category_name_ar: "اسم الفئة (عربي)",
-        category_description: "وصف الفئة",
-        category_description_ar: "وصف الفئة (عربي)",
-        category_icon: "أيقونة الفئة",
-        save_category: "حفظ الفئة",
-
-        // Messages & Notifications
-        success_product_added: "تم إضافة المنتج بنجاح!",
-        success_product_updated: "تم تحديث المنتج بنجاح!",
-        success_product_deleted: "تم حذف المنتج بنجاح!",
-        success_faq_added: "تم إضافة السؤال بنجاح!",
-        success_faq_updated: "تم تحديث السؤال بنجاح!",
-        success_faq_deleted: "تم حذف السؤال بنجاح!",
-        success_testimonial_added: "تم إضافة التقييم بنجاح!",
-        success_testimonial_updated: "تم تحديث التقييم بنجاح!",
-        success_testimonial_deleted: "تم حذف التقييم بنجاح!",
-        success_category_added: "تم إضافة الفئة بنجاح!",
-        success_category_updated: "تم تحديث الفئة بنجاح!",
-        success_category_deleted: "تم حذف الفئة بنجاح!",
-        error_general: "حدث خطأ. يرجى المحاولة مرة أخرى.",
-        error_auth: "فشل في المصادقة. يرجى تسجيل الدخول مرة أخرى.",
-        error_upload: "فشل في رفع الصورة. يرجى المحاولة مرة أخرى.",
-        
-        // General UI
-        back_to_home: "العودة للرئيسية",
-        close: "إغلاق",
-        edit: "تعديل",
-        delete: "حذف",
-        save: "حفظ",
-        required_field: "هذا الحقل مطلوب",
-        optional: "اختياري",
-        
-        // WhatsApp Messages
-        whatsapp_product_message: "مرحباً، أريد طلب المنتج: ",
-        whatsapp_general_message: "مرحباً، أريد معرفة المزيد عن منتجاتكم.",
-
-        // Default FAQ Content
-        default_faqs: [
-            {
-                question: "هل صابون اللافندر مناسب للبشرة الحساسة؟",
-                answer: "نعم، صابون اللافندر مصنوع من مكونات طبيعية ولطيف بما يكفي للبشرة الحساسة. نحن نستخدم الزيوت العضوية والزيوت الأساسية بدون أي مواد كيميائية قاسية.",
-                category: "products"
-            },
-            {
-                question: "هل تقدمون خدمة الدفع عند الاستلام؟",
-                answer: "نعم، نحن نقدم خدمة الدفع عند الاستلام للطلبات داخل مصر. يمكن الدفع عند استلام طلبك.",
-                category: "payment"
-            },
-            {
-                question: "كم تستغرق مدة التوصيل؟",
-                answer: "عادة ما يستغرق التوصيل 2-3 أيام عمل داخل القاهرة والجيزة، و 3-5 أيام عمل للمحافظات الأخرى.",
-                category: "delivery"
-            },
-            {
-                question: "ما هي المكونات الرئيسية في منتجاتكم؟",
-                answer: "منتجاتنا مصنوعة من مكونات طبيعية مثل زيت الزيتون العضوي وزيت جوز الهند والزيوت الأساسية والأعشاب الطبيعية. نحن نتجنب جميع المواد الكيميائية الاصطناعية والمواد الحافظة.",
-                category: "products"
-            },
-            {
-                question: "هل يمكنني إرجاع أو استبدال المنتجات؟",
-                answer: "نحن نقبل الإرجاع خلال 7 أيام من التوصيل إذا كان المنتج غير مستخدم وفي عبوته الأصلية. يرجى التواصل معنا للحصول على تعليمات الإرجاع.",
-                category: "general"
-            }
-        ]
+    // Hero Section
+    hero: {
+      title: "Lavender Soap – Handmade & Pure",
+      subtitle: "Nourish your skin naturally. No chemicals. No worries.",
+      order: "Order Now",
+      learn: "Learn More",
+      badge: "100% Natural"
+    },
+    
+    // Categories
+    categories: {
+      all: "All Products",
+      skincare: "Skin Care",
+      bodycare: "Body Care",
+      haircare: "Hair Care",
+      oralcare: "Oral Care",
+      natural: "Natural Products",
+      specialcare: "Special Care",
+      fragrances: "Fragrances",
+      soaps: "Soaps & Cleansers",
+      candles: "Candles & Aromatherapy"
+    },
+    
+    // Product Categories (Detailed)
+    productCategories: {
+      skincare: {
+        moisturizing: "Moisturizing Creams",
+        facewash: "Face Wash",
+        serums: "Serums",
+        toner: "Toner",
+        facemasks: "Face Masks",
+        sunscreen: "Sunscreen",
+        makeupremover: "Makeup Remover"
+      },
+      bodycare: {
+        bodyoils: "Body Oils",
+        bodyscrubs: "Body Scrubs",
+        bodylotion: "Body Lotion",
+        whitening: "Whitening Creams",
+        deodorants: "Deodorants",
+        handfeet: "Hand & Foot Creams"
+      },
+      haircare: {
+        shampoo: "Shampoo",
+        conditioner: "Conditioner",
+        hairmask: "Hair Mask",
+        hairoils: "Hair Oils",
+        hairserum: "Hair Serum",
+        hairloss: "Hair Loss Treatments"
+      },
+      oralcare: {
+        toothpaste: "Natural Toothpaste",
+        mouthwash: "Mouthwash",
+        whitening: "Teeth Whitening Products"
+      },
+      natural: {
+        organic: "Organic Products",
+        chemicalfree: "Chemical-Free",
+        fragrancefree: "Fragrance-Free"
+      },
+      specialcare: {
+        children: "For Children",
+        men: "For Men",
+        pregnant: "For Pregnant Women"
+      },
+      fragrances: {
+        body: "Body Perfumes",
+        natural: "Natural Perfumes",
+        hair: "Hair Perfumes"
+      },
+      soaps: {
+        natural: "Natural Soap",
+        bodywash: "Body Wash",
+        cleaners: "Natural Cleaners"
+      },
+      candles: {
+        scented: "Scented Candles",
+        essential: "Essential Oils",
+        incense: "Natural Incense"
+      }
+    },
+    
+    // About Section
+    about: {
+      title: "About Our Products",
+      subtitle: "Crafted with love, made with nature's finest ingredients",
+      description: "Our handmade products are carefully crafted using traditional methods passed down through generations. Each item is made with pure, natural ingredients sourced from trusted suppliers who share our commitment to sustainability and quality.",
+      benefit1: "100% Chemical-free",
+      benefit2: "Handcrafted with care",
+      benefit3: "Suitable for sensitive skin",
+      benefit4: "Eco-friendly packaging",
+      ingredients: {
+        title: "Natural Ingredients",
+        oil: "Olive Oil",
+        lavender: "Lavender",
+        beeswax: "Beeswax",
+        honey: "Raw Honey"
+      }
+    },
+    
+    // Products Section
+    products: {
+      title: "Our Products",
+      subtitle: "Discover our range of natural handmade products",
+      translate: "Translate",
+      details: "Details",
+      order: "Order",
+      rating: "Rating",
+      instock: "In Stock",
+      outofstock: "Out of Stock",
+      translationNotAvailable: "Translation not available"
+    },
+    
+    // Gallery Section
+    gallery: {
+      title: "Product Gallery"
+    },
+    
+    // Testimonials Section
+    testimonials: {
+      title: "Customer Reviews",
+      subtitle: "What our customers say about us"
+    },
+    
+    // FAQ Section
+    faq: {
+      title: "Frequently Asked Questions",
+      search: "Search FAQs...",
+      translationNotAvailable: "Translation not available in this language."
+    },
+    
+    // Pricing Section
+    pricing: {
+      title: "Order Now",
+      delivery: "Free delivery on orders over 3 items",
+      whatsapp: "Order via WhatsApp",
+      form: "Order Form"
+    },
+    
+    // Contact Section
+    contact: {
+      title: "Get in Touch",
+      phone: {
+        title: "Phone"
+      },
+      email: {
+        title: "Email"
+      },
+      address: {
+        title: "Address",
+        text: "Cairo, Egypt"
+      },
+      form: {
+        name: "Name",
+        email: "Email",
+        phone: "Phone",
+        message: "Message",
+        send: "Send Message"
+      }
+    },
+    
+    // Footer
+    footer: {
+      rights: "All rights reserved.",
+      privacy: "Privacy Policy",
+      terms: "Terms of Service"
+    },
+    
+    // Modals
+    modal: {
+      order: {
+        title: "Order Form",
+        name: "Full Name",
+        phone: "Phone Number",
+        address: "Delivery Address",
+        submit: "Place Order"
+      }
+    },
+    
+    // Admin Dashboard
+    admin: {
+      title: "Admin Dashboard",
+      login: "Login",
+      logout: "Logout",
+      addProduct: "Add Product",
+      editProduct: "Edit Product",
+      deleteProduct: "Delete Product",
+      addFaq: "Add FAQ",
+      editFaq: "Edit FAQ",
+      deleteFaq: "Delete FAQ",
+      products: "Products",
+      faqs: "FAQs",
+      comments: "Comments",
+      settings: "Settings"
+    },
+    
+    // Common
+    common: {
+      yes: "Yes",
+      no: "No",
+      save: "Save",
+      cancel: "Cancel",
+      delete: "Delete",
+      edit: "Edit",
+      add: "Add",
+      close: "Close",
+      loading: "Loading...",
+      error: "Error",
+      success: "Success",
+      warning: "Warning",
+      info: "Info"
     }
+  },
+  
+  ar: {
+    // Navigation
+    brand: "الطبيعة النقية",
+    nav: {
+      home: "الرئيسية",
+      about: "عن المنتجات",
+      products: "المنتجات",
+      testimonials: "التقييمات",
+      contact: "تواصل معنا"
+    },
+    
+    // Hero Section
+    hero: {
+      title: "صابون اللافندر – مصنوع يدوياً وطبيعي",
+      subtitle: "اعتنيببشرتك طبيعياً. بلا كيماويات. بلا قلق.",
+      order: "اطلب الآن",
+      learn: "اعرف المزيد",
+      badge: "طبيعي 100%"
+    },
+    
+    // Categories
+    categories: {
+      all: "جميع المنتجات",
+      skincare: "العناية بالبشرة",
+      bodycare: "العناية بالجسم",
+      haircare: "العناية بالشعر",
+      oralcare: "العناية بالفم",
+      natural: "المنتجات الطبيعية",
+      specialcare: "العناية الخاصة",
+      fragrances: "العطور",
+      soaps: "الصابون والمنظفات",
+      candles: "الشموع والعلاج العطري"
+    },
+    
+    // Product Categories (Detailed)
+    productCategories: {
+      skincare: {
+        moisturizing: "كريمات الترطيب",
+        facewash: "غسول الوجه",
+        serums: "السيروم",
+        toner: "التونر",
+        facemasks: "ماسكات الوجه",
+        sunscreen: "واقي الشمس",
+        makeupremover: "مزيل المكياج"
+      },
+      bodycare: {
+        bodyoils: "زيوت الجسم",
+        bodyscrubs: "مقشر الجسم",
+        bodylotion: "لوشن الجسم",
+        whitening: "كريمات التفتيح",
+        deodorants: "مزيل العرق",
+        handfeet: "كريمات اليدين والقدمين"
+      },
+      haircare: {
+        shampoo: "الشامبو",
+        conditioner: "البلسم",
+        hairmask: "ماسك الشعر",
+        hairoils: "زيوت الشعر",
+        hairserum: "سيروم الشعر",
+        hairloss: "علاج تساقط الشعر"
+      },
+      oralcare: {
+        toothpaste: "معجون أسنان طبيعي",
+        mouthwash: "غسول الفم",
+        whitening: "منتجات تبييض الأسنان"
+      },
+      natural: {
+        organic: "منتجات عضوية",
+        chemicalfree: "خالي من الكيماويات",
+        fragrancefree: "خالي من العطور"
+      },
+      specialcare: {
+        children: "للأطفال",
+        men: "للرجال",
+        pregnant: "للحوامل"
+      },
+      fragrances: {
+        body: "عطور الجسم",
+        natural: "عطور طبيعية",
+        hair: "عطور الشعر"
+      },
+      soaps: {
+        natural: "صابون طبيعي",
+        bodywash: "غسول الجسم",
+        cleaners: "منظفات طبيعية"
+      },
+      candles: {
+        scented: "شموع معطرة",
+        essential: "زيوت عطرية",
+        incense: "بخور طبيعي"
+      }
+    },
+    
+    // About Section
+    about: {
+      title: "عن منتجاتنا",
+      subtitle: "مصنوعة بحب، من أجود المكونات الطبيعية",
+      description: "منتجاتنا اليدوية مصنوعة بعناية فائقة باستخدام طرق تقليدية متوارثة عبر الأجيال. كل منتج مصنوع من مكونات طبيعية نقية مصدرها موردون موثوقون يشاركوننا التزامنا بالاستدامة والجودة.",
+      benefit1: "خالي من الكيماويات 100%",
+      benefit2: "مصنوع يدوياً بعناية",
+      benefit3: "مناسب للبشرة الحساسة",
+      benefit4: "تغليف صديق للبيئة",
+      ingredients: {
+        title: "المكونات الطبيعية",
+        oil: "زيت الزيتون",
+        lavender: "اللافندر",
+        beeswax: "شمع العسل",
+        honey: "عسل طبيعي"
+      }
+    },
+    
+    // Products Section
+    products: {
+      title: "منتجاتنا",
+      subtitle: "اكتشف مجموعتنا من المنتجات الطبيعية المصنوعة يدوياً",
+      translate: "ترجمة",
+      details: "التفاصيل",
+      order: "اطلب",
+      rating: "التقييم",
+      instock: "متوفر",
+      outofstock: "غير متوفر",
+      translationNotAvailable: "الترجمة غير متوفرة"
+    },
+    
+    // Gallery Section
+    gallery: {
+      title: "معرض المنتجات"
+    },
+    
+    // Testimonials Section
+    testimonials: {
+      title: "تقييمات العملاء",
+      subtitle: "ماذا يقول عملاؤنا عنا"
+    },
+    
+    // FAQ Section
+    faq: {
+      title: "الأسئلة الشائعة",
+      search: "البحث في الأسئلة...",
+      translationNotAvailable: "الترجمة غير متوفرة بهذه اللغة."
+    },
+    
+    // Pricing Section
+    pricing: {
+      title: "اطلب الآن",
+      delivery: "توصيل مجاني للطلبات أكثر من 3 قطع",
+      whatsapp: "اطلب عبر واتساب",
+      form: "نموذج الطلب"
+    },
+    
+    // Contact Section
+    contact: {
+      title: "تواصل معنا",
+      phone: {
+        title: "الهاتف"
+      },
+      email: {
+        title: "البريد الإلكتروني"
+      },
+      address: {
+        title: "العنوان",
+        text: "القاهرة، مصر"
+      },
+      form: {
+        name: "الاسم",
+        email: "البريد الإلكتروني",
+        phone: "الهاتف",
+        message: "الرسالة",
+        send: "إرسال الرسالة"
+      }
+    },
+    
+    // Footer
+    footer: {
+      rights: "جميع الحقوق محفوظة.",
+      privacy: "سياسة الخصوصية",
+      terms: "شروط الخدمة"
+    },
+    
+    // Modals
+    modal: {
+      order: {
+        title: "نموذج الطلب",
+        name: "الاسم الكامل",
+        phone: "رقم الهاتف",
+        address: "عنوان التسليم",
+        submit: "تأكيد الطلب"
+      }
+    },
+    
+    // Admin Dashboard
+    admin: {
+      title: "لوحة الإدارة",
+      login: "تسجيل الدخول",
+      logout: "تسجيل الخروج",
+      addProduct: "إضافة منتج",
+      editProduct: "تعديل منتج",
+      deleteProduct: "حذف منتج",
+      addFaq: "إضافة سؤال",
+      editFaq: "تعديل سؤال",
+      deleteFaq: "حذف سؤال",
+      products: "المنتجات",
+      faqs: "الأسئلة الشائعة",
+      comments: "التعليقات",
+      settings: "الإعدادات"
+    },
+    
+    // Common
+    common: {
+      yes: "نعم",
+      no: "لا",
+      save: "حفظ",
+      cancel: "إلغاء",
+      delete: "حذف",
+      edit: "تعديل",
+      add: "إضافة",
+      close: "إغلاق",
+      loading: "جاري التحميل...",
+      error: "خطأ",
+      success: "نجح",
+      warning: "تحذير",
+      info: "معلومات"
+    }
+  }
 };
 
-// Language Management Class
-class LanguageManager {
-    constructor() {
-        this.currentLanguage = this.getStoredLanguage() || 'en';
-        this.translations = translations;
-        this.rtlLanguages = ['ar'];
-        this.init();
+// Sample data for products, testimonials, and FAQs
+const sampleData = {
+  products: [
+    {
+      id: 1,
+      title: {
+        en: "Lavender Soap",
+        ar: "صابون اللافندر"
+      },
+      description: {
+        en: "Handmade lavender soap with natural ingredients. Perfect for sensitive skin and daily use.",
+        ar: "صابون اللافندر المصنوع يدوياً بمكونات طبيعية. مثالي للبشرة الحساسة والاستخدام اليومي."
+      },
+      category: "soaps",
+      price: 85,
+      currency: "EGP",
+      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop",
+      rating: 4.8,
+      reviews: 124,
+      inStock: true,
+      quantity: 50,
+      deliveryAvailable: true,
+      deliveryPrice: 25,
+      discount: 0
+    },
+    {
+      id: 2,
+      title: {
+        en: "Organic Hair Oil",
+        ar: "زيت الشعر العضوي"
+      },
+      description: {
+        en: "Nourishing hair oil blend with argan and jojoba oils. Promotes healthy hair growth.",
+        ar: "مزيج زيت الشعر المغذي بزيت الأرجان والجوجوبا. يعزز نمو الشعر الصحي."
+      },
+      category: "haircare",
+      price: 120,
+      currency: "EGP",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop",
+      rating: 4.9,
+      reviews: 89,
+      inStock: true,
+      quantity: 30,
+      deliveryAvailable: true,
+      deliveryPrice: 25,
+      discount: 10
+    },
+    {
+      id: 3,
+      title: {
+        en: "Beeswax Candle",
+        ar: "شمعة شمع العسل"
+      },
+      description: {
+        en: "Pure beeswax candle with natural lavender scent. Burns clean and long-lasting.",
+        ar: "شمعة شمع العسل النقي برائحة اللافندر الطبيعية. تحترق نظيفاً وتدوم طويلاً."
+      },
+      category: "candles",
+      price: 65,
+      currency: "EGP",
+      image: "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=400&fit=crop",
+      rating: 4.7,
+      reviews: 156,
+      inStock: true,
+      quantity: 75,
+      deliveryAvailable: true,
+      deliveryPrice: 20,
+      discount: 0
+    },
+    {
+      id: 4,
+      title: {
+        en: "Raw Honey",
+        ar: "عسل طبيعي"
+      },
+      description: {
+        en: "Pure raw honey from local beekeepers. Rich in antioxidants and natural enzymes.",
+        ar: "عسل طبيعي خام من مربي النحل المحليين. غني بمضادات الأكسدة والإنزيمات الطبيعية."
+      },
+      category: "natural",
+      price: 95,
+      currency: "EGP",
+      image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop",
+      rating: 5.0,
+      reviews: 203,
+      inStock: false,
+      quantity: 0,
+      deliveryAvailable: true,
+      deliveryPrice: 30,
+      discount: 0
     }
-
-    init() {
-        this.setLanguage(this.currentLanguage);
-        this.setupLanguageToggle();
+  ],
+  
+  testimonials: [
+    {
+      id: 1,
+      name: {
+        en: "Sarah Ahmed",
+        ar: "سارة أحمد"
+      },
+      location: {
+        en: "Cairo, Egypt",
+        ar: "القاهرة، مصر"
+      },
+      text: {
+        en: "The lavender soap is amazing! My skin feels so soft and smooth. I've been using it for months and it's perfect for my sensitive skin.",
+        ar: "صابون اللافندر رائع! بشرتي تشعر بالنعومة والليونة. أستخدمه منذ شهور وهو مثالي لبشرتي الحساسة."
+      },
+      rating: 5,
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b77c?w=150&h=150&fit=crop&crop=face"
+    },
+    {
+      id: 2,
+      name: {
+        en: "Mohamed Hassan",
+        ar: "محمد حسن"
+      },
+      location: {
+        en: "Alexandria, Egypt",
+        ar: "الإسكندرية، مصر"
+      },
+      text: {
+        en: "Great quality products at reasonable prices. The hair oil worked wonders for my hair. Highly recommended!",
+        ar: "منتجات عالية الجودة بأسعار معقولة. زيت الشعر عمل معجزات لشعري. أنصح به بشدة!"
+      },
+      rating: 4,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+    },
+    {
+      id: 3,
+      name: {
+        en: "Fatima Ali",
+        ar: "فاطمة علي"
+      },
+      location: {
+        en: "Giza, Egypt",
+        ar: "الجيزة، مصر"
+      },
+      text: {
+        en: "I love the natural scent of the beeswax candles. They create such a relaxing atmosphere at home.",
+        ar: "أحب الرائحة الطبيعية لشموع شمع العسل. تخلق جواً مريحاً جداً في المنزل."
+      },
+      rating: 5,
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+    },
+    {
+      id: 4,
+      name: {
+        en: "Ahmed Mahmoud",
+        ar: "أحمد محمود"
+      },
+      location: {
+        en: "Mansoura, Egypt",
+        ar: "المنصورة، مصر"
+      },
+      text: {
+        en: "Fast delivery and excellent customer service. The honey is pure and delicious. Will definitely order again!",
+        ar: "توصيل سريع وخدمة عملاء ممتازة. العسل نقي ولذيذ. سأطلب مرة أخرى بالتأكيد!"
+      },
+      rating: 5,
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
     }
-
-    getStoredLanguage() {
-        return localStorage.getItem('naturalcare_language');
+  ],
+  
+  faqs: [
+    {
+      id: 1,
+      question: {
+        en: "Are your products suitable for sensitive skin?",
+        ar: "هل منتجاتكم مناسبة للبشرة الحساسة؟"
+      },
+      answer: {
+        en: "Yes, all our products are made with natural ingredients and are free from harsh chemicals, making them perfect for sensitive skin.",
+        ar: "نعم، جميع منتجاتنا مصنوعة من مكونات طبيعية وخالية من الكيماويات القاسية، مما يجعلها مثالية للبشرة الحساسة."
+      },
+      category: "products"
+    },
+    {
+      id: 2,
+      question: {
+        en: "Do you offer cash on delivery?",
+        ar: "هل تقدمون خدمة الدفع عند الاستلام؟"
+      },
+      answer: {
+        en: "Yes, we offer cash on delivery for all orders within Egypt. You can pay when you receive your products.",
+        ar: "نعم، نقدم خدمة الدفع عند الاستلام لجميع الطلبات داخل مصر. يمكنك الدفع عند استلام منتجاتك."
+      },
+      category: "delivery"
+    },
+    {
+      id: 3,
+      question: {
+        en: "How long do your products last?",
+        ar: "كم تدوم منتجاتكم؟"
+      },
+      answer: {
+        en: "Our products have a shelf life of 12-24 months depending on the product. We recommend storing them in a cool, dry place.",
+        ar: "منتجاتنا لها مدة صلاحية من 12-24 شهراً حسب المنتج. نوصي بتخزينها في مكان بارد وجاف."
+      },
+      category: "products"
+    },
+    {
+      id: 4,
+      question: {
+        en: "What is your return policy?",
+        ar: "ما هي سياسة الإرجاع لديكم؟"
+      },
+      answer: {
+        en: "We offer a 30-day return policy for unopened products. If you're not satisfied, contact us within 30 days of purchase.",
+        ar: "نقدم سياسة إرجاع لمدة 30 يوماً للمنتجات غير المفتوحة. إذا لم تكن راضياً، تواصل معنا خلال 30 يوماً من الشراء."
+      },
+      category: "policy"
+    },
+    {
+      id: 5,
+      question: {
+        en: "Do you ship internationally?",
+        ar: "هل تشحنون دولياً؟"
+      },
+      answer: {
+        en: "Currently, we only ship within Egypt. We're working on expanding our shipping to other countries soon.",
+        ar: "حالياً، نشحن فقط داخل مصر. نعمل على توسيع الشحن إلى دول أخرى قريباً."
+      },
+      category: "delivery"
     }
+  ]
+};
 
-    storeLanguage(language) {
-        localStorage.setItem('naturalcare_language', language);
-    }
-
-    setLanguage(language) {
-        if (!this.translations[language]) {
-            console.error(`Language '${language}' not found`);
-            return;
-        }
-
-        this.currentLanguage = language;
-        this.storeLanguage(language);
-        
-        // Update HTML attributes
-        document.documentElement.lang = language;
-        document.documentElement.dir = this.rtlLanguages.includes(language) ? 'rtl' : 'ltr';
-        
-        // Update font family for Arabic
-        if (language === 'ar') {
-            document.body.style.fontFamily = 'var(--font-family-arabic)';
-        } else {
-            document.body.style.fontFamily = 'var(--font-family-primary)';
-        }
-
-        // Update all translatable elements
-        this.updateTranslations();
-        
-        // Update language toggle button
-        this.updateLanguageToggle();
-
-        // Trigger custom event for other components
-        document.dispatchEvent(new CustomEvent('languageChanged', { 
-            detail: { language: language } 
-        }));
-    }
-
-    updateTranslations() {
-        const elements = document.querySelectorAll('[data-translate]');
-        elements.forEach(element => {
-            const key = element.getAttribute('data-translate');
-            const translation = this.getTranslation(key);
-            
-            if (translation) {
-                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                    element.placeholder = translation;
-                } else {
-                    element.textContent = translation;
-                }
-            }
-        });
-    }
-
-    getTranslation(key) {
-        return this.translations[this.currentLanguage][key] || this.translations.en[key] || key;
-    }
-
-    setupLanguageToggle() {
-        const languageToggle = document.getElementById('language-toggle');
-        if (languageToggle) {
-            languageToggle.addEventListener('click', () => {
-                this.toggleLanguage();
-            });
-        }
-    }
-
-    toggleLanguage() {
-        const newLanguage = this.currentLanguage === 'en' ? 'ar' : 'en';
-        this.setLanguage(newLanguage);
-    }
-
-    updateLanguageToggle() {
-        const languageToggle = document.getElementById('language-toggle');
-        const langText = languageToggle?.querySelector('.lang-text');
-        
-        if (langText) {
-            langText.textContent = this.currentLanguage === 'en' ? 'عر' : 'EN';
-        }
-        
-        if (languageToggle) {
-            languageToggle.title = this.currentLanguage === 'en' ? 'التبديل إلى العربية' : 'Switch to English';
-        }
-    }
-
-    // Helper method to get current language
-    getCurrentLanguage() {
-        return this.currentLanguage;
-    }
-
-    // Helper method to check if current language is RTL
-    isRTL() {
-        return this.rtlLanguages.includes(this.currentLanguage);
-    }
-
-    // Get translation with fallback
-    t(key, fallback = '') {
-        return this.getTranslation(key) || fallback;
-    }
-
-    // Get translations for specific language
-    getLanguageTranslations(language) {
-        return this.translations[language] || this.translations.en;
-    }
-
-    // Update specific element's translation
-    updateElementTranslation(element, key) {
-        const translation = this.getTranslation(key);
-        if (translation) {
-            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                element.placeholder = translation;
-            } else {
-                element.textContent = translation;
-            }
-        }
-    }
-
-    // Add new translation dynamically
-    addTranslation(language, key, value) {
-        if (!this.translations[language]) {
-            this.translations[language] = {};
-        }
-        this.translations[language][key] = value;
-    }
-
-    // Get default FAQs for current language
-    getDefaultFAQs() {
-        return this.translations[this.currentLanguage].default_faqs || this.translations.en.default_faqs;
-    }
-
-    // Format WhatsApp message with product info
-    formatWhatsAppMessage(productName = '') {
-        const messageKey = productName ? 'whatsapp_product_message' : 'whatsapp_general_message';
-        const message = this.getTranslation(messageKey);
-        return productName ? message + productName : message;
-    }
-
-    // Get localized number format
-    formatNumber(number) {
-        if (this.currentLanguage === 'ar') {
-            // Convert to Arabic numerals
-            const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-            return number.toString().replace(/\d/g, digit => arabicNumerals[digit]);
-        }
-        return number.toString();
-    }
-
-    // Get localized currency format
-    formatCurrency(amount) {
-        const currency = this.currentLanguage === 'ar' ? 'جنيه' : 'EGP';
-        const formattedAmount = this.formatNumber(amount);
-        return this.currentLanguage === 'ar' ? `${formattedAmount} ${currency}` : `${formattedAmount} ${currency}`;
-    }
-
-    // Get localized date format
-    formatDate(date) {
-        const options = { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        
-        const locale = this.currentLanguage === 'ar' ? 'ar-EG' : 'en-US';
-        return new Intl.DateTimeFormat(locale, options).format(date);
-    }
-}
-
-// Initialize language manager when DOM is loaded
-let languageManager;
-
-document.addEventListener('DOMContentLoaded', () => {
-    languageManager = new LanguageManager();
-});
-
-// Export for use in other modules
+// Export for use in other files
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { LanguageManager, translations };
+  module.exports = { translations, sampleData };
 }

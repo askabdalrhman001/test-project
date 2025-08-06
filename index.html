@@ -3,479 +3,455 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lavender Soap - Handmade & Pure</title>
-    <meta name="description" content="Nourish your skin naturally with our handmade lavender soap. Chemical-free, natural ingredients.">
+    <meta name="description" content="Natural handmade products - Pure, organic, and chemical-free skincare, body care, and wellness products">
+    <title>Pure Nature - Handmade Natural Products</title>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-    
-    <!-- Custom CSS -->
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#8B7355">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+        import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
+        
+        const firebaseConfig = {
+            // Will be configured later
+        };
+        
+        window.app = initializeApp(firebaseConfig);
+        window.auth = getAuth(window.app);
+        window.db = getFirestore(window.app);
+    </script>
 </head>
-<body>
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loader">
-            <div class="leaf-loader">
-                <i class="fas fa-leaf"></i>
-            </div>
-            <p data-translate="loading">Loading...</p>
-        </div>
+<body class="light-theme" data-lang="en">
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading-overlay">
+        <div class="spinner"></div>
     </div>
-
-    <!-- Progress Bar -->
-    <div id="progress-bar" class="progress-bar"></div>
 
     <!-- Header -->
     <header class="header" id="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <!-- Logo -->
-                <div class="nav-logo">
-                    <i class="fas fa-leaf"></i>
-                    <span data-translate="brand_name">NaturalCare</span>
-                </div>
-
-                <!-- Navigation Menu -->
-                <ul class="nav-menu" id="nav-menu">
+        <nav class="nav container">
+            <div class="nav-brand">
+                <i class="fas fa-leaf nav-icon"></i>
+                <span class="nav-title" data-translate="brand">Pure Nature</span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link" data-translate="nav_home">Home</a>
+                        <a href="#hero" class="nav-link" data-translate="nav.home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#products" class="nav-link" data-translate="nav_products">Products</a>
+                        <a href="#about" class="nav-link" data-translate="nav.about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#about" class="nav-link" data-translate="nav_about">About</a>
+                        <a href="#products" class="nav-link" data-translate="nav.products">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#testimonials" class="nav-link" data-translate="nav_testimonials">Reviews</a>
+                        <a href="#testimonials" class="nav-link" data-translate="nav.testimonials">Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#faq" class="nav-link" data-translate="nav_faq">FAQ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#contact" class="nav-link" data-translate="nav_contact">Contact</a>
+                        <a href="#contact" class="nav-link" data-translate="nav.contact">Contact</a>
                     </li>
                 </ul>
-
-                <!-- Header Controls -->
-                <div class="header-controls">
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="control-btn" title="Toggle Theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-
-                    <!-- Language Toggle -->
-                    <button id="language-toggle" class="control-btn" title="Switch Language">
-                        <span class="lang-text">عر</span>
-                    </button>
-
-                    <!-- Admin Access -->
-                    <button id="admin-toggle" class="control-btn" title="Admin Access" style="display: none;">
-                        <i class="fas fa-cog"></i>
-                    </button>
-
-                    <!-- Mobile Menu Toggle -->
-                    <button class="hamburger" id="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </button>
-                </div>
+            </div>
+            
+            <div class="nav-controls">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                
+                <!-- Language Toggle -->
+                <button class="lang-toggle" id="lang-toggle" title="Switch language">
+                    <span class="lang-text">عربي</span>
+                </button>
+                
+                <!-- Admin Login -->
+                <button class="admin-btn" id="admin-btn" title="Admin access">
+                    <i class="fas fa-user-cog"></i>
+                </button>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="nav-toggle" id="nav-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </nav>
+        
+        <!-- Scroll Progress Bar -->
+        <div class="scroll-progress" id="scroll-progress"></div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <div class="hero-container">
-                <div class="hero-content" data-aos="fade-up">
-                    <div class="hero-text">
-                        <h1 class="hero-title" data-translate="hero_title">Lavender Soap – Handmade & Pure</h1>
-                        <p class="hero-subtitle" data-translate="hero_subtitle">Nourish your skin naturally. No chemicals. No worries.</p>
-                        
-                        <!-- Social Media Links -->
-                        <div class="social-links" data-aos="fade-up" data-aos-delay="200">
-                            <a href="#" class="social-link facebook" title="Facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-link instagram" title="Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="#" class="social-link tiktok" title="TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                            <a href="#" class="social-link twitter" title="Twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="social-link linkedin" title="LinkedIn">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                        </div>
-
-                        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
-                            <a href="#products" class="btn btn-primary">
-                                <span data-translate="order_now">Order Now</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                            <a href="#about" class="btn btn-secondary">
-                                <span data-translate="learn_more">Learn More</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-image" data-aos="fade-left" data-aos-delay="100">
-                        <div class="hero-image-container">
-                            <img src="https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Lavender Soap" class="hero-img">
-                            <div class="floating-elements">
-                                <div class="floating-icon leaf-1">
-                                    <i class="fas fa-leaf"></i>
-                                </div>
-                                <div class="floating-icon flower-1">
-                                    <i class="fas fa-spa"></i>
-                                </div>
-                                <div class="floating-icon droplet-1">
-                                    <i class="fas fa-tint"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Product Categories -->
-        <section id="categories" class="categories-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="categories_title" data-aos="fade-up">Product Categories</h2>
-                <div class="categories-grid" id="categories-grid">
-                    <!-- Categories will be dynamically loaded -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Products Section -->
-        <section id="products" class="products-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="products_title" data-aos="fade-up">Our Natural Products</h2>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-container container">
+            <div class="hero-content" data-aos="fade-up">
+                <h1 class="hero-title" data-translate="hero.title">Lavender Soap – Handmade & Pure</h1>
+                <p class="hero-subtitle" data-translate="hero.subtitle">Nourish your skin naturally. No chemicals. No worries.</p>
                 
-                <!-- Category Filter -->
-                <div class="category-filter" data-aos="fade-up" data-aos-delay="100">
-                    <button class="filter-btn active" data-category="all" data-translate="filter_all">All Products</button>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="order-now" data-translate="hero.order">Order Now</button>
+                    <button class="btn btn-secondary" id="learn-more" data-translate="hero.learn">Learn More</button>
                 </div>
-
-                <!-- Products Grid -->
-                <div class="products-grid" id="products-grid">
-                    <!-- Products will be dynamically loaded -->
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="about-section">
-            <div class="container">
-                <div class="about-content" data-aos="fade-up">
-                    <div class="about-text">
-                        <h2 class="section-title" data-translate="about_title">About Our Products</h2>
-                        <p class="about-description" data-translate="about_description">
-                            Our handmade natural products are crafted with love and care using the finest organic ingredients. 
-                            Each product is made in small batches to ensure quality and freshness, bringing you the pure essence of nature.
-                        </p>
-                        
-                        <div class="benefits-list">
-                            <div class="benefit-item" data-aos="fade-up" data-aos-delay="100">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-leaf"></i>
-                                </div>
-                                <div class="benefit-text">
-                                    <h3 data-translate="benefit_natural_title">100% Natural</h3>
-                                    <p data-translate="benefit_natural_desc">No harmful chemicals or artificial additives</p>
-                                </div>
-                            </div>
-                            
-                            <div class="benefit-item" data-aos="fade-up" data-aos-delay="200">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-hand-holding-heart"></i>
-                                </div>
-                                <div class="benefit-text">
-                                    <h3 data-translate="benefit_handmade_title">Handmade</h3>
-                                    <p data-translate="benefit_handmade_desc">Crafted with traditional methods and care</p>
-                                </div>
-                            </div>
-                            
-                            <div class="benefit-item" data-aos="fade-up" data-aos-delay="300">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-spa"></i>
-                                </div>
-                                <div class="benefit-text">
-                                    <h3 data-translate="benefit_gentle_title">Gentle & Safe</h3>
-                                    <p data-translate="benefit_gentle_desc">Suitable for all skin types, even sensitive skin</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="about-image" data-aos="fade-left">
-                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Natural Ingredients" class="about-img">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Gallery Section -->
-        <section id="gallery" class="gallery-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="gallery_title" data-aos="fade-up">Product Gallery</h2>
-                <div class="gallery-grid" data-aos="fade-up" data-aos-delay="100">
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
-                        <img src="https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Lavender Soap 1">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
-                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Natural Ingredients">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
-                        <img src="https://images.unsplash.com/photo-1605464315542-f6344c543d5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Handmade Process">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="400">
-                        <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Natural Skincare">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="testimonials-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="testimonials_title" data-aos="fade-up">What Our Customers Say</h2>
-                <div class="testimonials-grid" id="testimonials-grid">
-                    <!-- Testimonials will be dynamically loaded -->
-                </div>
-            </div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section id="faq" class="faq-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="faq_title" data-aos="fade-up">Frequently Asked Questions</h2>
                 
-                <!-- FAQ Search -->
-                <div class="faq-search" data-aos="fade-up" data-aos-delay="100">
-                    <div class="search-container">
-                        <input type="text" id="faq-search" placeholder="Search FAQs..." data-translate="faq_search_placeholder">
-                        <i class="fas fa-search search-icon"></i>
-                    </div>
-                </div>
-
-                <!-- FAQ Categories -->
-                <div class="faq-categories" data-aos="fade-up" data-aos-delay="200">
-                    <button class="faq-category-btn active" data-category="all" data-translate="faq_all">All</button>
-                </div>
-
-                <!-- FAQ Accordion -->
-                <div class="faq-accordion" id="faq-accordion" data-aos="fade-up" data-aos-delay="300">
-                    <!-- FAQs will be dynamically loaded -->
-                </div>
-
-                <!-- Load More FAQs -->
-                <div class="faq-load-more" style="display: none;">
-                    <button id="load-more-faq" class="btn btn-secondary" data-translate="load_more_faq">View More FAQs</button>
+                <!-- Social Media Icons -->
+                <div class="hero-social">
+                    <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-        </section>
+            
+            <div class="hero-image" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=600&fit=crop&crop=center" 
+                     alt="Handmade Lavender Soap" class="hero-img">
+                <div class="hero-badge">
+                    <i class="fas fa-leaf"></i>
+                    <span data-translate="hero.badge">100% Natural</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="contact-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="contact_title" data-aos="fade-up">Get In Touch</h2>
-                
-                <div class="contact-content">
-                    <div class="contact-info" data-aos="fade-right">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3 data-translate="contact_phone">Phone</h3>
-                                <p>+20 123 456 7890</p> <!-- ضع رقمك هنا -->
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3 data-translate="contact_email">Email</h3>
-                                <p>info@naturalcare.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fab fa-whatsapp"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3 data-translate="contact_whatsapp">WhatsApp</h3>
-                                <a href="https://wa.me/201234567890" class="whatsapp-link" target="_blank">
-                                    <span data-translate="contact_whatsapp_text">Chat with us</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Category Filter -->
+    <section class="category-filter" id="category-filter">
+        <div class="container">
+            <div class="filter-tabs" id="filter-tabs">
+                <button class="filter-btn active" data-category="all" data-translate="categories.all">All Products</button>
+                <!-- Dynamic category buttons will be inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" data-translate="about.title">About Our Products</h2>
+                <p class="section-subtitle" data-translate="about.subtitle">Crafted with love, made with nature's finest ingredients</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <p data-translate="about.description">
+                        Our handmade products are carefully crafted using traditional methods passed down through generations. 
+                        Each item is made with pure, natural ingredients sourced from trusted suppliers who share our commitment 
+                        to sustainability and quality.
+                    </p>
                     
-                    <div class="contact-form" data-aos="fade-left">
-                        <form id="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
-                            <div class="form-group">
-                                <input type="text" name="name" placeholder="Your Name" data-translate="form_name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" name="email" placeholder="Your Email" data-translate="form_email" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" name="phone" placeholder="Your Phone" data-translate="form_phone">
-                            </div>
-                            <div class="form-group">
-                                <textarea name="message" placeholder="Your Message" data-translate="form_message" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                <span data-translate="form_submit">Send Message</span>
-                                <i class="fas fa-paper-plane"></i>
-                            </button>
-                        </form>
+                    <ul class="about-benefits">
+                        <li data-aos="fade-up" data-aos-delay="100">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-translate="about.benefit1">100% Chemical-free</span>
+                        </li>
+                        <li data-aos="fade-up" data-aos-delay="200">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-translate="about.benefit2">Handcrafted with care</span>
+                        </li>
+                        <li data-aos="fade-up" data-aos-delay="300">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-translate="about.benefit3">Suitable for sensitive skin</span>
+                        </li>
+                        <li data-aos="fade-up" data-aos-delay="400">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-translate="about.benefit4">Eco-friendly packaging</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="about-ingredients" data-aos="fade-left">
+                    <h3 data-translate="about.ingredients.title">Natural Ingredients</h3>
+                    <div class="ingredients-grid">
+                        <div class="ingredient-item">
+                            <i class="fas fa-tint ingredient-icon"></i>
+                            <span data-translate="about.ingredients.oil">Olive Oil</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <i class="fas fa-seedling ingredient-icon"></i>
+                            <span data-translate="about.ingredients.lavender">Lavender</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <i class="fas fa-leaf ingredient-icon"></i>
+                            <span data-translate="about.ingredients.beeswax">Beeswax</span>
+                        </div>
+                        <div class="ingredient-item">
+                            <i class="fas fa-droplet ingredient-icon"></i>
+                            <span data-translate="about.ingredients.honey">Raw Honey</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" data-translate="products.title">Our Products</h2>
+                <p class="section-subtitle" data-translate="products.subtitle">Discover our range of natural handmade products</p>
+            </div>
+            
+            <div class="products-grid" id="products-grid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" data-translate="gallery.title">Product Gallery</h2>
+            </div>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop" alt="Product 1">
+                </div>
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop" alt="Product 2">
+                </div>
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=400&fit=crop" alt="Product 3">
+                </div>
+                <div class="gallery-item" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=400&fit=crop" alt="Product 4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" data-translate="testimonials.title">Customer Reviews</h2>
+                <p class="section-subtitle" data-translate="testimonials.subtitle">What our customers say about us</p>
+            </div>
+            
+            <div class="testimonials-grid" id="testimonials-grid">
+                <!-- Testimonials will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" data-translate="faq.title">Frequently Asked Questions</h2>
+            </div>
+            
+            <div class="faq-search" data-aos="fade-up">
+                <input type="text" id="faq-search" placeholder="Search FAQs..." data-translate-placeholder="faq.search">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <div class="faq-accordion" id="faq-accordion">
+                <!-- FAQ items will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing & Contact Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="pricing-content" data-aos="fade-up">
+                <div class="pricing-info">
+                    <h2 class="section-title" data-translate="pricing.title">Order Now</h2>
+                    <div class="price-tag">
+                        <span class="currency">EGP</span>
+                        <span class="price">85</span>
+                    </div>
+                    <p class="delivery-note" data-translate="pricing.delivery">Free delivery on orders over 3 items</p>
+                    
+                    <div class="order-buttons">
+                        <a href="https://wa.me/201234567890?text=Hi, I want to order your lavender soap" 
+                           class="btn btn-whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            <span data-translate="pricing.whatsapp">Order via WhatsApp</span>
+                        </a>
+                        <button class="btn btn-form" id="order-form-btn" data-translate="pricing.form">Order Form</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title" data-translate="contact.title">Get in Touch</h2>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info" data-aos="fade-right">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4 data-translate="contact.phone.title">Phone</h4>
+                            <p>+20 123 456 7890</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4 data-translate="contact.email.title">Email</h4>
+                            <p>info@purenature.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4 data-translate="contact.address.title">Address</h4>
+                            <p data-translate="contact.address.text">Cairo, Egypt</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contact-form" data-aos="fade-left">
+                    <div class="form-group">
+                        <input type="text" name="name" required data-translate-placeholder="contact.form.name">
+                        <label data-translate="contact.form.name">Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" required data-translate-placeholder="contact.form.email">
+                        <label data-translate="contact.form.email">Email</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" name="phone" data-translate-placeholder="contact.form.phone">
+                        <label data-translate="contact.form.phone">Phone</label>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" required data-translate-placeholder="contact.form.message"></textarea>
+                        <label data-translate="contact.form.message">Message</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-translate="contact.form.send">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-leaf"></i>
-                        <span data-translate="brand_name">NaturalCare</span>
-                    </div>
-                    <p class="footer-description" data-translate="footer_description">
-                        Bringing you the finest natural handmade products for a healthier lifestyle.
-                    </p>
+                <div class="footer-brand">
+                    <i class="fas fa-leaf"></i>
+                    <span data-translate="brand">Pure Nature</span>
                 </div>
                 
-                <div class="footer-section">
-                    <h3 data-translate="footer_quick_links">Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home" data-translate="nav_home">Home</a></li>
-                        <li><a href="#products" data-translate="nav_products">Products</a></li>
-                        <li><a href="#about" data-translate="nav_about">About</a></li>
-                        <li><a href="#contact" data-translate="nav_contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 data-translate="footer_connect">Connect With Us</h3>
-                    <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
-                    </div>
+                <div class="footer-social">
+                    <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://wa.me/201234567890" class="social-link whatsapp" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p data-translate="footer_copyright">&copy; 2024 NaturalCare. All rights reserved.</p>
-                <div class="footer-legal">
-                    <a href="#" data-translate="footer_privacy">Privacy Policy</a>
-                    <a href="#" data-translate="footer_terms">Terms of Service</a>
+                <p>&copy; 2024 Pure Nature. <span data-translate="footer.rights">All rights reserved.</span></p>
+                <div class="footer-links">
+                    <a href="#" data-translate="footer.privacy">Privacy Policy</a>
+                    <a href="#" data-translate="footer.terms">Terms of Service</a>
                 </div>
             </div>
         </div>
     </footer>
 
+    <!-- Modals -->
+    <!-- Order Form Modal -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-translate="modal.order.title">Order Form</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form class="order-form" id="order-form">
+                <div class="form-group">
+                    <input type="text" name="name" required data-translate-placeholder="modal.order.name">
+                    <label data-translate="modal.order.name">Full Name</label>
+                </div>
+                <div class="form-group">
+                    <input type="tel" name="phone" required data-translate-placeholder="modal.order.phone">
+                    <label data-translate="modal.order.phone">Phone Number</label>
+                </div>
+                <div class="form-group">
+                    <textarea name="address" required data-translate-placeholder="modal.order.address"></textarea>
+                    <label data-translate="modal.order.address">Delivery Address</label>
+                </div>
+                <div class="form-group">
+                    <select name="quantity" required>
+                        <option value="">Select Quantity</option>
+                        <option value="1">1 item - EGP 85</option>
+                        <option value="2">2 items - EGP 170</option>
+                        <option value="3">3 items - EGP 255 (Free Delivery)</option>
+                        <option value="4">4 items - EGP 340 (Free Delivery)</option>
+                        <option value="5">5 items - EGP 425 (Free Delivery)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" data-translate="modal.order.submit">Place Order</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Admin Dashboard Modal -->
-    <div id="admin-modal" class="modal">
-        <div class="modal-content">
+    <div class="modal" id="admin-modal">
+        <div class="modal-content admin-content">
             <div class="modal-header">
-                <h2 data-translate="admin_dashboard">Admin Dashboard</h2>
-                <span class="close-modal" id="close-admin-modal">&times;</span>
+                <h3 data-translate="admin.title">Admin Dashboard</h3>
+                <button class="modal-close">&times;</button>
             </div>
-            <div class="modal-body">
+            <div class="admin-dashboard" id="admin-dashboard">
                 <!-- Admin content will be loaded here -->
-                <div id="admin-content"></div>
             </div>
         </div>
     </div>
 
-    <!-- Product Details Modal -->
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content confirm-content">
             <div class="modal-header">
-                <h2 id="product-modal-title">Product Details</h2>
-                <span class="close-modal" id="close-product-modal">&times;</span>
+                <h3 id="confirm-title">Confirm Action</h3>
             </div>
             <div class="modal-body">
-                <div id="product-modal-content"></div>
+                <p id="confirm-message">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="confirm-no">No</button>
+                <button class="btn btn-danger" id="confirm-yes">Yes</button>
             </div>
         </div>
     </div>
-
-    <!-- Gallery Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <div class="lightbox-content">
-            <span class="lightbox-close">&times;</span>
-            <img id="lightbox-image" src="" alt="">
-            <div class="lightbox-nav">
-                <button class="lightbox-prev">&lt;</button>
-                <button class="lightbox-next">&gt;</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="toast-container"></div>
-
-    <!-- Back to Top Button -->
-    <button id="back-to-top" class="back-to-top" title="Back to Top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="firebase-config.js"></script>
     <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>

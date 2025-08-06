@@ -1,1058 +1,1283 @@
-// Main JavaScript for Natural Care Website
-// Handles all interactions, animations, and dynamic content
+// ========================================
+// MAIN APPLICATION CLASS
+// ========================================
+class PureNatureApp {
+  constructor() {
+    this.currentLanguage = this.getStoredLanguage() || 'en';
+    this.currentTheme = this.getStoredTheme() || 'light';
+    this.isAdmin = false;
+    this.currentUser = null;
+    this.products = sampleData.products || [];
+    this.testimonials = sampleData.testimonials || [];
+    this.faqs = sampleData.faqs || [];
+    this.filteredProducts = [...this.products];
+    this.activeCategory = 'all';
+    
+    this.init();
+  }
 
-// Global variables
-let currentTheme = localStorage.getItem('naturalcare_theme') || 'light';
-let isLoading = true;
-
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initializeWebsite();
-});
-
-// Main initialization function
-function initializeWebsite() {
-    // Set initial theme
-    setTheme(currentTheme);
-    
-    // Initialize animations
-    initializeAnimations();
-    
-    // Setup event listeners
-    setupEventListeners();
-    
-    // Initialize components
-    initializeComponents();
-    
-    // Load initial data
-    loadInitialData();
-    
-    // Hide loading screen
-    setTimeout(() => {
-        hideLoadingScreen();
-    }, 1500);
-}
-
-// Theme Management
-function setTheme(theme) {
-    currentTheme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('naturalcare_theme', theme);
-    
-    // Update theme toggle icon
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = themeToggle?.querySelector('i');
-    
-    if (themeIcon) {
-        themeIcon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+  async init() {
+    try {
+      // Show loading spinner
+      this.showLoading();
+      
+      // Initialize core features
+      this.initializeTheme();
+      this.initializeLanguage();
+      this.initializeNavigation();
+      this.initializeAnimations();
+      this.initializeModals();
+      this.initializeForms();
+      this.initializeScrollEffects();
+      
+      // Load content
+      await this.loadContent();
+      
+      // Initialize Firebase if available
+      if (typeof firebase !== 'undefined') {
+        await this.initializeFirebase();
+      }
+      
+      // Hide loading spinner
+      this.hideLoading();
+      
+      console.log('Pure Nature App initialized successfully');
+    } catch (error) {
+      console.error('Error initializing app:', error);
+      this.hideLoading();
     }
-}
+  }
 
-function toggleTheme() {
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-}
-
-// Animation initialization
-function initializeAnimations() {
-    // Initialize AOS (Animate on Scroll)
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-            mirror: false,
-            offset: 100
-        });
+  // ========================================
+  // LOADING & UTILITIES
+  // ========================================
+  showLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+      loading.classList.remove('hidden');
     }
-    
-    // Setup scroll progress bar
-    setupScrollProgress();
-    
-    // Setup back to top button
-    setupBackToTop();
-    
-    // Setup header scroll effect
-    setupHeaderScroll();
-}
+  }
 
-// Event Listeners Setup
-function setupEventListeners() {
-    // Theme toggle
+  hideLoading() {
+    const loading = document.getElementById('loading');
+    if (loading) {
+      setTimeout(() => {
+        loading.classList.add('hidden');
+      }, 500);
+    }
+  }
+
+  getStoredLanguage() {
+    return localStorage.getItem('pureNature_language');
+  }
+
+  getStoredTheme() {
+    return localStorage.getItem('pureNature_theme');
+  }
+
+  storeLanguage(language) {
+    localStorage.setItem('pureNature_language', language);
+  }
+
+  storeTheme(theme) {
+    localStorage.setItem('pureNature_theme', theme);
+  }
+
+  // ========================================
+  // THEME MANAGEMENT
+  // ========================================
+  initializeTheme() {
+    this.setTheme(this.currentTheme);
+    
     const themeToggle = document.getElementById('theme-toggle');
     if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
+      themeToggle.addEventListener('click', () => this.toggleTheme());
+    }
+  }
+
+  setTheme(theme) {
+    this.currentTheme = theme;
+    this.storeTheme(theme);
+    
+    document.body.className = document.body.className.replace(/\b(light|dark)-theme\b/g, '');
+    document.body.classList.add(`${theme}-theme`);
+    document.body.setAttribute('data-theme', theme);
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      const icon = themeToggle.querySelector('i');
+      if (icon) {
+        icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+      }
+    }
+  }
+
+  toggleTheme() {
+    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.setTheme(newTheme);
+  }
+
+  // ========================================
+  // LANGUAGE MANAGEMENT
+  // ========================================
+  initializeLanguage() {
+    this.setLanguage(this.currentLanguage);
+    
+    const langToggle = document.getElementById('lang-toggle');
+    if (langToggle) {
+      langToggle.addEventListener('click', () => this.toggleLanguage());
+    }
+  }
+
+  setLanguage(language) {
+    if (!translations[language]) {
+      console.error(`Language '${language}' not found`);
+      return;
+    }
+
+    this.currentLanguage = language;
+    this.storeLanguage(language);
+    
+    // Update HTML attributes
+    document.documentElement.lang = language;
+    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
+    document.body.setAttribute('data-lang', language);
+    
+    // Update translations
+    this.updateTranslations();
+    this.updateLanguageToggle();
+    
+    // Reload dynamic content
+    this.loadProducts();
+    this.loadTestimonials();
+    this.loadFAQs();
+  }
+
+  toggleLanguage() {
+    const newLanguage = this.currentLanguage === 'en' ? 'ar' : 'en';
+    this.setLanguage(newLanguage);
+  }
+
+  updateLanguageToggle() {
+    const langToggle = document.getElementById('lang-toggle');
+    const langText = langToggle?.querySelector('.lang-text');
+    
+    if (langText) {
+      langText.textContent = this.currentLanguage === 'en' ? 'عربي' : 'English';
     }
     
+    if (langToggle) {
+      langToggle.title = this.currentLanguage === 'en' ? 'Switch to Arabic' : 'Switch to English';
+    }
+  }
+
+  updateTranslations() {
+    const elements = document.querySelectorAll('[data-translate]');
+    elements.forEach(element => {
+      const key = element.getAttribute('data-translate');
+      const translation = this.getTranslation(key);
+      
+      if (translation) {
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+          element.placeholder = translation;
+        } else {
+          element.textContent = translation;
+        }
+      }
+    });
+
+    // Update placeholder translations
+    const placeholderElements = document.querySelectorAll('[data-translate-placeholder]');
+    placeholderElements.forEach(element => {
+      const key = element.getAttribute('data-translate-placeholder');
+      const translation = this.getTranslation(key);
+      
+      if (translation) {
+        element.placeholder = translation;
+      }
+    });
+  }
+
+  getTranslation(key) {
+    const keys = key.split('.');
+    let translation = translations[this.currentLanguage];
+    
+    for (const k of keys) {
+      if (translation && translation[k]) {
+        translation = translation[k];
+      } else {
+        // Fallback to English
+        translation = translations.en;
+        for (const k of keys) {
+          if (translation && translation[k]) {
+            translation = translation[k];
+          } else {
+            return key;
+          }
+        }
+        break;
+      }
+    }
+    
+    return translation || key;
+  }
+
+  // ========================================
+  // NAVIGATION & SCROLL EFFECTS
+  // ========================================
+  initializeNavigation() {
     // Mobile menu toggle
-    const hamburger = document.getElementById('hamburger');
+    const navToggle = document.getElementById('nav-toggle');
     const navMenu = document.getElementById('nav-menu');
     
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+      });
     }
+
+    // Close mobile menu when clicking on links
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (navToggle && navMenu) {
+          navToggle.classList.remove('active');
+          navMenu.classList.remove('active');
+        }
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  }
+
+  initializeScrollEffects() {
+    // Scroll progress bar
+    const scrollProgress = document.getElementById('scroll-progress');
     
-    // Admin toggle
-    const adminToggle = document.getElementById('admin-toggle');
+    window.addEventListener('scroll', () => {
+      if (scrollProgress) {
+        const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        scrollProgress.style.width = `${Math.min(scrolled, 100)}%`;
+      }
+
+      // Header background on scroll
+      const header = document.getElementById('header');
+      if (header) {
+        if (window.scrollY > 50) {
+          header.style.background = this.currentTheme === 'dark' 
+            ? 'rgba(26, 26, 26, 0.98)' 
+            : 'rgba(255, 255, 255, 0.98)';
+        } else {
+          header.style.background = this.currentTheme === 'dark' 
+            ? 'rgba(26, 26, 26, 0.95)' 
+            : 'rgba(255, 255, 255, 0.95)';
+        }
+      }
+
+      // Active navigation highlight
+      this.updateActiveNavigation();
+    });
+  }
+
+  updateActiveNavigation() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  }
+
+  // ========================================
+  // ANIMATIONS
+  // ========================================
+  initializeAnimations() {
+    // Initialize AOS
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 800,
+        easing: 'ease-out',
+        once: true,
+        offset: 100
+      });
+    }
+
+    // Hero button animations
+    const heroButtons = document.querySelectorAll('.hero-buttons .btn');
+    heroButtons.forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'translateY(-3px) scale(1.05)';
+      });
+      
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+  }
+
+  // ========================================
+  // MODALS
+  // ========================================
+  initializeModals() {
+    // Order form modal
+    const orderFormBtn = document.getElementById('order-form-btn');
+    const orderModal = document.getElementById('order-modal');
+    
+    if (orderFormBtn && orderModal) {
+      orderFormBtn.addEventListener('click', () => this.showModal('order-modal'));
+    }
+
+    // Admin modal
+    const adminBtn = document.getElementById('admin-btn');
     const adminModal = document.getElementById('admin-modal');
     
-    if (adminToggle && adminModal) {
-        adminToggle.addEventListener('click', () => {
-            adminModal.classList.add('active');
-        });
+    if (adminBtn && adminModal) {
+      adminBtn.addEventListener('click', () => this.handleAdminAccess());
     }
-    
-    // Modal close buttons
-    document.querySelectorAll('.close-modal').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const modal = e.target.closest('.modal');
-            if (modal) {
-                modal.classList.remove('active');
-            }
-        });
-    });
-    
-    // Close modals when clicking outside
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal')) {
-            e.target.classList.remove('active');
+
+    // Close modals
+    document.querySelectorAll('.modal-close').forEach(closeBtn => {
+      closeBtn.addEventListener('click', (e) => {
+        const modal = e.target.closest('.modal');
+        if (modal) {
+          this.hideModal(modal.id);
         }
+      });
     });
+
+    // Close modal on backdrop click
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          this.hideModal(modal.id);
+        }
+      });
+    });
+  }
+
+  showModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  hideModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  showConfirmModal(title, message, onConfirm) {
+    const confirmModal = document.getElementById('confirm-modal');
+    const confirmTitle = document.getElementById('confirm-title');
+    const confirmMessage = document.getElementById('confirm-message');
+    const confirmYes = document.getElementById('confirm-yes');
+    const confirmNo = document.getElementById('confirm-no');
     
-    // Contact form submission
+    if (confirmModal && confirmTitle && confirmMessage) {
+      confirmTitle.textContent = title;
+      confirmMessage.textContent = message;
+      
+      const handleConfirm = () => {
+        onConfirm();
+        this.hideModal('confirm-modal');
+        confirmYes.removeEventListener('click', handleConfirm);
+      };
+      
+      const handleCancel = () => {
+        this.hideModal('confirm-modal');
+        confirmNo.removeEventListener('click', handleCancel);
+      };
+      
+      confirmYes.addEventListener('click', handleConfirm);
+      confirmNo.addEventListener('click', handleCancel);
+      
+      this.showModal('confirm-modal');
+    }
+  }
+
+  // ========================================
+  // FORMS
+  // ========================================
+  initializeForms() {
+    // Contact form
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', handleContactFormSubmit);
+      contactForm.addEventListener('submit', (e) => this.handleContactForm(e));
     }
-    
-    // Gallery lightbox
-    setupGalleryLightbox();
-    
+
+    // Order form
+    const orderForm = document.getElementById('order-form');
+    if (orderForm) {
+      orderForm.addEventListener('submit', (e) => this.handleOrderForm(e));
+    }
+
     // FAQ search
-    setupFAQSearch();
-    
-    // Smooth scrolling for navigation links
-    setupSmoothScrolling();
-}
+    const faqSearch = document.getElementById('faq-search');
+    if (faqSearch) {
+      faqSearch.addEventListener('input', (e) => this.handleFAQSearch(e));
+    }
+  }
 
-// Components initialization
-function initializeComponents() {
-    // Initialize category filters
-    initializeCategoryFilters();
+  async handleContactForm(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
     
-    // Initialize FAQ accordion
-    initializeFAQAccordion();
-    
-    // Setup product card interactions
-    setupProductInteractions();
-}
-
-// Data loading
-async function loadInitialData() {
     try {
-        // Load categories
-        await loadCategories();
-        
-        // Load products
-        await loadProducts();
-        
-        // Load testimonials
-        await loadTestimonials();
-        
-        // Load FAQs
-        await loadFAQs();
-        
+      // Simulate form submission
+      await this.simulateFormSubmission(data);
+      this.showNotification(this.getTranslation('common.success'), 'Message sent successfully!', 'success');
+      e.target.reset();
     } catch (error) {
-        console.error('Error loading initial data:', error);
+      this.showNotification(this.getTranslation('common.error'), 'Failed to send message. Please try again.', 'error');
     }
-}
+  }
 
-// Category Management
-async function loadCategories() {
-    try {
-        // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('categories');
-            if (result.success && result.data.length > 0) {
-                renderCategories(result.data);
-                return;
-            }
-        }
-        
-        // Fallback to default categories
-        const defaultCategories = [
-            {
-                id: 'skincare',
-                name: 'Skincare',
-                nameAr: 'العناية بالجلد',
-                description: 'Natural skincare products for healthy glowing skin',
-                descriptionAr: 'منتجات العناية الطبيعية بالجلد للحصول على بشرة صحية ونضرة',
-                icon: 'fas fa-spa'
-            },
-            {
-                id: 'bodycare',
-                name: 'Body Care',
-                nameAr: 'العناية بالجسم',
-                description: 'Nourishing body care essentials',
-                descriptionAr: 'أساسيات العناية المغذية للجسم',
-                icon: 'fas fa-heart'
-            },
-            {
-                id: 'haircare',
-                name: 'Hair Care',
-                nameAr: 'العناية بالشعر',
-                description: 'Natural hair care products for healthy hair',
-                descriptionAr: 'منتجات العناية الطبيعية بالشعر للحصول على شعر صحي',
-                icon: 'fas fa-cut'
-            },
-            {
-                id: 'aromatherapy',
-                name: 'Aromatherapy',
-                nameAr: 'العلاج العطري',
-                description: 'Essential oils and aromatherapy products',
-                descriptionAr: 'الزيوت الأساسية ومنتجات العلاج العطري',
-                icon: 'fas fa-leaf'
-            }
-        ];
-        
-        renderCategories(defaultCategories);
-        
-    } catch (error) {
-        console.error('Error loading categories:', error);
-    }
-}
-
-function renderCategories(categories) {
-    const categoriesGrid = document.getElementById('categories-grid');
-    const categoryFilter = document.querySelector('.category-filter');
+  async handleOrderForm(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
     
-    if (categoriesGrid) {
-        categoriesGrid.innerHTML = categories.map(category => `
-            <div class="category-card" data-category="${category.id}" data-aos="fade-up">
-                <div class="category-icon">
-                    <i class="${category.icon}"></i>
-                </div>
-                <h3 class="category-title">${getCurrentLanguage() === 'ar' ? category.nameAr : category.name}</h3>
-                <p class="category-description">${getCurrentLanguage() === 'ar' ? category.descriptionAr : category.description}</p>
-            </div>
-        `).join('');
-        
-        // Add click handlers for category cards
-        categoriesGrid.querySelectorAll('.category-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const categoryId = card.getAttribute('data-category');
-                filterProductsByCategory(categoryId);
-                // Scroll to products section
-                document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    }
-    
-    // Add category filter buttons
-    if (categoryFilter) {
-        const filterButtons = categories.map(category => `
-            <button class="filter-btn" data-category="${category.id}">
-                ${getCurrentLanguage() === 'ar' ? category.nameAr : category.name}
-            </button>
-        `).join('');
-        
-        // Insert after "All Products" button
-        categoryFilter.insertAdjacentHTML('beforeend', filterButtons);
-        
-        // Add event listeners to filter buttons
-        categoryFilter.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                categoryFilter.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const categoryId = btn.getAttribute('data-category');
-                filterProductsByCategory(categoryId);
-            });
-        });
-    }
-}
-
-// Product Management
-async function loadProducts() {
     try {
-        // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('products');
-            if (result.success && result.data.length > 0) {
-                renderProducts(result.data);
-                return;
-            }
-        }
-        
-        // Fallback to default products
-        const defaultProducts = [
-            {
-                id: '1',
-                title: 'Lavender Soap',
-                titleAr: 'صابون اللافندر',
-                description: 'Handmade lavender soap with organic ingredients. Perfect for sensitive skin.',
-                descriptionAr: 'صابون اللافندر المصنوع يدوياً بمكونات عضوية. مثالي للبشرة الحساسة.',
-                price: 85,
-                discount: 0,
-                category: 'skincare',
-                image: 'https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: true,
-                quantity: 50,
-                rating: 4.8,
-                reviews: 124
-            },
-            {
-                id: '2',
-                title: 'Organic Hair Oil',
-                titleAr: 'زيت الشعر العضوي',
-                description: 'Nourishing hair oil blend with natural ingredients for healthy hair growth.',
-                descriptionAr: 'خليط زيت الشعر المغذي بمكونات طبيعية لنمو الشعر الصحي.',
-                price: 120,
-                discount: 10,
-                category: 'haircare',
-                image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: true,
-                quantity: 30,
-                rating: 4.9,
-                reviews: 89
-            },
-            {
-                id: '3',
-                title: 'Beeswax Candle',
-                titleAr: 'شمعة شمع العسل',
-                description: 'Pure beeswax candle with essential oils for aromatherapy and relaxation.',
-                descriptionAr: 'شمعة شمع العسل النقي بالزيوت الأساسية للعلاج العطري والاسترخاء.',
-                price: 65,
-                discount: 0,
-                category: 'aromatherapy',
-                image: 'https://images.unsplash.com/photo-1605464315542-f6344c543d5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 20,
-                inStock: true,
-                quantity: 25,
-                rating: 4.7,
-                reviews: 67
-            },
-            {
-                id: '4',
-                title: 'Body Lotion',
-                titleAr: 'لوشن الجسم',
-                description: 'Moisturizing body lotion with natural herbs and oils for soft, smooth skin.',
-                descriptionAr: 'لوشن الجسم المرطب بالأعشاب والزيوت الطبيعية لبشرة ناعمة ونعومة.',
-                price: 95,
-                discount: 15,
-                category: 'bodycare',
-                image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: false,
-                quantity: 0,
-                rating: 4.6,
-                reviews: 45
-            }
-        ];
-        
-        renderProducts(defaultProducts);
-        
+      // Simulate order submission
+      await this.simulateFormSubmission(data);
+      this.showNotification(this.getTranslation('common.success'), 'Order placed successfully!', 'success');
+      this.hideModal('order-modal');
+      e.target.reset();
     } catch (error) {
-        console.error('Error loading products:', error);
+      this.showNotification(this.getTranslation('common.error'), 'Failed to place order. Please try again.', 'error');
     }
-}
+  }
 
-function renderProducts(products) {
+  simulateFormSubmission(data) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log('Form submitted:', data);
+        resolve();
+      }, 1000);
+    });
+  }
+
+  // ========================================
+  // CONTENT LOADING
+  // ========================================
+  async loadContent() {
+    await Promise.all([
+      this.loadProducts(),
+      this.loadTestimonials(),
+      this.loadFAQs(),
+      this.loadCategoryFilter()
+    ]);
+  }
+
+  async loadProducts() {
     const productsGrid = document.getElementById('products-grid');
-    
-    if (productsGrid) {
-        productsGrid.innerHTML = products.map(product => {
-            const currentLang = getCurrentLanguage();
-            const title = currentLang === 'ar' ? product.titleAr : product.title;
-            const description = currentLang === 'ar' ? product.descriptionAr : product.description;
-            const finalPrice = product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price;
-            
-            return `
-                <div class="product-card" data-category="${product.category}" data-aos="fade-up">
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${title}" class="product-img">
-                        ${product.discount > 0 ? `<div class="product-badge">-${product.discount}%</div>` : ''}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${title}</h3>
-                        <p class="product-description">${description}</p>
-                        
-                        <div class="product-rating">
-                            <div class="stars">
-                                ${generateStars(product.rating)}
-                            </div>
-                            <span class="rating-text">${product.rating} (${product.reviews} ${languageManager.t('reviews')})</span>
-                        </div>
-                        
-                        <div class="product-price">
-                            ${product.discount > 0 ? `<span style="text-decoration: line-through; color: var(--text-muted); font-size: 0.9em;">${languageManager.formatCurrency(product.price)}</span>` : ''}
-                            ${languageManager.formatCurrency(finalPrice)}
-                        </div>
-                        
-                        <div class="product-actions">
-                            <button class="btn btn-small btn-secondary translate-btn" onclick="toggleProductTranslation('${product.id}')">
-                                <i class="fas fa-language"></i>
-                                <span data-translate="translate_product">Translate</span>
-                            </button>
-                            <button class="btn btn-small btn-secondary details-btn" onclick="showProductDetails('${product.id}')">
-                                <i class="fas fa-info-circle"></i>
-                                <span data-translate="view_details">Details</span>
-                            </button>
-                            <button class="btn btn-small btn-primary whatsapp-btn" onclick="orderViaWhatsApp('${title}')">
-                                <i class="fab fa-whatsapp"></i>
-                                <span data-translate="order_whatsapp">Order</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-    
-    // Store products globally for filtering
-    window.allProducts = products;
-}
+    if (!productsGrid) return;
 
-function generateStars(rating) {
+    productsGrid.innerHTML = '';
+    
+    this.filteredProducts.forEach(product => {
+      const productCard = this.createProductCard(product);
+      productsGrid.appendChild(productCard);
+    });
+  }
+
+  createProductCard(product) {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.setAttribute('data-category', product.category);
+    card.setAttribute('data-aos', 'fade-up');
+
+    const title = product.title[this.currentLanguage] || product.title.en;
+    const description = product.description[this.currentLanguage] || product.description.en;
+    const hasTranslation = product.title[this.currentLanguage] && product.description[this.currentLanguage];
+
+    card.innerHTML = `
+      <div class="product-image">
+        <img src="${product.image}" alt="${title}" loading="lazy">
+        <div class="product-category">${this.getTranslation(`categories.${product.category}`)}</div>
+        <div class="stock-status ${product.inStock ? '' : 'out-of-stock'}"></div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">${title}</h3>
+        <p class="product-description">${description}</p>
+        <div class="product-price">
+          ${product.currency} ${product.price}
+          ${product.discount > 0 ? `<span class="discount">-${product.discount}%</span>` : ''}
+        </div>
+        <div class="product-rating">
+          <div class="stars">
+            ${this.generateStars(product.rating)}
+          </div>
+          <span class="rating-text">${product.rating} (${product.reviews} ${this.getTranslation('products.rating')})</span>
+        </div>
+        <div class="product-actions">
+          <button class="btn btn-secondary btn-translate" ${!hasTranslation ? 'disabled' : ''}>
+            <i class="fas fa-language"></i>
+            ${this.getTranslation('products.translate')}
+          </button>
+          <button class="btn btn-secondary btn-details">
+            <i class="fas fa-info-circle"></i>
+            ${this.getTranslation('products.details')}
+          </button>
+          <button class="btn btn-whatsapp btn-order">
+            <i class="fab fa-whatsapp"></i>
+            ${this.getTranslation('products.order')}
+          </button>
+        </div>
+      </div>
+    `;
+
+    // Add event listeners
+    const translateBtn = card.querySelector('.btn-translate');
+    const detailsBtn = card.querySelector('.btn-details');
+    const orderBtn = card.querySelector('.btn-order');
+
+    if (translateBtn) {
+      translateBtn.addEventListener('click', () => this.handleProductTranslate(product, card));
+    }
+
+    if (detailsBtn) {
+      detailsBtn.addEventListener('click', () => this.showProductDetails(product));
+    }
+
+    if (orderBtn) {
+      orderBtn.addEventListener('click', () => this.handleProductOrder(product));
+    }
+
+    return card;
+  }
+
+  generateStars(rating) {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    
+
     let starsHTML = '';
     
-    // Full stars
     for (let i = 0; i < fullStars; i++) {
-        starsHTML += '<i class="fas fa-star star"></i>';
+      starsHTML += '<i class="fas fa-star star"></i>';
     }
     
-    // Half star
     if (hasHalfStar) {
-        starsHTML += '<i class="fas fa-star-half-alt star"></i>';
+      starsHTML += '<i class="fas fa-star-half-alt star"></i>';
     }
     
-    // Empty stars
     for (let i = 0; i < emptyStars; i++) {
-        starsHTML += '<i class="far fa-star star empty"></i>';
+      starsHTML += '<i class="far fa-star star empty"></i>';
     }
-    
+
     return starsHTML;
-}
+  }
 
-function filterProductsByCategory(categoryId) {
-    const productCards = document.querySelectorAll('.product-card');
-    
-    productCards.forEach(card => {
-        if (categoryId === 'all' || card.getAttribute('data-category') === categoryId) {
-            card.style.display = 'block';
-            // Re-trigger animation
-            card.setAttribute('data-aos', 'fade-up');
-        } else {
-            card.style.display = 'none';
-        }
-    });
-    
-    // Refresh AOS animations
-    if (typeof AOS !== 'undefined') {
-        AOS.refresh();
-    }
-}
+  handleProductTranslate(product, card) {
+    const oppositeLanguage = this.currentLanguage === 'en' ? 'ar' : 'en';
+    const title = product.title[oppositeLanguage];
+    const description = product.description[oppositeLanguage];
 
-function toggleProductTranslation(productId) {
-    // Find the product
-    const product = window.allProducts?.find(p => p.id === productId);
-    if (!product) return;
-    
-    const currentLang = getCurrentLanguage();
-    const oppositeTitle = currentLang === 'ar' ? product.title : product.titleAr;
-    const oppositeDesc = currentLang === 'ar' ? product.description : product.descriptionAr;
-    
-    if (oppositeTitle && oppositeDesc) {
-        // Find the product card and update content
-        const productCards = document.querySelectorAll('.product-card');
-        productCards.forEach(card => {
-            const title = card.querySelector('.product-title');
-            const description = card.querySelector('.product-description');
-            
-            if (title && description) {
-                if (title.textContent.includes(currentLang === 'ar' ? product.titleAr : product.title)) {
-                    title.textContent = oppositeTitle;
-                    description.textContent = oppositeDesc;
-                }
-            }
-        });
+    if (title && description) {
+      const titleElement = card.querySelector('.product-title');
+      const descElement = card.querySelector('.product-description');
+      
+      if (titleElement && descElement) {
+        titleElement.textContent = title;
+        descElement.textContent = description;
+      }
     } else {
-        showToast(languageManager.t('translation_not_available'), 'warning');
+      this.showNotification(
+        this.getTranslation('common.info'),
+        this.getTranslation('products.translationNotAvailable'),
+        'info'
+      );
     }
-}
+  }
 
-function showProductDetails(productId) {
-    const product = window.allProducts?.find(p => p.id === productId);
-    if (!product) return;
+  showProductDetails(product) {
+    const details = `
+      <div class="product-details">
+        <h3>${product.title[this.currentLanguage] || product.title.en}</h3>
+        <p><strong>${this.getTranslation('products.instock')}:</strong> ${product.inStock ? this.getTranslation('common.yes') : this.getTranslation('common.no')}</p>
+        <p><strong>Quantity:</strong> ${product.quantity}</p>
+        <p><strong>Delivery Available:</strong> ${product.deliveryAvailable ? this.getTranslation('common.yes') : this.getTranslation('common.no')}</p>
+        <p><strong>Delivery Price:</strong> ${product.currency} ${product.deliveryPrice}</p>
+        <p><strong>${this.getTranslation('products.rating')}:</strong> ${product.rating}/5 (${product.reviews} reviews)</p>
+      </div>
+    `;
     
-    const currentLang = getCurrentLanguage();
-    const title = currentLang === 'ar' ? product.titleAr : product.title;
-    
-    const modal = document.getElementById('product-modal');
-    const modalTitle = document.getElementById('product-modal-title');
-    const modalContent = document.getElementById('product-modal-content');
-    
-    if (modal && modalTitle && modalContent) {
-        modalTitle.textContent = title;
-        modalContent.innerHTML = `
-            <div class="product-details">
-                <img src="${product.image}" alt="${title}" style="width: 100%; max-width: 400px; border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg);">
-                
-                <div class="detail-item">
-                    <strong data-translate="delivery_available">Delivery Available:</strong>
-                    <span>${product.deliveryAvailable ? languageManager.t('delivery_available') : languageManager.t('delivery_not_available')}</span>
-                </div>
-                
-                ${product.deliveryAvailable ? `
-                <div class="detail-item">
-                    <strong data-translate="delivery_price">Delivery Price:</strong>
-                    <span>${languageManager.formatCurrency(product.deliveryPrice)}</span>
-                </div>
-                ` : ''}
-                
-                <div class="detail-item">
-                    <strong data-translate="stock_status">Stock Status:</strong>
-                    <span style="color: ${product.inStock ? 'var(--olive-green)' : 'var(--accent-color)'}">
-                        ${product.inStock ? languageManager.t('in_stock') : languageManager.t('out_of_stock')}
-                    </span>
-                </div>
-                
-                <div class="detail-item">
-                    <strong data-translate="quantity_available">Quantity Available:</strong>
-                    <span>${languageManager.formatNumber(product.quantity)}</span>
-                </div>
-                
-                <div class="detail-item">
-                    <strong data-translate="rating">Rating:</strong>
-                    <span>${product.rating}/5 (${product.reviews} ${languageManager.t('reviews')})</span>
-                </div>
-            </div>
-        `;
-        
-        modal.classList.add('active');
-        
-        // Update translations
-        if (languageManager) {
-            languageManager.updateTranslations();
-        }
-    }
-}
+    this.showNotification('Product Details', details, 'info');
+  }
 
-function orderViaWhatsApp(productName) {
-    const message = languageManager.formatWhatsAppMessage(productName);
-    const phoneNumber = '201234567890'; // ضع رقمك هنا بدون علامة +
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
+  handleProductOrder(product) {
+    const productName = product.title[this.currentLanguage] || product.title.en;
+    const message = `Hi, I want to order ${productName}`;
+    const whatsappUrl = `https://wa.me/201234567890?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
-}
+  }
 
-// Testimonials Management
-async function loadTestimonials() {
-    try {
-        // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('testimonials');
-            if (result.success && result.data.length > 0) {
-                renderTestimonials(result.data);
-                return;
-            }
-        }
-        
-        // Fallback to default testimonials
-        const defaultTestimonials = [
-            {
-                id: '1',
-                text: 'Amazing natural products! My skin has never felt better. The lavender soap is absolutely wonderful.',
-                textAr: 'منتجات طبيعية مذهلة! لم تشعر بشرتي بحالة أفضل من هذا. صابون اللافندر رائع تماماً.',
-                author: 'Sarah Ahmed',
-                location: 'Cairo, Egypt',
-                avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-                rating: 5
-            },
-            {
-                id: '2',
-                text: 'Excellent quality and fast delivery. I love how gentle these products are on my sensitive skin.',
-                textAr: 'جودة ممتازة وتوصيل سريع. أحب كم هذه المنتجات لطيفة على بشرتي الحساسة.',
-                author: 'Mohamed Hassan',
-                location: 'Alexandria, Egypt',
-                avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-                rating: 5
-            },
-            {
-                id: '3',
-                text: 'The hair oil transformed my dry hair completely. Highly recommend to everyone!',
-                textAr: 'زيت الشعر غيّر شعري الجاف تماماً. أنصح به بشدة للجميع!',
-                author: 'Fatima Ali',
-                location: 'Giza, Egypt',
-                avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-                rating: 5
-            },
-            {
-                id: '4',
-                text: 'Natural, handmade, and effective. Everything I was looking for in skincare products.',
-                textAr: 'طبيعي ومصنوع يدوياً وفعال. كل ما كنت أبحث عنه في منتجات العناية بالبشرة.',
-                author: 'Ahmed Mahmoud',
-                location: 'Mansoura, Egypt',
-                avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80',
-                rating: 4
-            }
-        ];
-        
-        renderTestimonials(defaultTestimonials);
-        
-    } catch (error) {
-        console.error('Error loading testimonials:', error);
-    }
-}
-
-function renderTestimonials(testimonials) {
+  async loadTestimonials() {
     const testimonialsGrid = document.getElementById('testimonials-grid');
+    if (!testimonialsGrid) return;
+
+    testimonialsGrid.innerHTML = '';
     
-    if (testimonialsGrid) {
-        testimonialsGrid.innerHTML = testimonials.map(testimonial => {
-            const currentLang = getCurrentLanguage();
-            const text = currentLang === 'ar' ? testimonial.textAr : testimonial.text;
-            
-            return `
-                <div class="testimonial-card" data-aos="fade-up">
-                    <div class="testimonial-text">${text}</div>
-                    <div class="testimonial-author">
-                        <img src="${testimonial.avatar}" alt="${testimonial.author}" class="author-avatar">
-                        <div class="author-info">
-                            <h4>${testimonial.author}</h4>
-                            <p>${testimonial.location}</p>
-                            <div class="stars">
-                                ${generateStars(testimonial.rating)}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }).join('');
-    }
-}
+    this.testimonials.forEach((testimonial, index) => {
+      const testimonialCard = this.createTestimonialCard(testimonial, index);
+      testimonialsGrid.appendChild(testimonialCard);
+    });
+  }
 
-// FAQ Management
-async function loadFAQs() {
-    try {
-        // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('faqs');
-            if (result.success && result.data.length > 0) {
-                renderFAQs(result.data);
-                return;
-            }
-        }
-        
-        // Fallback to default FAQs from translations
-        const defaultFAQs = languageManager.getDefaultFAQs();
-        renderFAQs(defaultFAQs);
-        
-    } catch (error) {
-        console.error('Error loading FAQs:', error);
-    }
-}
+  createTestimonialCard(testimonial, index) {
+    const card = document.createElement('div');
+    card.className = 'testimonial-card';
+    card.setAttribute('data-aos', 'fade-up');
+    card.setAttribute('data-aos-delay', (index * 100).toString());
 
-function renderFAQs(faqs) {
+    const name = testimonial.name[this.currentLanguage] || testimonial.name.en;
+    const location = testimonial.location[this.currentLanguage] || testimonial.location.en;
+    const text = testimonial.text[this.currentLanguage] || testimonial.text.en;
+
+    card.innerHTML = `
+      <div class="testimonial-text">${text}</div>
+      <div class="testimonial-author">
+        <img src="${testimonial.avatar}" alt="${name}" class="author-avatar" loading="lazy">
+        <div class="author-info">
+          <h4>${name}</h4>
+          <p class="author-location">${location}</p>
+        </div>
+      </div>
+      <div class="testimonial-rating">
+        <div class="stars">
+          ${this.generateStars(testimonial.rating)}
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  async loadFAQs() {
     const faqAccordion = document.getElementById('faq-accordion');
-    const faqCategories = document.querySelector('.faq-categories');
+    if (!faqAccordion) return;
+
+    faqAccordion.innerHTML = '';
     
-    if (faqAccordion) {
-        faqAccordion.innerHTML = faqs.map((faq, index) => `
-            <div class="faq-item" data-category="${faq.category}">
-                <button class="faq-question">
-                    <span>${faq.question}</span>
-                    <i class="fas fa-chevron-down faq-icon"></i>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-content">${faq.answer}</div>
-                </div>
-            </div>
-        `).join('');
-        
-        // Setup FAQ accordion functionality
-        initializeFAQAccordion();
+    this.faqs.forEach((faq, index) => {
+      const faqItem = this.createFAQItem(faq, index);
+      faqAccordion.appendChild(faqItem);
+    });
+  }
+
+  createFAQItem(faq, index) {
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.setAttribute('data-aos', 'fade-up');
+    item.setAttribute('data-aos-delay', (index * 50).toString());
+
+    const question = faq.question[this.currentLanguage] || faq.question.en;
+    const answer = faq.answer[this.currentLanguage] || faq.answer.en;
+
+    item.innerHTML = `
+      <button class="faq-question">
+        <span>${question}</span>
+        <i class="fas fa-plus faq-icon"></i>
+      </button>
+      <div class="faq-answer">
+        <p>${answer}</p>
+      </div>
+    `;
+
+    const questionBtn = item.querySelector('.faq-question');
+    questionBtn.addEventListener('click', () => {
+      const isActive = item.classList.contains('active');
+      
+      // Close all other FAQs
+      document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+        if (activeItem !== item) {
+          activeItem.classList.remove('active');
+        }
+      });
+      
+      // Toggle current FAQ
+      item.classList.toggle('active', !isActive);
+    });
+
+    return item;
+  }
+
+  handleFAQSearch(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+      const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+      
+      if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  async loadCategoryFilter() {
+    const filterTabs = document.getElementById('filter-tabs');
+    if (!filterTabs) return;
+
+    // Get unique categories from products
+    const categories = ['all', ...new Set(this.products.map(p => p.category))];
+    
+    // Clear existing buttons (except "All")
+    const existingButtons = filterTabs.querySelectorAll('.filter-btn:not([data-category="all"])');
+    existingButtons.forEach(btn => btn.remove());
+
+    categories.slice(1).forEach(category => {
+      const button = document.createElement('button');
+      button.className = 'filter-btn';
+      button.setAttribute('data-category', category);
+      button.textContent = this.getTranslation(`categories.${category}`);
+      
+      button.addEventListener('click', () => this.filterProducts(category));
+      filterTabs.appendChild(button);
+    });
+
+    // Add event listener to "All" button
+    const allBtn = filterTabs.querySelector('[data-category="all"]');
+    if (allBtn) {
+      allBtn.addEventListener('click', () => this.filterProducts('all'));
     }
+  }
+
+  filterProducts(category) {
+    this.activeCategory = category;
     
-    // Generate category filter buttons
-    if (faqCategories) {
-        const categories = [...new Set(faqs.map(faq => faq.category))];
-        const categoryButtons = categories.map(category => `
-            <button class="faq-category-btn" data-category="${category}">
-                <span data-translate="faq_${category}">${category}</span>
+    // Update active button
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`[data-category="${category}"]`).classList.add('active');
+
+    // Filter products
+    if (category === 'all') {
+      this.filteredProducts = [...this.products];
+    } else {
+      this.filteredProducts = this.products.filter(p => p.category === category);
+    }
+
+    // Reload products
+    this.loadProducts();
+  }
+
+  // ========================================
+  // ADMIN FUNCTIONALITY
+  // ========================================
+  async handleAdminAccess() {
+    // Simulate admin check (in real app, this would be Firebase Auth)
+    const userEmail = prompt('Enter admin email:');
+    
+    if (userEmail === 'askacounts001@gmail.com') {
+      this.isAdmin = true;
+      this.currentUser = { email: userEmail };
+      this.showAdminDashboard();
+    } else {
+      this.showNotification(
+        this.getTranslation('common.error'),
+        'Access denied. Admin privileges required.',
+        'error'
+      );
+    }
+  }
+
+  showAdminDashboard() {
+    const adminDashboard = document.getElementById('admin-dashboard');
+    if (!adminDashboard) return;
+
+    adminDashboard.innerHTML = `
+      <div class="admin-header">
+        <h3>Welcome, Admin</h3>
+        <button class="btn btn-secondary" id="admin-logout">
+          <i class="fas fa-sign-out-alt"></i>
+          ${this.getTranslation('admin.logout')}
+        </button>
+      </div>
+      
+      <div class="admin-tabs">
+        <button class="admin-tab-btn active" data-tab="products">
+          <i class="fas fa-box"></i>
+          ${this.getTranslation('admin.products')}
+        </button>
+        <button class="admin-tab-btn" data-tab="faqs">
+          <i class="fas fa-question-circle"></i>
+          ${this.getTranslation('admin.faqs')}
+        </button>
+        <button class="admin-tab-btn" data-tab="comments">
+          <i class="fas fa-comments"></i>
+          ${this.getTranslation('admin.comments')}
+        </button>
+      </div>
+      
+      <div class="admin-content">
+        <div class="admin-tab-content active" id="admin-products">
+          <div class="admin-actions">
+            <button class="btn btn-primary" id="add-product-btn">
+              <i class="fas fa-plus"></i>
+              ${this.getTranslation('admin.addProduct')}
             </button>
-        `).join('');
+          </div>
+          <div class="admin-products-list" id="admin-products-list">
+            <!-- Products will be loaded here -->
+          </div>
+        </div>
         
-        // Insert after "All" button
-        faqCategories.insertAdjacentHTML('beforeend', categoryButtons);
+        <div class="admin-tab-content" id="admin-faqs">
+          <div class="admin-actions">
+            <button class="btn btn-primary" id="add-faq-btn">
+              <i class="fas fa-plus"></i>
+              ${this.getTranslation('admin.addFaq')}
+            </button>
+          </div>
+          <div class="admin-faqs-list" id="admin-faqs-list">
+            <!-- FAQs will be loaded here -->
+          </div>
+        </div>
         
-        // Add event listeners
-        faqCategories.querySelectorAll('.faq-category-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                faqCategories.querySelectorAll('.faq-category-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const category = btn.getAttribute('data-category');
-                filterFAQs(category);
-            });
-        });
-    }
-    
-    // Store FAQs globally for search
-    window.allFAQs = faqs;
-}
+        <div class="admin-tab-content" id="admin-comments">
+          <div class="admin-comments-list" id="admin-comments-list">
+            <!-- Comments will be loaded here -->
+          </div>
+        </div>
+      </div>
+    `;
 
-function initializeFAQAccordion() {
-    const faqQuestions = document.querySelectorAll('.faq-question');
+    // Add event listeners
+    this.initializeAdminEventListeners();
+    this.loadAdminProducts();
+    this.loadAdminFAQs();
     
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const faqItem = question.parentElement;
-            const isActive = faqItem.classList.contains('active');
-            
-            // Close all other FAQ items
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Toggle current item
-            if (!isActive) {
-                faqItem.classList.add('active');
-            }
-        });
+    this.showModal('admin-modal');
+  }
+
+  initializeAdminEventListeners() {
+    // Logout
+    const logoutBtn = document.getElementById('admin-logout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        this.isAdmin = false;
+        this.currentUser = null;
+        this.hideModal('admin-modal');
+      });
+    }
+
+    // Tab switching
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tabName = e.target.getAttribute('data-tab');
+        this.switchAdminTab(tabName);
+      });
     });
-}
 
-function setupFAQSearch() {
-    const faqSearch = document.getElementById('faq-search');
-    
-    if (faqSearch) {
-        faqSearch.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            searchFAQs(searchTerm);
-        });
+    // Add product
+    const addProductBtn = document.getElementById('add-product-btn');
+    if (addProductBtn) {
+      addProductBtn.addEventListener('click', () => this.showProductForm());
     }
-}
 
-function searchFAQs(searchTerm) {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question span').textContent.toLowerCase();
-        const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
-        
-        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
+    // Add FAQ
+    const addFaqBtn = document.getElementById('add-faq-btn');
+    if (addFaqBtn) {
+      addFaqBtn.addEventListener('click', () => this.showFAQForm());
+    }
+  }
+
+  switchAdminTab(tabName) {
+    // Update active tab button
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+      btn.classList.remove('active');
     });
-}
+    document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
 
-function filterFAQs(category) {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
+    // Update active tab content
+    document.querySelectorAll('.admin-tab-content').forEach(content => {
+      content.classList.remove('active');
     });
-}
+    document.getElementById(`admin-${tabName}`).classList.add('active');
+  }
 
-// UI Helper Functions
-function setupScrollProgress() {
-    const progressBar = document.getElementById('progress-bar');
-    
-    if (progressBar) {
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.body.offsetHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            
-            progressBar.style.width = scrollPercent + '%';
-        });
-    }
-}
+  loadAdminProducts() {
+    const productsList = document.getElementById('admin-products-list');
+    if (!productsList) return;
 
-function setupBackToTop() {
-    const backToTopBtn = document.getElementById('back-to-top');
+    productsList.innerHTML = '';
     
-    if (backToTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
-            } else {
-                backToTopBtn.classList.remove('visible');
-            }
-        });
-        
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-}
+    this.products.forEach(product => {
+      const productItem = document.createElement('div');
+      productItem.className = 'admin-item';
+      
+      const title = product.title[this.currentLanguage] || product.title.en;
+      
+      productItem.innerHTML = `
+        <div class="admin-item-info">
+          <img src="${product.image}" alt="${title}" class="admin-item-image">
+          <div class="admin-item-details">
+            <h4>${title}</h4>
+            <p>${product.currency} ${product.price}</p>
+            <span class="admin-item-category">${this.getTranslation(`categories.${product.category}`)}</span>
+          </div>
+        </div>
+        <div class="admin-item-actions">
+          <button class="btn btn-secondary btn-edit" data-id="${product.id}">
+            <i class="fas fa-edit"></i>
+            ${this.getTranslation('common.edit')}
+          </button>
+          <button class="btn btn-danger btn-delete" data-id="${product.id}">
+            <i class="fas fa-trash"></i>
+            ${this.getTranslation('common.delete')}
+          </button>
+        </div>
+      `;
 
-function setupHeaderScroll() {
-    const header = document.getElementById('header');
-    
-    if (header) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    }
-}
+      // Add event listeners
+      const editBtn = productItem.querySelector('.btn-edit');
+      const deleteBtn = productItem.querySelector('.btn-delete');
 
-function setupGalleryLightbox() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightbox-image');
-    const lightboxClose = document.querySelector('.lightbox-close');
-    
-    if (galleryItems && lightbox && lightboxImage) {
-        const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
-        let currentImageIndex = 0;
-        
-        galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                currentImageIndex = index;
-                lightboxImage.src = images[currentImageIndex];
-                lightbox.classList.add('active');
-            });
-        });
-        
-        if (lightboxClose) {
-            lightboxClose.addEventListener('click', () => {
-                lightbox.classList.remove('active');
-            });
-        }
-        
-        // Navigation
-        const prevBtn = document.querySelector('.lightbox-prev');
-        const nextBtn = document.querySelector('.lightbox-next');
-        
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            });
-        }
-        
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentImageIndex = (currentImageIndex + 1) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            });
-        }
-        
-        // Close on outside click
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                lightbox.classList.remove('active');
-            }
-        });
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            
-            if (e.key === 'Escape') {
-                lightbox.classList.remove('active');
-            } else if (e.key === 'ArrowLeft') {
-                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            } else if (e.key === 'ArrowRight') {
-                currentImageIndex = (currentImageIndex + 1) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            }
-        });
-    }
-}
+      if (editBtn) {
+        editBtn.addEventListener('click', () => this.editProduct(product.id));
+      }
 
-function setupSmoothScrolling() {
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const targetId = link.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                const headerHeight = document.getElementById('header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
-                const navMenu = document.getElementById('nav-menu');
-                const hamburger = document.getElementById('hamburger');
-                
-                if (navMenu && hamburger) {
-                    navMenu.classList.remove('active');
-                    hamburger.classList.remove('active');
-                }
-            }
-        });
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => this.deleteProduct(product.id));
+      }
+
+      productsList.appendChild(productItem);
     });
-}
+  }
 
-function initializeCategoryFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
+  loadAdminFAQs() {
+    const faqsList = document.getElementById('admin-faqs-list');
+    if (!faqsList) return;
+
+    faqsList.innerHTML = '';
     
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            const categoryId = btn.getAttribute('data-category');
-            filterProductsByCategory(categoryId);
-        });
+    this.faqs.forEach(faq => {
+      const faqItem = document.createElement('div');
+      faqItem.className = 'admin-item';
+      
+      const question = faq.question[this.currentLanguage] || faq.question.en;
+      
+      faqItem.innerHTML = `
+        <div class="admin-item-info">
+          <div class="admin-item-details">
+            <h4>${question}</h4>
+            <span class="admin-item-category">${faq.category}</span>
+          </div>
+        </div>
+        <div class="admin-item-actions">
+          <button class="btn btn-secondary btn-edit" data-id="${faq.id}">
+            <i class="fas fa-edit"></i>
+            ${this.getTranslation('common.edit')}
+          </button>
+          <button class="btn btn-danger btn-delete" data-id="${faq.id}">
+            <i class="fas fa-trash"></i>
+            ${this.getTranslation('common.delete')}
+          </button>
+        </div>
+      `;
+
+      // Add event listeners
+      const editBtn = faqItem.querySelector('.btn-edit');
+      const deleteBtn = faqItem.querySelector('.btn-delete');
+
+      if (editBtn) {
+        editBtn.addEventListener('click', () => this.editFAQ(faq.id));
+      }
+
+      if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => this.deleteFAQ(faq.id));
+      }
+
+      faqsList.appendChild(faqItem);
     });
-}
+  }
 
-function setupProductInteractions() {
-    // This will be called after products are loaded
-    // Additional product interactions can be added here
-}
+  showProductForm(product = null) {
+    const isEdit = product !== null;
+    const title = isEdit ? this.getTranslation('admin.editProduct') : this.getTranslation('admin.addProduct');
+    
+    // Create form HTML (simplified for demo)
+    const formHTML = `
+      <div class="product-form">
+        <h3>${title}</h3>
+        <form id="product-form">
+          <div class="form-group">
+            <label>Title (English)</label>
+            <input type="text" name="title_en" value="${isEdit ? product.title.en : ''}" required>
+          </div>
+          <div class="form-group">
+            <label>Title (Arabic)</label>
+            <input type="text" name="title_ar" value="${isEdit ? (product.title.ar || '') : ''}">
+          </div>
+          <div class="form-group">
+            <label>Price (EGP)</label>
+            <input type="number" name="price" value="${isEdit ? product.price : ''}" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">${this.getTranslation('common.save')}</button>
+            <button type="button" class="btn btn-secondary" id="cancel-form">${this.getTranslation('common.cancel')}</button>
+          </div>
+        </form>
+      </div>
+    `;
+    
+    this.showNotification(title, formHTML, 'info');
+  }
 
-function handleContactFormSubmit(e) {
-    e.preventDefault();
+  editProduct(productId) {
+    const product = this.products.find(p => p.id === productId);
+    if (product) {
+      this.showProductForm(product);
+    }
+  }
+
+  deleteProduct(productId) {
+    this.showConfirmModal(
+      'Delete Product',
+      'Are you sure you want to delete this product?',
+      () => {
+        this.products = this.products.filter(p => p.id !== productId);
+        this.filteredProducts = this.filteredProducts.filter(p => p.id !== productId);
+        this.loadProducts();
+        this.loadAdminProducts();
+        this.showNotification(this.getTranslation('common.success'), 'Product deleted successfully!', 'success');
+      }
+    );
+  }
+
+  showFAQForm(faq = null) {
+    const isEdit = faq !== null;
+    const title = isEdit ? this.getTranslation('admin.editFaq') : this.getTranslation('admin.addFaq');
     
-    // Show loading state
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    submitBtn.disabled = true;
+    // Create form HTML (simplified for demo)
+    const formHTML = `
+      <div class="faq-form">
+        <h3>${title}</h3>
+        <form id="faq-form">
+          <div class="form-group">
+            <label>Question (English)</label>
+            <input type="text" name="question_en" value="${isEdit ? faq.question.en : ''}" required>
+          </div>
+          <div class="form-group">
+            <label>Question (Arabic)</label>
+            <input type="text" name="question_ar" value="${isEdit ? (faq.question.ar || '') : ''}">
+          </div>
+          <div class="form-group">
+            <label>Answer (English)</label>
+            <textarea name="answer_en" required>${isEdit ? faq.answer.en : ''}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Answer (Arabic)</label>
+            <textarea name="answer_ar">${isEdit ? (faq.answer.ar || '') : ''}</textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">${this.getTranslation('common.save')}</button>
+            <button type="button" class="btn btn-secondary" id="cancel-form">${this.getTranslation('common.cancel')}</button>
+          </div>
+        </form>
+      </div>
+    `;
     
-    // Simulate form submission (replace with actual Formspree or other service)
+    this.showNotification(title, formHTML, 'info');
+  }
+
+  editFAQ(faqId) {
+    const faq = this.faqs.find(f => f.id === faqId);
+    if (faq) {
+      this.showFAQForm(faq);
+    }
+  }
+
+  deleteFAQ(faqId) {
+    this.showConfirmModal(
+      'Delete FAQ',
+      'Are you sure you want to delete this FAQ?',
+      () => {
+        this.faqs = this.faqs.filter(f => f.id !== faqId);
+        this.loadFAQs();
+        this.loadAdminFAQs();
+        this.showNotification(this.getTranslation('common.success'), 'FAQ deleted successfully!', 'success');
+      }
+    );
+  }
+
+  // ========================================
+  // FIREBASE INTEGRATION
+  // ========================================
+  async initializeFirebase() {
+    try {
+      // Firebase configuration would go here
+      console.log('Firebase initialized successfully');
+    } catch (error) {
+      console.error('Firebase initialization error:', error);
+    }
+  }
+
+  // ========================================
+  // NOTIFICATIONS
+  // ========================================
+  showNotification(title, message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+      <div class="notification-header">
+        <h4>${title}</h4>
+        <button class="notification-close">&times;</button>
+      </div>
+      <div class="notification-body">
+        ${message}
+      </div>
+    `;
+
+    // Add to page
+    let container = document.getElementById('notification-container');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'notification-container';
+      container.className = 'notification-container';
+      document.body.appendChild(container);
+    }
+
+    container.appendChild(notification);
+
+    // Add event listeners
+    const closeBtn = notification.querySelector('.notification-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        notification.remove();
+      });
+    }
+
+    // Auto remove after 5 seconds
     setTimeout(() => {
-        showToast('Message sent successfully! We will get back to you soon.', 'success');
-        e.target.reset();
-        
-        // Reset button
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
+      if (notification.parentNode) {
+        notification.remove();
+      }
+    }, 5000);
+  }
 }
 
-function hideLoadingScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    if (loadingScreen) {
-        loadingScreen.classList.add('hidden');
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 500);
+// ========================================
+// PWA FUNCTIONALITY
+// ========================================
+class PWAManager {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    this.registerServiceWorker();
+    this.handleInstallPrompt();
+  }
+
+  async registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      try {
+        await navigator.serviceWorker.register('/sw.js');
+        console.log('Service Worker registered successfully');
+      } catch (error) {
+        console.error('Service Worker registration failed:', error);
+      }
     }
-    isLoading = false;
+  }
+
+  handleInstallPrompt() {
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install button
+      const installBtn = document.getElementById('install-btn');
+      if (installBtn) {
+        installBtn.style.display = 'block';
+        installBtn.addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const result = await deferredPrompt.userChoice;
+            console.log('Install prompt result:', result);
+            deferredPrompt = null;
+            installBtn.style.display = 'none';
+          }
+        });
+      }
+    });
+  }
 }
 
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    
-    const toastContainer = document.getElementById('toast-container');
-    if (toastContainer) {
-        toastContainer.appendChild(toast);
-        
-        // Remove toast after 5 seconds
-        setTimeout(() => {
-            toast.remove();
-        }, 5000);
-    }
-}
+// ========================================
+// INITIALIZATION
+// ========================================
+let app;
+let pwa;
 
-// Helper function to get current language
-function getCurrentLanguage() {
-    return languageManager ? languageManager.getCurrentLanguage() : 'en';
-}
-
-// Language change event listener
-document.addEventListener('languageChanged', (e) => {
-    // Reload dynamic content when language changes
-    if (!isLoading) {
-        loadCategories();
-        loadProducts();
-        loadTestimonials();
-        loadFAQs();
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  app = new PureNatureApp();
+  pwa = new PWAManager();
 });
 
-// Extend DataManager with render methods for admin panel
-if (typeof dataManager !== 'undefined') {
-    // Products list rendering
-    dataManager.renderProductsList = function(products) {
-        const productsList = document.getElementById('products-list');
-        if (!productsList) return;
-        
-        productsList.innerHTML = products.map(product => `
-            <div class="admin-item">
-                <div class="admin-item-content">
-                    <img src="${product.image || '/placeholder.jpg'}" alt="${product.title}" class="admin-item-image">
-                    <div class="admin-item-details">
-                        <h4>${product.title}</h4>
-                        <p class="admin-item-meta">
-                            ${languageManager.formatCurrency(product.price)} | 
-                            ${product.category} | 
-                            ${product.inStock ? 'In Stock' : 'Out of Stock'}
-                        </p>
-                    </div>
-                </div>
-                <div class="admin-item-actions">
-                    <button class="btn btn-small btn-secondary" onclick="editProduct('${product.id}')">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-small btn-danger" onclick="deleteProduct('${product.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </div>
-        `).join('');
-    };
-    
-    // Similar methods for categories, FAQs, and testimonials...
-    // (Implementation continues in the same pattern)
-}
+// Handle page visibility changes
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    // Refresh data when page becomes visible
+    if (app && typeof app.loadContent === 'function') {
+      app.loadContent();
+    }
+  }
+});
 
-// PWA Service Worker Registration
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                console.log('SW registered: ', registration);
-            })
-            .catch((registrationError) => {
-                console.log('SW registration failed: ', registrationError);
-            });
-    });
+// Handle online/offline status
+window.addEventListener('online', () => {
+  if (app) {
+    app.showNotification('Connection Restored', 'You are back online!', 'success');
+  }
+});
+
+window.addEventListener('offline', () => {
+  if (app) {
+    app.showNotification('Connection Lost', 'You are currently offline. Some features may not work.', 'warning');
+  }
+});
+
+// Export for testing
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { PureNatureApp, PWAManager };
 }

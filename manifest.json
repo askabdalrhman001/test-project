@@ -1,98 +1,98 @@
 {
-  "name": "NaturalCare - Handmade Natural Products",
-  "short_name": "NaturalCare",
-  "description": "Discover the finest handmade natural products for skincare, body care, and wellness. Made with organic ingredients and traditional methods.",
+  "name": "Pure Nature - Natural Handmade Products",
+  "short_name": "Pure Nature",
+  "description": "Natural handmade products - Pure, organic, and chemical-free skincare, body care, and wellness products",
+  "version": "1.0.0",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8F6F0",
-  "theme_color": "#8B7355",
   "orientation": "portrait",
-  "scope": "/",
+  "theme_color": "#8B7355",
+  "background_color": "#FEFEFE",
   "lang": "en",
-  "categories": ["lifestyle", "shopping", "health"],
+  "dir": "ltr",
+  "categories": ["shopping", "lifestyle", "health"],
   "icons": [
     {
-      "src": "icons/icon-72x72.png",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iOCIgZmlsbD0iIzhCNzM1NSIvPgo8cGF0aCBkPSJNMjQgMTBMMzIgMTZWMzJIMTZWMTZMMjQgMTBaIiBmaWxsPSIjRkVGRUZFIi8+CjxwYXRoIGQ9Ik0yNCAyMkMyNiAyMiAyOCAyMCAyOCAxOEMyOCAxNiAyNiAxNCAyNCAxNEMyMiAxNCAyMCAxNiAyMCAxOEMyMCAyMCAyMiAyMiAyNCAyMloiIGZpbGw9IiM2QjhFMjMiLz4KPC9zdmc+",
+      "sizes": "48x48",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTIiIGZpbGw9IiM4QjczNTUiLz4KPHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM2IDE1TDQ4IDI0VjQ4SDI0VjI0TDM2IDE1WiIgZmlsbD0iI0ZFRkVGRSIvPgo8cGF0aCBkPSJNMzYgMzNDMzkgMzMgNDIgMzAgNDIgMjdDNDIgMjQgMzkgMjEgMzYgMjFDMzMgMjEgMzAgMjQgMzAgMjdDMzAgMzAgMzMgMzMgMzYgMzNaIiBmaWxsPSIjNkI4RTIzIi8+Cjwvc3ZnPgo=",
       "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-96x96.png",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiM4QjczNTUiLz4KPHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTQ4IDIwTDY0IDMyVjY0SDMyVjMyTDQ4IDIwWiIgZmlsbD0iI0ZFRkVGRSIvPgo8cGF0aCBkPSJNNDggNDRDNTIgNDQgNTYgNDAgNTYgMzZDNTYgMzIgNTIgMjggNDggMjhDNDQgMjggNDAgMzIgNDAgMzZDNDAgNDAgNDQgNDQgNDggNDRaIiBmaWxsPSIjNkI4RTIzIi8+Cjwvc3ZnPgo=",
       "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "icons/icon-144x144.png",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNDQiIGhlaWdodD0iMTQ0IiByeD0iMjQiIGZpbGw9IiM4QjczNTUiLz4KPHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik03MiAzMEw5NiA0OFY5NkgzNlY0OEw3MiAzMFoiIGZpbGw9IiNGRUZFRkUiLz4KPHN2ZyB3aWR0aD0iMTQ0IiBoZWlnaHQ9IjE0NCIgdmlld0JveD0iMCAwIDE0NCAxNDQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik03MiA2NkM3OCA2NiA4NCA2MCA4NCA1NEM4NCA0OCA3OCA0MiA3MiA0MkM2NiA0MiA2MCA0OCA2MCA1NEM2MCA2MCA2NiA2NiA3MiA2NloiIGZpbGw9IiM2QjhFMjMiLz4KPC9zdmc+Cg==",
       "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "icons/icon-192x192.png",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMzIiIGZpbGw9IiM4QjczNTUiLz4KPHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik05NiA0MEwxMjggNjRWMTI4SDY0VjY0TDk2IDQwWiIgZmlsbD0iI0ZFRkVGRSIvPgo8cGF0aCBkPSJNOTYgODhDMTA0IDg4IDExMiA4MCAxMTIgNzJDMTEyIDY0IDEwNCA1NiA5NiA1NkM4OCA1NiA4MCA2NCA4MCA3MkM4MCA4MCA4OCA4OCA5NiA4OFoiIGZpbGw9IiM2QjhFMjMiLz4KPC9zdmc+Cg==",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "icons/icon-512x512.png",
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iODQiIGZpbGw9IiM4QjczNTUiLz4KPHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yNTYgMTA2TDM0MiAxNzFWMzQySDEyOFYxNzFMMjU2IDEwNloiIGZpbGw9IiNGRUZFRkUiLz4KPHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0yNTYgMjM0QzI3OCAyMzQgMjk4IDIxNCAyOTggMTkyQzI5OCAxNzAgMjc4IDE1MCAyNTYgMTUwQzIzNCAxNTAgMjE0IDE3MCAyMTQgMTkyQzIxNCAyMTQgMjM0IDIzNCAyNTYgMjM0WiIgZmlsbD0iIzZCOEUyMyIvPgo8L3N2Zz4KCg==",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
   "shortcuts": [
     {
-      "name": "Products",
-      "short_name": "Products",
+      "name": "Shop Products",
+      "short_name": "Shop",
       "description": "Browse our natural products",
       "url": "/#products",
-      "icons": [{ "src": "icons/shortcut-products.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiM4QjczNTUiLz4KPHBhdGggZD0iTTI0IDMySDcyTDY4IDY0SDI4TDI0IDMyWiIgZmlsbD0iI0ZFRkVGRSIvPgo8L3N2Zz4=",
+          "sizes": "96x96"
+        }
+      ]
     },
     {
-      "name": "Contact",
+      "name": "Contact Us",
       "short_name": "Contact",
       "description": "Get in touch with us",
       "url": "/#contact",
-      "icons": [{ "src": "icons/shortcut-contact.png", "sizes": "96x96" }]
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTYiIGZpbGw9IiM4QjczNTUiLz4KPHBhdGggZD0iTTI0IDMySDcyVjY0SDI0VjMyWk00OCA0OEwyNCA0MEw3MiA0MEw0OCA0OFoiIGZpbGw9IiNGRUZFRkUiLz4KPC9zdmc+",
+          "sizes": "96x96"
+        }
+      ]
     }
   ],
   "related_applications": [],
   "prefer_related_applications": false,
-  "dir": "auto",
+  "scope": "/",
   "screenshots": [
     {
-      "src": "screenshots/desktop-home.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Home screen showing natural products"
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjU2OCIgdmlld0JveD0iMCAwIDMyMCA1NjgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMjAiIGhlaWdodD0iNTY4IiBmaWxsPSIjRkVGRUZFIi8+CjxyZWN0IHk9IjAiIHdpZHRoPSIzMjAiIGhlaWdodD0iODAiIGZpbGw9IiM4QjczNTUiLz4KPHRleHQgeD0iMTYwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjRkVGRUZFIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5QdXJlIE5hdHVyZTwvdGV4dD4KPHJlY3QgeD0iMjAiIHk9IjEwMCIgd2lkdGg9IjI4MCIgaGVpZ2h0PSIyMDAiIHJ4PSIxNiIgZmlsbD0iI0Y4RjZGMCIvPgo8dGV4dCB4PSIxNjAiIHk9IjE4MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmaWxsPSIjOEI3MzU1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5IYW5kbWFkZSBQcm9kdWN0czwvdGV4dD4KPHRleHQgeD0iMTYwIiB5PSIyMTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzVBNUE1QSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TmF0dXJhbCAmIE9yZ2FuaWM8L3RleHQ+CjxyZWN0IHg9IjIwIiB5PSIzMjAiIHdpZHRoPSIyODAiIGhlaWdodD0iMjAwIiByeD0iMTYiIGZpbGw9IiNGOEY2RjAiLz4KPHRleHQgeD0iMTYwIiB5PSI0MDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzhCNzM1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UHJvZHVjdCBDYXRhbG9nPC90ZXh0Pgo8L3N2Zz4=",
+      "sizes": "320x568",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
     },
     {
-      "src": "screenshots/mobile-products.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "platform": "narrow",
-      "label": "Products page on mobile"
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI3NjgiIHZpZXdCb3g9IjAgMCAxMDI0IDc2OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEwMjQiIGhlaWdodD0iNzY4IiBmaWxsPSIjRkVGRUZFIi8+CjxyZWN0IHk9IjAiIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjgwIiBmaWxsPSIjOEI3MzU1Ii8+Cjx0ZXh0IHg9IjUxMiIgeT0iNDUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iI0ZFRkVGRSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UHVyZSBOYXR1cmUgLSBOYXR1cmFsIEhhbmRtYWRlIFByb2R1Y3RzPC90ZXh0Pgo8cmVjdCB4PSI1MCIgeT0iMTIwIiB3aWR0aD0iNDUwIiBoZWlnaHQ9IjMwMCIgcng9IjI0IiBmaWxsPSIjRjhGNkYwIi8+CjxyZWN0IHg9IjUyNCIgeT0iMTIwIiB3aWR0aD0iNDUwIiBoZWlnaHQ9IjMwMCIgcng9IjI0IiBmaWxsPSIjRjhGNkYwIi8+Cjx0ZXh0IHg9IjI3NSIgeT0iMjUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjgiIGZpbGw9IiM4QjczNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkhlcm8gU2VjdGlvbjwvdGV4dD4KPHRleHQgeD0iNzQ5IiB5PSIyNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyOCIgZmlsbD0iIzhCNzM1NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UHJvZHVjdCBHcmlkPC90ZXh0Pgo8cmVjdCB4PSI1MCIgeT0iNDUwIiB3aWR0aD0iOTI0IiBoZWlnaHQ9IjI2OCIgcng9IjI0IiBmaWxsPSIjRjhGNkYwIi8+Cjx0ZXh0IHg9IjUxMiIgeT0iNTgwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiM4QjczNTUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZ1bGx5IFJlc3BvbnNpdmUgRGVzaWduPC90ZXh0Pgo8L3N2Zz4=",
+      "sizes": "1024x768",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
     }
-  ]
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }
