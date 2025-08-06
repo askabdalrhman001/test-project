@@ -80,22 +80,28 @@
                 <!-- Header Controls -->
                 <div class="header-controls">
                     <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="control-btn" title="Toggle Theme">
+                    <button id="theme-toggle" class="control-btn" data-tooltip="Switch Theme">
                         <i class="fas fa-moon"></i>
                     </button>
 
                     <!-- Language Toggle -->
-                    <button id="language-toggle" class="control-btn" title="Switch Language">
-                        <span class="lang-text">عر</span>
+                    <button id="language-toggle" class="control-btn" data-tooltip="Switch Language">
+                        <i class="fas fa-language"></i>
+                        <span class="lang-indicator">EN</span>
                     </button>
 
                     <!-- Admin Access -->
-                    <button id="admin-toggle" class="control-btn" title="Admin Access" style="display: none;">
-                        <i class="fas fa-cog"></i>
+                    <button id="admin-toggle" class="control-btn" data-tooltip="Admin Dashboard" style="display: none;">
+                        <i class="fas fa-user-shield"></i>
+                    </button>
+
+                    <!-- Back to Home (for internal pages) -->
+                    <button id="back-home" class="control-btn" data-tooltip="Back to Home" style="display: none;">
+                        <i class="fas fa-home"></i>
                     </button>
 
                     <!-- Mobile Menu Toggle -->
-                    <button class="hamburger" id="hamburger">
+                    <button class="hamburger" id="hamburger" data-tooltip="Menu">
                         <span class="bar"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
@@ -116,22 +122,30 @@
                         <p class="hero-subtitle" data-translate="hero_subtitle">Nourish your skin naturally. No chemicals. No worries.</p>
                         
                         <!-- Social Media Links -->
-                        <div class="social-links" data-aos="fade-up" data-aos-delay="200">
-                            <a href="#" class="social-link facebook" title="Facebook">
-                                <i class="fab fa-facebook-f"></i>
-                            </a>
-                            <a href="#" class="social-link instagram" title="Instagram">
-                                <i class="fab fa-instagram"></i>
-                            </a>
-                            <a href="#" class="social-link tiktok" title="TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                            <a href="#" class="social-link twitter" title="Twitter">
-                                <i class="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" class="social-link linkedin" title="LinkedIn">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
+                        <div class="hero-social-section" data-aos="fade-up" data-aos-delay="200">
+                            <p class="social-title" data-translate="follow_us">Follow us on social media</p>
+                            <div class="social-links-hero">
+                                <a href="#" class="social-link facebook" data-tooltip="Facebook" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                    <span>Facebook</span>
+                                </a>
+                                <a href="#" class="social-link instagram" data-tooltip="Instagram" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                    <span>Instagram</span>
+                                </a>
+                                <a href="#" class="social-link tiktok" data-tooltip="TikTok" target="_blank">
+                                    <i class="fab fa-tiktok"></i>
+                                    <span>TikTok</span>
+                                </a>
+                                <a href="#" class="social-link twitter" data-tooltip="Twitter" target="_blank">
+                                    <i class="fab fa-x-twitter"></i>
+                                    <span>Twitter</span>
+                                </a>
+                                <a href="#" class="social-link linkedin" data-tooltip="LinkedIn" target="_blank">
+                                    <i class="fab fa-linkedin-in"></i>
+                                    <span>LinkedIn</span>
+                                </a>
+                            </div>
                         </div>
 
                         <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
@@ -282,6 +296,80 @@
                 <h2 class="section-title" data-translate="testimonials_title" data-aos="fade-up">What Our Customers Say</h2>
                 <div class="testimonials-grid" id="testimonials-grid">
                     <!-- Testimonials will be dynamically loaded -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Comments Section -->
+        <section id="comments" class="comments-section">
+            <div class="container">
+                <h2 class="section-title" data-translate="comments_title" data-aos="fade-up">Customer Comments</h2>
+                
+                <!-- Add Comment Form (Only for logged-in users) -->
+                <div class="add-comment-section" id="add-comment-section" style="display: none;">
+                    <div class="comment-form-header">
+                        <img id="user-avatar" src="" alt="User Avatar" class="user-avatar">
+                        <div class="user-info">
+                            <h4 id="user-name"></h4>
+                            <p data-translate="write_comment">Write a comment</p>
+                        </div>
+                    </div>
+                    <form id="comment-form" class="comment-form">
+                        <div class="form-group">
+                            <label for="comment-product" data-translate="select_product">Select Product:</label>
+                            <select id="comment-product" name="productId" required>
+                                <option value="" data-translate="choose_product">Choose a product...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-text" data-translate="your_comment">Your Comment:</label>
+                            <textarea id="comment-text" name="comment" rows="4" placeholder="Share your experience..." data-translate="comment_placeholder" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="comment-rating" data-translate="rating">Rating:</label>
+                            <div class="rating-input">
+                                <input type="radio" id="star5" name="rating" value="5">
+                                <label for="star5"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            <span data-translate="post_comment">Post Comment</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Login Prompt for Non-logged Users -->
+                <div class="login-prompt" id="login-prompt">
+                    <div class="login-prompt-content">
+                        <i class="fas fa-user-circle"></i>
+                        <h3 data-translate="login_to_comment">Login to post comments</h3>
+                        <p data-translate="login_comment_desc">Sign in with your Google account to share your experience with our products.</p>
+                        <button id="login-to-comment-btn" class="btn btn-primary">
+                            <i class="fab fa-google"></i>
+                            <span data-translate="sign_in_google">Sign in with Google</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Comments List -->
+                <div class="comments-list" id="comments-list">
+                    <!-- Comments will be dynamically loaded -->
+                </div>
+
+                <!-- Load More Comments -->
+                <div class="load-more-section" id="load-more-comments" style="display: none;">
+                    <button class="btn btn-secondary">
+                        <span data-translate="load_more_comments">Load More Comments</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -465,11 +553,75 @@
         </div>
     </div>
 
+    <!-- Custom Modal for Confirmations and Alerts -->
+    <div id="custom-modal" class="modal custom-modal">
+        <div class="modal-content custom-modal-content">
+            <div class="modal-header custom-modal-header">
+                <div class="modal-icon" id="modal-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3 id="modal-title">Confirmation</h3>
+            </div>
+            <div class="modal-body custom-modal-body">
+                <p id="modal-message">Are you sure you want to proceed?</p>
+            </div>
+            <div class="modal-footer custom-modal-footer">
+                <button id="modal-cancel" class="btn btn-secondary">
+                    <span data-translate="cancel">Cancel</span>
+                </button>
+                <button id="modal-confirm" class="btn btn-primary">
+                    <span data-translate="confirm">Confirm</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Comment Modal -->
+    <div id="edit-comment-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-translate="edit_comment">Edit Comment</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="edit-comment-form">
+                    <div class="form-group">
+                        <label for="edit-comment-text" data-translate="your_comment">Your Comment:</label>
+                        <textarea id="edit-comment-text" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-comment-rating" data-translate="rating">Rating:</label>
+                        <div class="rating-input">
+                            <input type="radio" id="edit-star5" name="editRating" value="5">
+                            <label for="edit-star5"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="edit-star4" name="editRating" value="4">
+                            <label for="edit-star4"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="edit-star3" name="editRating" value="3">
+                            <label for="edit-star3"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="edit-star2" name="editRating" value="2">
+                            <label for="edit-star2"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="edit-star1" name="editRating" value="1">
+                            <label for="edit-star1"><i class="fas fa-star"></i></label>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary close-modal">
+                            <span data-translate="cancel">Cancel</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <span data-translate="save_changes">Save Changes</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notifications -->
     <div id="toast-container" class="toast-container"></div>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="back-to-top" title="Back to Top">
+    <button id="back-to-top" class="back-to-top" data-tooltip="Back to Top">
         <i class="fas fa-arrow-up"></i>
     </button>
 

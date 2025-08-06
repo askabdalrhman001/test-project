@@ -19,10 +19,9 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
 
-// Admin Configuration
+// Admin Configuration - Only this specific account has admin access
 const ADMIN_EMAILS = [
-    'admin@naturalcare.com',  // Replace with actual admin email
-    'owner@naturalcare.com'   // Add more admin emails as needed
+    'askacounts001@gmail.com'  // Only this account has admin privileges
 ];
 
 // Authentication Manager Class
