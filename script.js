@@ -11,43 +11,233 @@ let commentsSystem;
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    initializeWebsite();
+    console.log('DOM Content Loaded - Starting initialization');
+    
+    // Hide loading screen immediately
+    hideLoadingScreen();
+    
+    // Set a timeout to hide loading screen if initialization takes too long
+    const loadingTimeout = setTimeout(() => {
+        console.warn('Loading timeout reached, hiding loading screen');
+        hideLoadingScreen();
+    }, 0); // Immediate timeout
+    
+    // Also set a fallback timeout for window load
+    const windowLoadTimeout = setTimeout(() => {
+        console.warn('Window load timeout reached, hiding loading screen');
+        hideLoadingScreen();
+    }, 0); // Immediate timeout
+    
+    initializeWebsite().then(() => {
+        console.log('Website initialization completed successfully');
+        clearTimeout(loadingTimeout);
+        clearTimeout(windowLoadTimeout);
+    }).catch((error) => {
+        console.error('Failed to initialize website:', error);
+        clearTimeout(loadingTimeout);
+        clearTimeout(windowLoadTimeout);
+        hideLoadingScreen();
+    });
 });
+
+// Additional fallback for window load event
+window.addEventListener('load', () => {
+    console.log('Window loaded');
+    // Hide loading screen immediately
+    hideLoadingScreen();
+    
+    // If loading screen is still visible after window load, hide it
+    setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+            console.warn('Forcing loading screen to hide after window load');
+            hideLoadingScreen();
+        }
+    }, 0);
+});
+
+// Emergency fallback - hide loading screen immediately
+setTimeout(() => {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+        console.warn('Emergency fallback: Forcing loading screen to hide');
+        hideLoadingScreen();
+    }
+}, 0);
+
+// Immediate fallback - hide loading screen right now
+const loadingScreen = document.getElementById('loading-screen');
+if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+    console.warn('Immediate fallback: Forcing loading screen to hide');
+    hideLoadingScreen();
+}
+
+// Also ensure body is scrollable immediately
+document.body.style.overflow = 'auto';
+
+// Force hide loading screen on script load
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        hideLoadingScreen();
+    });
+} else {
+    hideLoadingScreen();
+}
+
+// Also hide loading screen on every possible event
+['DOMContentLoaded', 'load', 'readystatechange'].forEach(event => {
+    document.addEventListener(event, () => {
+        hideLoadingScreen();
+    });
+});
+
+// And hide it right now
+hideLoadingScreen();
+
+// And hide it again after a tiny delay
+setTimeout(hideLoadingScreen, 0);
+setTimeout(hideLoadingScreen, 10);
+setTimeout(hideLoadingScreen, 50);
+setTimeout(hideLoadingScreen, 100);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
+
+// And hide it on every possible event
+window.addEventListener('load', hideLoadingScreen);
+window.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('DOMContentLoaded', hideLoadingScreen);
+document.addEventListener('load', hideLoadingScreen);
 
 // Main initialization function
 async function initializeWebsite() {
     try {
-        // Initialize managers
-        authManager = window.authManager;
-        languageManager = new LanguageManager();
+        console.log('Starting website initialization...');
+        
+        // Initialize managers with fallbacks
+        try {
+            authManager = window.authManager;
+            console.log('Auth manager initialized');
+        } catch (error) {
+            console.warn('Auth manager not available:', error);
+            authManager = null;
+        }
+        
+        try {
+            languageManager = new LanguageManager();
+            console.log('Language manager initialized');
+        } catch (error) {
+            console.warn('Language manager not available:', error);
+            languageManager = null;
+        }
         
         // Set initial theme and language
         setTheme(currentTheme);
-        languageManager.setLanguage(currentLanguage);
+        if (languageManager) {
+            languageManager.setLanguage(currentLanguage);
+        }
+        console.log('Theme and language set');
         
         // Initialize animations
-        initializeAnimations();
+        try {
+            initializeAnimations();
+            console.log('Animations initialized');
+        } catch (error) {
+            console.warn('Animation initialization failed:', error);
+        }
         
         // Setup event listeners
-        setupEventListeners();
+        try {
+            setupEventListeners();
+            console.log('Event listeners setup');
+        } catch (error) {
+            console.warn('Event listener setup failed:', error);
+        }
         
         // Initialize components
-        initializeComponents();
+        try {
+            initializeComponents();
+            console.log('Components initialized');
+        } catch (error) {
+            console.warn('Component initialization failed:', error);
+        }
         
-        // Load initial data
-        await loadInitialData();
+        // Load initial data (don't wait for it to complete)
+        try {
+            loadInitialData().catch(error => {
+                console.error('Error loading initial data:', error);
+            });
+            console.log('Initial data loading started');
+        } catch (error) {
+            console.warn('Initial data loading failed:', error);
+        }
         
         // Initialize comments system
-        commentsSystem = new CommentsSystem();
-        commentsSystem.init();
+        try {
+            commentsSystem = new CommentsSystem();
+            commentsSystem.init();
+            console.log('Comments system initialized');
+        } catch (error) {
+            console.warn('Comments system initialization failed:', error);
+        }
         
-        // Hide loading screen
+        console.log('Website initialization completed');
+        
+        // Hide loading screen after a short delay
         setTimeout(() => {
             hideLoadingScreen();
-        }, 1500);
+        }, 0);
     } catch (error) {
         console.error('Error initializing website:', error);
-        hideLoadingScreen();
+        // Always hide loading screen even if there's an error
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 0);
     }
 }
 
@@ -213,18 +403,41 @@ function initializeComponents() {
 // Data loading
 async function loadInitialData() {
     try {
+        console.log('Starting to load initial data...');
+        
         // Load categories
-        await loadCategories();
+        try {
+            await loadCategories();
+            console.log('Categories loaded successfully');
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
         
         // Load products
-        await loadProducts();
+        try {
+            await loadProducts();
+            console.log('Products loaded successfully');
+        } catch (error) {
+            console.error('Error loading products:', error);
+        }
         
         // Load testimonials
-        await loadTestimonials();
+        try {
+            await loadTestimonials();
+            console.log('Testimonials loaded successfully');
+        } catch (error) {
+            console.error('Error loading testimonials:', error);
+        }
         
         // Load FAQs
-        await loadFAQs();
+        try {
+            await loadFAQs();
+            console.log('FAQs loaded successfully');
+        } catch (error) {
+            console.error('Error loading FAQs:', error);
+        }
         
+        console.log('Initial data loading completed');
     } catch (error) {
         console.error('Error loading initial data:', error);
     }
@@ -233,15 +446,23 @@ async function loadInitialData() {
 // Category Management
 async function loadCategories() {
     try {
+        console.log('Loading categories...');
+        
         // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('categories');
-            if (result.success && result.data.length > 0) {
-                renderCategories(result.data);
-                return;
+        if (typeof dataManager !== 'undefined' && dataManager) {
+            try {
+                const result = await dataManager.read('categories');
+                if (result.success && result.data.length > 0) {
+                    console.log('Categories loaded from Firebase');
+                    renderCategories(result.data);
+                    return;
+                }
+            } catch (error) {
+                console.warn('Failed to load categories from Firebase:', error);
             }
         }
         
+        console.log('Using default categories');
         // Fallback to default categories - Updated comprehensive list
         const defaultCategories = [
             {
@@ -331,6 +552,8 @@ async function loadCategories() {
         
     } catch (error) {
         console.error('Error loading categories:', error);
+        // Use empty array as fallback
+        renderCategories([]);
     }
 }
 
@@ -389,15 +612,23 @@ function renderCategories(categories) {
 // Product Management
 async function loadProducts() {
     try {
+        console.log('Loading products...');
+        
         // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('products');
-            if (result.success && result.data.length > 0) {
-                renderProducts(result.data);
-                return;
+        if (typeof dataManager !== 'undefined' && dataManager) {
+            try {
+                const result = await dataManager.read('products');
+                if (result.success && result.data.length > 0) {
+                    console.log('Products loaded from Firebase');
+                    renderProducts(result.data);
+                    return;
+                }
+            } catch (error) {
+                console.warn('Failed to load products from Firebase:', error);
             }
         }
         
+        console.log('Using default products');
         // Fallback to default products with updated categories
         const defaultProducts = [
             {
@@ -520,6 +751,8 @@ async function loadProducts() {
         
     } catch (error) {
         console.error('Error loading products:', error);
+        // Use empty array as fallback
+        renderProducts([]);
     }
 }
 
@@ -746,15 +979,23 @@ function orderViaWhatsApp(productName) {
 // Testimonials Management
 async function loadTestimonials() {
     try {
+        console.log('Loading testimonials...');
+        
         // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('testimonials');
-            if (result.success && result.data.length > 0) {
-                renderTestimonials(result.data);
-                return;
+        if (typeof dataManager !== 'undefined' && dataManager) {
+            try {
+                const result = await dataManager.read('testimonials');
+                if (result.success && result.data.length > 0) {
+                    console.log('Testimonials loaded from Firebase');
+                    renderTestimonials(result.data);
+                    return;
+                }
+            } catch (error) {
+                console.warn('Failed to load testimonials from Firebase:', error);
             }
         }
         
+        console.log('Using default testimonials');
         // Fallback to default testimonials
         const defaultTestimonials = [
             {
@@ -799,6 +1040,8 @@ async function loadTestimonials() {
         
     } catch (error) {
         console.error('Error loading testimonials:', error);
+        // Use empty array as fallback
+        renderTestimonials([]);
     }
 }
 
@@ -832,21 +1075,31 @@ function renderTestimonials(testimonials) {
 // FAQ Management
 async function loadFAQs() {
     try {
+        console.log('Loading FAQs...');
+        
         // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined') {
-            const result = await dataManager.read('faqs');
-            if (result.success && result.data.length > 0) {
-                renderFAQs(result.data);
-                return;
+        if (typeof dataManager !== 'undefined' && dataManager) {
+            try {
+                const result = await dataManager.read('faqs');
+                if (result.success && result.data.length > 0) {
+                    console.log('FAQs loaded from Firebase');
+                    renderFAQs(result.data);
+                    return;
+                }
+            } catch (error) {
+                console.warn('Failed to load FAQs from Firebase:', error);
             }
         }
         
+        console.log('Using default FAQs');
         // Fallback to default FAQs from translations
-        const defaultFAQs = languageManager.getDefaultFAQs();
+        const defaultFAQs = languageManager ? languageManager.getDefaultFAQs() : [];
         renderFAQs(defaultFAQs);
         
     } catch (error) {
         console.error('Error loading FAQs:', error);
+        // Use empty array as fallback
+        renderFAQs([]);
     }
 }
 
@@ -1148,14 +1401,26 @@ function handleContactFormSubmit(e) {
 }
 
 function hideLoadingScreen() {
+    console.log('Attempting to hide loading screen...');
+    
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
+        console.log('Loading screen found, hiding it...');
         loadingScreen.classList.add('hidden');
         setTimeout(() => {
             loadingScreen.style.display = 'none';
-        }, 500);
+            console.log('Loading screen completely hidden');
+        }, 0);
+    } else {
+        console.warn('Loading screen element not found');
     }
+    
     isLoading = false;
+    
+    // Also ensure the body is scrollable
+    document.body.style.overflow = 'auto';
+    
+    console.log('Loading screen hidden successfully');
 }
 
 function showToast(message, type = 'info') {

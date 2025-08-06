@@ -11,13 +11,25 @@ const firebaseConfig = {
     appId: "1:123456789012:web:abcdefghijklmnop"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// Initialize Firebase with error handling
+let auth, db, storage;
 
-// Get Firebase services
-const auth = firebase.auth();
-const db = firebase.firestore();
-const storage = firebase.storage();
+try {
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get Firebase services
+    auth = firebase.auth();
+    db = firebase.firestore();
+    storage = firebase.storage();
+    
+    console.log('Firebase initialized successfully');
+} catch (error) {
+    console.error('Firebase initialization failed:', error);
+    // Create fallback objects
+    auth = null;
+    db = null;
+    storage = null;
+}
 
 // Admin Configuration - Only this specific account has admin access
 const ADMIN_EMAIL = 'askacounts001@gmail.com';
@@ -27,10 +39,22 @@ class AuthManager {
     constructor() {
         this.currentUser = null;
         this.isAdmin = false;
-        this.initAuth();
+        
+        // Only initialize auth if Firebase is available
+        if (auth && db && storage) {
+            this.initAuth();
+        } else {
+            console.warn('Firebase services not available, using fallback auth');
+        }
     }
 
     initAuth() {
+        // Only proceed if Firebase auth is available
+        if (!auth) {
+            console.warn('Firebase auth not available');
+            return;
+        }
+        
         // Set up authentication state listener
         auth.onAuthStateChanged((user) => {
             this.currentUser = user;
@@ -55,6 +79,12 @@ class AuthManager {
 
     async signInWithGoogle() {
         try {
+            // Check if Firebase auth is available
+            if (!auth || !this.googleProvider) {
+                this.showToast('Authentication service not available. Please try again later.', 'error');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             const result = await auth.signInWithPopup(this.googleProvider);
             const user = result.user;
             
@@ -77,6 +107,12 @@ class AuthManager {
 
     async createOrUpdateUserProfile(user) {
         try {
+            // Check if Firestore is available
+            if (!db) {
+                console.warn('Firestore not available, skipping user profile creation');
+                return;
+            }
+            
             const userRef = db.collection('users').doc(user.uid);
             const userDoc = await userRef.get();
             
@@ -100,6 +136,12 @@ class AuthManager {
 
     async signOut() {
         try {
+            // Check if Firebase auth is available
+            if (!auth) {
+                this.showToast('Authentication service not available.', 'error');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             await auth.signOut();
             this.showToast('Signed out successfully.', 'success');
             return { success: true };
@@ -524,11 +566,22 @@ class AuthManager {
 class DataManager {
     constructor() {
         this.authManager = window.authManager;
+        
+        // Check if Firebase services are available
+        if (!db || !storage) {
+            console.warn('Firebase services not available, DataManager will use fallbacks');
+        }
     }
 
     // CRUD Operations
     async create(collection, data) {
         try {
+            // Check if Firestore is available
+            if (!db) {
+                console.warn('Firestore not available, cannot create document');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             const docRef = await db.collection(collection).add({
                 ...data,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -543,6 +596,12 @@ class DataManager {
 
     async read(collection, orderBy = 'createdAt', order = 'desc') {
         try {
+            // Check if Firestore is available
+            if (!db) {
+                console.warn('Firestore not available, cannot read documents');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             const snapshot = await db.collection(collection).orderBy(orderBy, order).get();
             const data = [];
             snapshot.forEach(doc => {
@@ -557,6 +616,12 @@ class DataManager {
 
     async update(collection, id, data) {
         try {
+            // Check if Firestore is available
+            if (!db) {
+                console.warn('Firestore not available, cannot update document');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             await db.collection(collection).doc(id).update({
                 ...data,
                 updatedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -570,6 +635,12 @@ class DataManager {
 
     async delete(collection, id) {
         try {
+            // Check if Firestore is available
+            if (!db) {
+                console.warn('Firestore not available, cannot delete document');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             await db.collection(collection).doc(id).delete();
             return { success: true };
         } catch (error) {
@@ -580,6 +651,12 @@ class DataManager {
 
     async uploadImage(file, path) {
         try {
+            // Check if Firebase Storage is available
+            if (!storage) {
+                console.warn('Firebase Storage not available, cannot upload image');
+                return { success: false, error: 'Firebase not available' };
+            }
+            
             const storageRef = storage.ref();
             const fileRef = storageRef.child(path);
             const snapshot = await fileRef.put(file);
@@ -1125,46 +1202,89 @@ class DataManager {
     }
 
     async confirmDelete(type, id) {
-        const customModal = new CustomModal();
-        const result = await customModal.show({
-            title: 'Confirm Delete',
-            message: `Are you sure you want to delete this ${type}?`,
-            type: 'warning',
-            confirmText: 'Delete',
-            cancelText: 'Cancel'
-        });
+        try {
+            const customModal = new CustomModal();
+            const result = await customModal.show({
+                title: 'Confirm Delete',
+                message: `Are you sure you want to delete this ${type}?`,
+                type: 'warning',
+                confirmText: 'Delete',
+                cancelText: 'Cancel'
+            });
 
-        if (result) {
-            const deleteResult = await this.delete(type + 's', id);
-            if (deleteResult.success) {
-                this.authManager.showToast(`${type} deleted successfully.`, 'success');
-                // Reload the current tab
-                const activeTab = document.querySelector('.tab-btn.active');
-                if (activeTab) {
-                    this.authManager.loadTabData(activeTab.dataset.tab);
+            if (result) {
+                const deleteResult = await this.delete(type + 's', id);
+                if (deleteResult.success) {
+                    this.authManager.showToast(`${type} deleted successfully.`, 'success');
+                    // Reload the current tab
+                    const activeTab = document.querySelector('.tab-btn.active');
+                    if (activeTab) {
+                        this.authManager.loadTabData(activeTab.dataset.tab);
+                    }
+                } else {
+                    this.authManager.showToast(`Error deleting ${type}.`, 'error');
                 }
-            } else {
-                this.authManager.showToast(`Error deleting ${type}.`, 'error');
             }
+        } catch (error) {
+            console.error('Error in confirmDelete:', error);
+            this.authManager.showToast(`Error deleting ${type}.`, 'error');
         }
     }
 
     async toggleInquiryRead(inquiryId) {
-        const inquiry = await db.collection('inquiries').doc(inquiryId).get();
-        const currentRead = inquiry.data().read || false;
-        
-        const result = await this.update('inquiries', inquiryId, { read: !currentRead });
-        if (result.success) {
-            this.authManager.showToast(`Inquiry marked as ${!currentRead ? 'read' : 'unread'}.`, 'success');
-            this.loadInquiries();
-        } else {
+        try {
+            // Check if Firestore is available
+            if (!db) {
+                console.warn('Firestore not available, cannot toggle inquiry read status');
+                return;
+            }
+            
+            const inquiry = await db.collection('inquiries').doc(inquiryId).get();
+            const currentRead = inquiry.data().read || false;
+            
+            const result = await this.update('inquiries', inquiryId, { read: !currentRead });
+            if (result.success) {
+                this.authManager.showToast(`Inquiry marked as ${!currentRead ? 'read' : 'unread'}.`, 'success');
+                this.loadInquiries();
+            } else {
+                this.authManager.showToast('Error updating inquiry status.', 'error');
+            }
+        } catch (error) {
+            console.error('Error toggling inquiry read status:', error);
             this.authManager.showToast('Error updating inquiry status.', 'error');
         }
     }
 }
 
-// Initialize Auth Manager
-window.authManager = new AuthManager();
+// Initialize Auth Manager with error handling
+try {
+    window.authManager = new AuthManager();
+    console.log('Auth manager initialized successfully');
+} catch (error) {
+    console.error('Auth manager initialization failed:', error);
+    // Create a fallback auth manager
+    window.authManager = {
+        isAuthenticated: () => false,
+        isUserAdmin: () => false,
+        getCurrentUser: () => null,
+        signInWithGoogle: async () => ({ success: false, error: 'Firebase not available' }),
+        signOut: async () => ({ success: false, error: 'Firebase not available' }),
+        showToast: (message, type) => console.log(`${type}: ${message}`)
+    };
+}
 
 // Export for use in other files
-window.DataManager = DataManager;
+try {
+    window.DataManager = DataManager;
+} catch (error) {
+    console.error('DataManager export failed:', error);
+    // Create a fallback DataManager
+    window.DataManager = class FallbackDataManager {
+        constructor() {}
+        async create() { return { success: false, error: 'Firebase not available' }; }
+        async read() { return { success: false, error: 'Firebase not available' }; }
+        async update() { return { success: false, error: 'Firebase not available' }; }
+        async delete() { return { success: false, error: 'Firebase not available' }; }
+        async uploadImage() { return { success: false, error: 'Firebase not available' }; }
+    };
+}
