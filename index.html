@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Handmade Natural Lavender Soap - Pure, Chemical-Free Skincare">
+    <meta name="keywords" content="lavender soap, handmade soap, natural skincare, organic, chemical-free">
+    <title>Lavender Soap - Handmade & Pure | Natural Skincare</title>
+    
+    <!-- Preload Critical CSS -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧼%3C/text%3E%3C/svg%3E">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8B7355">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Natural Essence">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <span class="nav__logo-icon">🌿</span>
+                <span class="nav__logo-text" data-i18n="brand">Natural Essence</span>
+            </div>
+            
+            <div class="nav__controls">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                
+                <!-- Language Toggle -->
+                <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+                    <span class="lang-text">عربي</span>
+                </button>
+                
+                <!-- Admin Button -->
+                <button class="admin-btn" id="adminBtn" style="display: none;" aria-label="Admin Dashboard">
+                    <span class="admin-icon">⚙️</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero__container container">
+            <div class="hero__content" data-aos="fade-right">
+                <h1 class="hero__title" data-i18n="hero.title">Lavender Soap – Handmade & Pure</h1>
+                <p class="hero__subtitle" data-i18n="hero.subtitle">Nourish your skin naturally. No chemicals. No worries.</p>
+                <button class="hero__cta" onclick="scrollToSection('pricing')" data-i18n="hero.cta">Order Now</button>
+                
+                <!-- Social Media Links -->
+                <div class="hero__social">
+                    <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="hero__image" data-aos="fade-left">
+                <img src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                     alt="Handmade Lavender Soap" class="hero__img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filter -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section__title" data-i18n="categories.title">Product Categories</h2>
+            <div class="categories__filter" id="categoryFilter">
+                <button class="category-btn active" data-category="all" data-i18n="categories.all">All Products</button>
+                <button class="category-btn" data-category="skincare" data-i18n="categories.skincare">Skincare</button>
+                <button class="category-btn" data-category="bodycare" data-i18n="categories.bodycare">Body Care</button>
+                <button class="category-btn" data-category="haircare" data-i18n="categories.haircare">Hair Care</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section__title" data-i18n="products.title">Our Products</h2>
+            <div class="products__grid" id="productsGrid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about__container container">
+            <div class="about__content" data-aos="fade-right">
+                <h2 class="section__title" data-i18n="about.title">About Our Products</h2>
+                <p class="about__description" data-i18n="about.description">
+                    Our lavender soap is carefully handcrafted using traditional methods passed down through generations. 
+                    Each bar is made with pure, natural ingredients sourced from local farms.
+                </p>
+                
+                <ul class="about__benefits">
+                    <li class="benefit-item" data-aos="fade-up" data-aos-delay="100">
+                        <span class="benefit-icon">🌿</span>
+                        <span data-i18n="about.benefit1">100% Natural Ingredients</span>
+                    </li>
+                    <li class="benefit-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="benefit-icon">🚫</span>
+                        <span data-i18n="about.benefit2">No Harmful Chemicals</span>
+                    </li>
+                    <li class="benefit-item" data-aos="fade-up" data-aos-delay="300">
+                        <span class="benefit-icon">💜</span>
+                        <span data-i18n="about.benefit3">Calming Lavender Scent</span>
+                    </li>
+                    <li class="benefit-item" data-aos="fade-up" data-aos-delay="400">
+                        <span class="benefit-icon">🤚</span>
+                        <span data-i18n="about.benefit4">Handmade with Love</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="about__ingredients" data-aos="fade-left">
+                <h3 class="ingredients__title" data-i18n="about.ingredients.title">Key Ingredients</h3>
+                <div class="ingredients__grid">
+                    <div class="ingredient-item">
+                        <span class="ingredient-icon">🫒</span>
+                        <span data-i18n="about.ingredients.olive">Olive Oil</span>
+                    </div>
+                    <div class="ingredient-item">
+                        <span class="ingredient-icon">🍯</span>
+                        <span data-i18n="about.ingredients.honey">Raw Honey</span>
+                    </div>
+                    <div class="ingredient-item">
+                        <span class="ingredient-icon">🕯️</span>
+                        <span data-i18n="about.ingredients.beeswax">Beeswax</span>
+                    </div>
+                    <div class="ingredient-item">
+                        <span class="ingredient-icon">💜</span>
+                        <span data-i18n="about.ingredients.lavender">Lavender Oil</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section__title" data-i18n="gallery.title">Product Gallery</h2>
+            <div class="gallery__grid">
+                <div class="gallery__item" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         alt="Lavender soap close-up" class="gallery__img">
+                </div>
+                <div class="gallery__item" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         alt="Soap making process" class="gallery__img">
+                </div>
+                <div class="gallery__item" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1556228578-dd4b7d4ad2e3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         alt="Natural ingredients" class="gallery__img">
+                </div>
+                <div class="gallery__item" data-aos="zoom-in" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1556228572-6d6fe9e2c03b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                         alt="Lavender field" class="gallery__img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section__title" data-i18n="testimonials.title">What Our Customers Say</h2>
+            <div class="testimonials__grid">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial__rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">5.0/5</span>
+                    </div>
+                    <p class="testimonial__text" data-i18n="testimonials.review1">
+                        "This lavender soap is amazing! My skin feels so soft and the scent is incredibly relaxing."
+                    </p>
+                    <div class="testimonial__author">
+                        <strong data-i18n="testimonials.author1">Sarah Ahmed</strong>
+                        <span data-i18n="testimonials.location1">Cairo, Egypt</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial__rating">
+                        <span class="stars">★★★★☆</span>
+                        <span class="rating-text">4.8/5</span>
+                    </div>
+                    <p class="testimonial__text" data-i18n="testimonials.review2">
+                        "Perfect for sensitive skin. No irritation at all and it lasts a long time."
+                    </p>
+                    <div class="testimonial__author">
+                        <strong data-i18n="testimonials.author2">Mohamed Hassan</strong>
+                        <span data-i18n="testimonials.location2">Alexandria, Egypt</span>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial__rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">5.0/5</span>
+                    </div>
+                    <p class="testimonial__text" data-i18n="testimonials.review3">
+                        "Best natural soap I've ever used. The lavender scent helps me relax after a long day."
+                    </p>
+                    <div class="testimonial__author">
+                        <strong data-i18n="testimonials.author3">Fatima Ali</strong>
+                        <span data-i18n="testimonials.location3">Giza, Egypt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <h2 class="section__title" data-i18n="faq.title">Frequently Asked Questions</h2>
+            <div class="faq__container" id="faqContainer">
+                <!-- FAQ items will be dynamically loaded here -->
+            </div>
+            <button class="faq__load-more" id="faqLoadMore" style="display: none;" data-i18n="faq.loadMore">View More Questions</button>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="pricing__container container">
+            <div class="pricing__content" data-aos="fade-right">
+                <h2 class="section__title" data-i18n="pricing.title">Order Your Natural Soap</h2>
+                <div class="price-card">
+                    <div class="price-main">
+                        <span class="currency">EGP</span>
+                        <span class="amount">85</span>
+                    </div>
+                    <p class="price-note" data-i18n="pricing.note">Free delivery on orders over 3 items</p>
+                </div>
+                
+                <div class="order-buttons">
+                    <a href="https://wa.me/201234567890?text=Hi%2C%20I%20want%20to%20order%20your%20Lavender%20Soap" 
+                       class="whatsapp-btn" target="_blank" rel="noopener">
+                        <span class="btn-icon">📱</span>
+                        <span data-i18n="pricing.whatsapp">Order via WhatsApp</span>
+                    </a>
+                    
+                    <button class="form-btn" onclick="toggleOrderForm()" data-i18n="pricing.form">Fill Order Form</button>
+                </div>
+            </div>
+            
+            <div class="order-form" id="orderForm" style="display: none;" data-aos="fade-left">
+                <h3 data-i18n="pricing.formTitle">Order Form</h3>
+                <form action="https://formspree.io/f/your-form-id" method="POST">
+                    <div class="form-group">
+                        <label for="name" data-i18n="pricing.nameLabel">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" data-i18n="pricing.phoneLabel">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address" data-i18n="pricing.addressLabel">Delivery Address</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="quantity" data-i18n="pricing.quantityLabel">Quantity</label>
+                        <select id="quantity" name="quantity" required>
+                            <option value="1">1 piece</option>
+                            <option value="2">2 pieces</option>
+                            <option value="3">3 pieces (Free Delivery)</option>
+                            <option value="4">4 pieces (Free Delivery)</option>
+                            <option value="5">5 pieces (Free Delivery)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" data-i18n="pricing.submit">Submit Order</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="comments" id="comments">
+        <div class="container">
+            <h2 class="section__title" data-i18n="comments.title">Customer Reviews</h2>
+            
+            <!-- Add Comment Form (only for logged-in users) -->
+            <div class="comment-form" id="commentForm" style="display: none;">
+                <h3 data-i18n="comments.addTitle">Add Your Review</h3>
+                <form id="addCommentForm">
+                    <div class="form-group">
+                        <label for="commentRating" data-i18n="comments.ratingLabel">Rating</label>
+                        <div class="rating-input" id="ratingInput">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="commentText" data-i18n="comments.textLabel">Your Review</label>
+                        <textarea id="commentText" name="comment" rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" data-i18n="comments.submit">Submit Review</button>
+                </form>
+            </div>
+            
+            <!-- Comments List -->
+            <div class="comments__list" id="commentsList">
+                <!-- Comments will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__content">
+                <div class="footer__info">
+                    <h3 class="footer__title" data-i18n="footer.title">Natural Essence</h3>
+                    <p class="footer__description" data-i18n="footer.description">
+                        Handmade natural products for your wellbeing
+                    </p>
+                </div>
+                
+                <div class="footer__contact">
+                    <h4 data-i18n="footer.contactTitle">Contact Us</h4>
+                    <p data-i18n="footer.email">Email: info@naturalessence.com</p>
+                    <p data-i18n="footer.phone">Phone: +20 123 456 7890</p>
+                </div>
+                
+                <div class="footer__social">
+                    <h4 data-i18n="footer.socialTitle">Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer__bottom">
+                <p data-i18n="footer.copyright">&copy; 2024 Natural Essence. All rights reserved.</p>
+                <div class="footer__links">
+                    <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
+                    <a href="#" data-i18n="footer.terms">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Dashboard Modal -->
+    <div class="modal" id="adminModal" style="display: none;">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 data-i18n="admin.title">Admin Dashboard</h2>
+                <button class="modal__close" id="closeAdminModal">&times;</button>
+            </div>
+            <div class="modal__body" id="adminDashboard">
+                <!-- Admin dashboard content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox" style="display: none;">
+        <div class="lightbox__content">
+            <button class="lightbox__close" id="closeLightbox">&times;</button>
+            <img src="" alt="" class="lightbox__img" id="lightboxImg">
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Firebase configuration will be added here
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js';
+        import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js';
+        
+        // Firebase config (replace with your config)
+        const firebaseConfig = {
+            // Add your Firebase configuration here
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.storage = getStorage(app);
+        window.GoogleAuthProvider = GoogleAuthProvider;
+        window.signInWithPopup = signInWithPopup;
+        window.signOut = signOut;
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.collection = collection;
+        window.addDoc = addDoc;
+        window.getDocs = getDocs;
+        window.doc = doc;
+        window.updateDoc = updateDoc;
+        window.deleteDoc = deleteDoc;
+        window.query = query;
+        window.orderBy = orderBy;
+        window.ref = ref;
+        window.uploadBytes = uploadBytes;
+        window.getDownloadURL = getDownloadURL;
+    </script>
+
+    <!-- External Libraries -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+    
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
