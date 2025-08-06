@@ -3,7 +3,11 @@
 
 // Global variables
 let currentTheme = localStorage.getItem('naturalcare_theme') || 'light';
+let currentLanguage = localStorage.getItem('naturalcare_language') || 'en';
 let isLoading = true;
+let authManager;
+let languageManager;
+let commentsSystem;
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,26 +15,40 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Main initialization function
-function initializeWebsite() {
-    // Set initial theme
-    setTheme(currentTheme);
-    
-    // Initialize animations
-    initializeAnimations();
-    
-    // Setup event listeners
-    setupEventListeners();
-    
-    // Initialize components
-    initializeComponents();
-    
-    // Load initial data
-    loadInitialData();
-    
-    // Hide loading screen
-    setTimeout(() => {
+async function initializeWebsite() {
+    try {
+        // Initialize managers
+        authManager = window.authManager;
+        languageManager = new LanguageManager();
+        
+        // Set initial theme and language
+        setTheme(currentTheme);
+        languageManager.setLanguage(currentLanguage);
+        
+        // Initialize animations
+        initializeAnimations();
+        
+        // Setup event listeners
+        setupEventListeners();
+        
+        // Initialize components
+        initializeComponents();
+        
+        // Load initial data
+        await loadInitialData();
+        
+        // Initialize comments system
+        commentsSystem = new CommentsSystem();
+        commentsSystem.init();
+        
+        // Hide loading screen
+        setTimeout(() => {
+            hideLoadingScreen();
+        }, 1500);
+    } catch (error) {
+        console.error('Error initializing website:', error);
         hideLoadingScreen();
-    }, 1500);
+    }
 }
 
 // Theme Management
@@ -84,6 +102,14 @@ function setupEventListeners() {
         themeToggle.addEventListener('click', toggleTheme);
     }
     
+    // Language toggle
+    const languageToggle = document.getElementById('language-toggle');
+    if (languageToggle) {
+        languageToggle.addEventListener('click', () => {
+            languageManager.toggleLanguage();
+        });
+    }
+    
     // Mobile menu toggle
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('nav-menu');
@@ -101,7 +127,26 @@ function setupEventListeners() {
     
     if (adminToggle && adminModal) {
         adminToggle.addEventListener('click', () => {
-            adminModal.classList.add('active');
+            if (authManager.isAuthenticated() && authManager.isUserAdmin()) {
+                adminModal.classList.add('active');
+                authManager.updateAdminContent();
+            } else if (authManager.isAuthenticated()) {
+                // Show user profile for non-admin users
+                const adminContent = document.getElementById('admin-content');
+                if (adminContent) {
+                    adminContent.innerHTML = generateUserProfile();
+                    setupUserProfileEvents();
+                }
+                adminModal.classList.add('active');
+            } else {
+                // Show login form for non-authenticated users
+                const adminContent = document.getElementById('admin-content');
+                if (adminContent) {
+                    adminContent.innerHTML = authManager.generateLoginForm();
+                    authManager.setupLoginEventListeners();
+                }
+                adminModal.classList.add('active');
+            }
         });
     }
 
@@ -1583,4 +1628,283 @@ if ('serviceWorker' in navigator) {
                 console.log('SW registration failed: ', registrationError);
             });
     });
+}
+
+// User Profile Functions
+function generateUserProfile() {
+    const user = authManager.getCurrentUser();
+    if (!user) return '<p>User not found.</p>';
+    
+    return `
+        <div class="user-profile">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="${user.photoURL || 'https://via.placeholder.com/100x100/8B7355/FFFFFF?text=U'}" alt="Profile" id="profile-avatar-img">
+                    <div class="avatar-upload">
+                        <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                        <button class="btn btn-small btn-secondary" onclick="document.getElementById('avatar-upload').click()">
+                            <i class="fas fa-camera"></i>
+                            <span data-translate="upload_photo">Upload Photo</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="profile-info">
+                    <h3 data-translate="profile_title">User Profile</h3>
+                    <p data-translate="manage_account">Manage your account information and preferences</p>
+                </div>
+            </div>
+            
+            <form id="profile-form" class="profile-form">
+                <div class="form-group">
+                    <label for="profile-display-name" data-translate="display_name">Display Name</label>
+                    <input type="text" id="profile-display-name" value="${user.displayName || ''}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-nickname" data-translate="nickname">Nickname</label>
+                    <input type="text" id="profile-nickname" value="${user.nickname || ''}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-title" data-translate="title">Title</label>
+                    <input type="text" id="profile-title" value="${user.title || 'Customer'}">
+                </div>
+                
+                <div class="profile-meta">
+                    <div class="meta-item">
+                        <span class="meta-label" data-translate="account_created">Account Created:</span>
+                        <span class="meta-value">${user.createdAt ? new Date(user.createdAt.toDate()).toLocaleDateString() : 'N/A'}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label" data-translate="last_login">Last Login:</span>
+                        <span class="meta-value">${user.lastLogin ? new Date(user.lastLogin.toDate()).toLocaleDateString() : 'N/A'}</span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        <span data-translate="save_changes">Save Changes</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="authManager.signOut()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span data-translate="sign_out">Sign Out</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+}
+
+function setupUserProfileEvents() {
+    // Profile form submission
+    const profileForm = document.getElementById('profile-form');
+    if (profileForm) {
+        profileForm.addEventListener('submit', handleProfileSubmit);
+    }
+    
+    // Avatar upload
+    const avatarUpload = document.getElementById('avatar-upload');
+    if (avatarUpload) {
+        avatarUpload.addEventListener('change', handleAvatarUpload);
+    }
+}
+
+async function handleProfileSubmit(e) {
+    e.preventDefault();
+    
+    const user = authManager.getCurrentUser();
+    if (!user) return;
+    
+    const displayName = document.getElementById('profile-display-name').value;
+    const nickname = document.getElementById('profile-nickname').value;
+    const title = document.getElementById('profile-title').value;
+    
+    try {
+        const dataManager = new DataManager();
+        const result = await dataManager.update('users', user.uid, {
+            displayName,
+            nickname,
+            title
+        });
+        
+        if (result.success) {
+            authManager.showToast('Profile updated successfully!', 'success');
+            // Update the user object
+            user.displayName = displayName;
+            user.nickname = nickname;
+            user.title = title;
+        } else {
+            authManager.showToast('Error updating profile.', 'error');
+        }
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        authManager.showToast('Error updating profile.', 'error');
+    }
+}
+
+async function handleAvatarUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const user = authManager.getCurrentUser();
+    if (!user) return;
+    
+    try {
+        const dataManager = new DataManager();
+        const path = `avatars/${user.uid}/${Date.now()}_${file.name}`;
+        const uploadResult = await dataManager.uploadImage(file, path);
+        
+        if (uploadResult.success) {
+            // Update user profile with new avatar
+            const result = await dataManager.update('users', user.uid, {
+                photoURL: uploadResult.url
+            });
+            
+            if (result.success) {
+                // Update the avatar image
+                const avatarImg = document.getElementById('profile-avatar-img');
+                if (avatarImg) {
+                    avatarImg.src = uploadResult.url;
+                }
+                
+                // Update the user object
+                user.photoURL = uploadResult.url;
+                
+                authManager.showToast('Avatar updated successfully!', 'success');
+            } else {
+                authManager.showToast('Error updating avatar.', 'error');
+            }
+        } else {
+            authManager.showToast('Error uploading image.', 'error');
+        }
+    } catch (error) {
+        console.error('Error uploading avatar:', error);
+        authManager.showToast('Error uploading avatar.', 'error');
+    }
+}
+
+// Product Inquiry Functions
+function showProductInquiryModal(productId) {
+    const product = window.products.find(p => p.id === productId);
+    if (!product) return;
+    
+    const customModal = new CustomModal();
+    customModal.show({
+        title: 'Product Inquiry',
+        message: `
+            <form id="inquiry-form">
+                <div class="form-group">
+                    <label for="inquiry-name">Your Name *</label>
+                    <input type="text" id="inquiry-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="inquiry-email">Your Email *</label>
+                    <input type="email" id="inquiry-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="inquiry-message">Your Message *</label>
+                    <textarea id="inquiry-message" rows="4" required></textarea>
+                </div>
+            </form>
+        `,
+        type: 'info',
+        confirmText: 'Send Inquiry',
+        cancelText: 'Cancel',
+        onConfirm: async () => {
+            const name = document.getElementById('inquiry-name').value;
+            const email = document.getElementById('inquiry-email').value;
+            const message = document.getElementById('inquiry-message').value;
+            
+            if (!name || !email || !message) {
+                authManager.showToast('Please fill in all required fields.', 'error');
+                return false;
+            }
+            
+            try {
+                const dataManager = new DataManager();
+                const result = await dataManager.create('inquiries', {
+                    name,
+                    email,
+                    message,
+                    productId,
+                    productName: product.title,
+                    read: false
+                });
+                
+                if (result.success) {
+                    authManager.showToast('Inquiry sent successfully!', 'success');
+                    return true;
+                } else {
+                    authManager.showToast('Error sending inquiry.', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error sending inquiry:', error);
+                authManager.showToast('Error sending inquiry.', 'error');
+                return false;
+            }
+        }
+    });
+}
+
+// Initialize auth state change listener
+document.addEventListener('authStateChanged', (e) => {
+    const { user, isAdmin } = e.detail;
+    
+    // Update UI based on auth state
+    const adminToggle = document.getElementById('admin-toggle');
+    const loginPrompt = document.getElementById('login-prompt');
+    const addCommentSection = document.getElementById('add-comment-section');
+    
+    if (user) {
+        // User is logged in
+        if (adminToggle) {
+            adminToggle.style.display = 'block'; // Show for all users
+        }
+        
+        if (loginPrompt) {
+            loginPrompt.style.display = 'none';
+        }
+        
+        if (addCommentSection) {
+            addCommentSection.style.display = 'block';
+            updateCommentFormUserInfo();
+        }
+    } else {
+        // User is not logged in
+        if (adminToggle) {
+            adminToggle.style.display = 'none';
+        }
+        
+        if (loginPrompt) {
+            loginPrompt.style.display = 'block';
+        }
+        
+        if (addCommentSection) {
+            addCommentSection.style.display = 'none';
+        }
+    }
+    
+    // Update comments UI
+    if (commentsSystem) {
+        commentsSystem.updateCommentsUI();
+    }
+});
+
+function updateCommentFormUserInfo() {
+    const user = authManager.getCurrentUser();
+    if (!user) return;
+    
+    const userAvatar = document.getElementById('user-avatar');
+    const userName = document.getElementById('user-name');
+    
+    if (userAvatar) {
+        userAvatar.src = user.photoURL || 'https://via.placeholder.com/40x40/8B7355/FFFFFF?text=' + (user.displayName ? user.displayName.charAt(0) : 'U');
+        userAvatar.alt = user.displayName || 'User';
+    }
+    
+    if (userName) {
+        userName.textContent = user.displayName || user.email.split('@')[0];
+    }
 }
