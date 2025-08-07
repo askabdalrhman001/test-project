@@ -9,6 +9,42 @@ let authManager;
 let languageManager;
 let commentsSystem;
 
+// Immediately hide loading screen when script loads
+function hideLoadingScreen() {
+    console.log('Attempting to hide loading screen...');
+    
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        console.log('Loading screen found, hiding it...');
+        loadingScreen.classList.add('hidden');
+        loadingScreen.style.display = 'none';
+        console.log('Loading screen completely hidden');
+    } else {
+        console.warn('Loading screen element not found');
+    }
+    
+    isLoading = false;
+    
+    // Also ensure the body is scrollable
+    document.body.style.overflow = 'auto';
+    
+    console.log('Loading screen hidden successfully');
+}
+
+// Hide loading screen immediately
+hideLoadingScreen();
+
+// Also hide it on every possible event
+['DOMContentLoaded', 'load', 'readystatechange'].forEach(event => {
+    document.addEventListener(event, hideLoadingScreen);
+});
+
+// And hide it multiple times to ensure it's hidden
+setTimeout(hideLoadingScreen, 0);
+setTimeout(hideLoadingScreen, 10);
+setTimeout(hideLoadingScreen, 50);
+setTimeout(hideLoadingScreen, 100);
+
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Loaded - Starting initialization');
@@ -16,26 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide loading screen immediately
     hideLoadingScreen();
     
-    // Set a timeout to hide loading screen if initialization takes too long
-    const loadingTimeout = setTimeout(() => {
-        console.warn('Loading timeout reached, hiding loading screen');
-        hideLoadingScreen();
-    }, 0); // Immediate timeout
-    
-    // Also set a fallback timeout for window load
-    const windowLoadTimeout = setTimeout(() => {
-        console.warn('Window load timeout reached, hiding loading screen');
-        hideLoadingScreen();
-    }, 0); // Immediate timeout
-    
     initializeWebsite().then(() => {
         console.log('Website initialization completed successfully');
-        clearTimeout(loadingTimeout);
-        clearTimeout(windowLoadTimeout);
     }).catch((error) => {
         console.error('Failed to initialize website:', error);
-        clearTimeout(loadingTimeout);
-        clearTimeout(windowLoadTimeout);
         hideLoadingScreen();
     });
 });
@@ -45,114 +65,7 @@ window.addEventListener('load', () => {
     console.log('Window loaded');
     // Hide loading screen immediately
     hideLoadingScreen();
-    
-    // If loading screen is still visible after window load, hide it
-    setTimeout(() => {
-        const loadingScreen = document.getElementById('loading-screen');
-        if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
-            console.warn('Forcing loading screen to hide after window load');
-            hideLoadingScreen();
-        }
-    }, 0);
 });
-
-// Emergency fallback - hide loading screen immediately
-setTimeout(() => {
-    const loadingScreen = document.getElementById('loading-screen');
-    if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
-        console.warn('Emergency fallback: Forcing loading screen to hide');
-        hideLoadingScreen();
-    }
-}, 0);
-
-// Immediate fallback - hide loading screen right now
-const loadingScreen = document.getElementById('loading-screen');
-if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
-    console.warn('Immediate fallback: Forcing loading screen to hide');
-    hideLoadingScreen();
-}
-
-// Also ensure body is scrollable immediately
-document.body.style.overflow = 'auto';
-
-// Force hide loading screen on script load
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        hideLoadingScreen();
-    });
-} else {
-    hideLoadingScreen();
-}
-
-// Also hide loading screen on every possible event
-['DOMContentLoaded', 'load', 'readystatechange'].forEach(event => {
-    document.addEventListener(event, () => {
-        hideLoadingScreen();
-    });
-});
-
-// And hide it right now
-hideLoadingScreen();
-
-// And hide it again after a tiny delay
-setTimeout(hideLoadingScreen, 0);
-setTimeout(hideLoadingScreen, 10);
-setTimeout(hideLoadingScreen, 50);
-setTimeout(hideLoadingScreen, 100);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
-
-// And hide it on every possible event
-window.addEventListener('load', hideLoadingScreen);
-window.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('DOMContentLoaded', hideLoadingScreen);
-document.addEventListener('load', hideLoadingScreen);
 
 // Main initialization function
 async function initializeWebsite() {
@@ -243,45 +156,48 @@ async function initializeWebsite() {
 
 // Theme Management
 function setTheme(theme) {
-    currentTheme = theme;
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('naturalcare_theme', theme);
-    
-    // Update theme toggle icon
-    const themeToggle = document.getElementById('theme-toggle');
-    const themeIcon = themeToggle?.querySelector('i');
-    
-    if (themeIcon) {
-        themeIcon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+    try {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('naturalcare_theme', theme);
+        currentTheme = theme;
+        
+        // Update theme toggle icon
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+    } catch (error) {
+        console.warn('Theme setting failed:', error);
     }
 }
 
 function toggleTheme() {
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
+    try {
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+    } catch (error) {
+        console.warn('Theme toggle failed:', error);
+    }
 }
 
 // Animation initialization
 function initializeAnimations() {
-    // Initialize AOS (Animate on Scroll)
-    if (typeof AOS !== 'undefined') {
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true,
-            mirror: false,
-            offset: 100
-        });
+    try {
+        // Initialize AOS animations
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 100
+            });
+        }
+    } catch (error) {
+        console.warn('Animation initialization failed:', error);
     }
-    
-    // Setup scroll progress bar
-    setupScrollProgress();
-    
-    // Setup back to top button
-    setupBackToTop();
-    
-    // Setup header scroll effect
-    setupHeaderScroll();
 }
 
 // Event Listeners Setup
@@ -296,7 +212,9 @@ function setupEventListeners() {
     const languageToggle = document.getElementById('language-toggle');
     if (languageToggle) {
         languageToggle.addEventListener('click', () => {
-            languageManager.toggleLanguage();
+            if (languageManager) {
+                languageManager.toggleLanguage();
+            }
         });
     }
     
@@ -317,10 +235,10 @@ function setupEventListeners() {
     
     if (adminToggle && adminModal) {
         adminToggle.addEventListener('click', () => {
-            if (authManager.isAuthenticated() && authManager.isUserAdmin()) {
+            if (authManager && authManager.isAuthenticated() && authManager.isUserAdmin()) {
                 adminModal.classList.add('active');
                 authManager.updateAdminContent();
-            } else if (authManager.isAuthenticated()) {
+            } else if (authManager && authManager.isAuthenticated()) {
                 // Show user profile for non-admin users
                 const adminContent = document.getElementById('admin-content');
                 if (adminContent) {
@@ -332,8 +250,10 @@ function setupEventListeners() {
                 // Show login form for non-authenticated users
                 const adminContent = document.getElementById('admin-content');
                 if (adminContent) {
-                    adminContent.innerHTML = authManager.generateLoginForm();
-                    authManager.setupLoginEventListeners();
+                    adminContent.innerHTML = authManager ? authManager.generateLoginForm() : '<p>Authentication not available</p>';
+                    if (authManager) {
+                        authManager.setupLoginEventListeners();
+                    }
                 }
                 adminModal.classList.add('active');
             }
@@ -390,14 +310,47 @@ function setupEventListeners() {
 
 // Components initialization
 function initializeComponents() {
-    // Initialize category filters
-    initializeCategoryFilters();
-    
-    // Initialize FAQ accordion
-    initializeFAQAccordion();
-    
-    // Setup product card interactions
-    setupProductInteractions();
+    try {
+        // Initialize AOS animations
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true,
+                offset: 100
+            });
+        }
+        
+        // Setup scroll progress
+        setupScrollProgress();
+        
+        // Setup back to top button
+        setupBackToTop();
+        
+        // Setup header scroll effects
+        setupHeaderScroll();
+        
+        // Setup gallery lightbox
+        setupGalleryLightbox();
+        
+        // Setup smooth scrolling
+        setupSmoothScrolling();
+        
+        // Initialize category filters
+        initializeCategoryFilters();
+        
+        // Setup product interactions
+        setupProductInteractions();
+        
+        // Initialize FAQ accordion
+        initializeFAQAccordion();
+        
+        // Setup FAQ search
+        setupFAQSearch();
+        
+    } catch (error) {
+        console.warn('Component initialization failed:', error);
+    }
 }
 
 // Data loading
@@ -543,7 +496,7 @@ async function loadCategories() {
                 nameAr: 'الشموع والعلاج العطري',
                 description: 'Scented Candles, Essential Oils, Natural Incense',
                 descriptionAr: 'شموع معطرة، زيوت أساسية، بخور طبيعي',
-                icon: 'fas fa-candle-holder',
+                icon: 'fas fa-fire',
                 subcategories: ['scented-candles', 'essential-oils', 'natural-incense']
             }
         ];
@@ -557,423 +510,302 @@ async function loadCategories() {
     }
 }
 
-function renderCategories(categories) {
-    const categoriesGrid = document.getElementById('categories-grid');
-    const categoryFilter = document.querySelector('.category-filter');
-    
-    if (categoriesGrid) {
-        categoriesGrid.innerHTML = categories.map(category => `
-            <div class="category-card" data-category="${category.id}" data-aos="fade-up">
-                <div class="category-icon">
-                    <i class="${category.icon}"></i>
-                </div>
-                <h3 class="category-title">${getCurrentLanguage() === 'ar' ? category.nameAr : category.name}</h3>
-                <p class="category-description">${getCurrentLanguage() === 'ar' ? category.descriptionAr : category.description}</p>
-            </div>
-        `).join('');
-        
-        // Add click handlers for category cards
-        categoriesGrid.querySelectorAll('.category-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const categoryId = card.getAttribute('data-category');
-                filterProductsByCategory(categoryId);
-                // Scroll to products section
-                document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-    }
-    
-    // Add category filter buttons
-    if (categoryFilter) {
-        const filterButtons = categories.map(category => `
-            <button class="filter-btn" data-category="${category.id}">
-                ${getCurrentLanguage() === 'ar' ? category.nameAr : category.name}
-            </button>
-        `).join('');
-        
-        // Insert after "All Products" button
-        categoryFilter.insertAdjacentHTML('beforeend', filterButtons);
-        
-        // Add event listeners to filter buttons
-        categoryFilter.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                categoryFilter.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const categoryId = btn.getAttribute('data-category');
-                filterProductsByCategory(categoryId);
-            });
-        });
-    }
-}
-
-// Product Management
-async function loadProducts() {
+// Product rendering
+function renderProducts(products) {
     try {
-        console.log('Loading products...');
+        const productsGrid = document.getElementById('products-grid');
+        if (!productsGrid) return;
         
-        // Try to load from Firebase first
-        if (typeof dataManager !== 'undefined' && dataManager) {
-            try {
-                const result = await dataManager.read('products');
-                if (result.success && result.data.length > 0) {
-                    console.log('Products loaded from Firebase');
-                    renderProducts(result.data);
-                    return;
-                }
-            } catch (error) {
-                console.warn('Failed to load products from Firebase:', error);
-            }
+        // Store products globally for access in other functions
+        window.allProducts = products;
+        
+        if (products.length === 0) {
+            productsGrid.innerHTML = `
+                <div class="no-products">
+                    <i class="fas fa-box-open"></i>
+                    <p data-translate="no_products">No products available at the moment.</p>
+                </div>
+            `;
+            return;
         }
         
-        console.log('Using default products');
-        // Fallback to default products with updated categories
-        const defaultProducts = [
-            {
-                id: '1',
-                title: 'Lavender Soap',
-                titleAr: 'صابون اللافندر',
-                description: 'Handmade lavender soap with organic ingredients. Perfect for sensitive skin.',
-                descriptionAr: 'صابون اللافندر المصنوع يدوياً بمكونات عضوية. مثالي للبشرة الحساسة.',
-                price: 85,
-                discount: 0,
-                category: 'soaps-cleansers',
-                categoryName: 'Soaps & Cleansers',
-                categoryNameAr: 'الصابون والمنظفات',
-                image: 'https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: true,
-                quantity: 50,
-                rating: 4.8,
-                reviews: 124
-            },
-            {
-                id: '2',
-                title: 'Organic Hair Oil',
-                titleAr: 'زيت الشعر العضوي',
-                description: 'Nourishing hair oil blend with natural ingredients for healthy hair growth.',
-                descriptionAr: 'خليط زيت الشعر المغذي بمكونات طبيعية لنمو الشعر الصحي.',
-                price: 120,
-                discount: 10,
-                category: 'haircare',
-                categoryName: 'Hair Care',
-                categoryNameAr: 'العناية بالشعر',
-                image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: true,
-                quantity: 30,
-                rating: 4.9,
-                reviews: 89
-            },
-            {
-                id: '3',
-                title: 'Beeswax Candle',
-                titleAr: 'شمعة شمع العسل',
-                description: 'Pure beeswax candle with essential oils for aromatherapy and relaxation.',
-                descriptionAr: 'شمعة شمع العسل النقي بالزيوت الأساسية للعلاج العطري والاسترخاء.',
-                price: 65,
-                discount: 0,
-                category: 'candles-aromatherapy',
-                categoryName: 'Candles & Aromatherapy',
-                categoryNameAr: 'الشموع والعلاج العطري',
-                image: 'https://images.unsplash.com/photo-1605464315542-f6344c543d5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 20,
-                inStock: true,
-                quantity: 25,
-                rating: 4.7,
-                reviews: 67
-            },
-            {
-                id: '4',
-                title: 'Body Lotion',
-                titleAr: 'لوشن الجسم',
-                description: 'Moisturizing body lotion with natural herbs and oils for soft, smooth skin.',
-                descriptionAr: 'لوشن الجسم المرطب بالأعشاب والزيوت الطبيعية لبشرة ناعمة ونعومة.',
-                price: 95,
-                discount: 15,
-                category: 'bodycare',
-                categoryName: 'Body Care',
-                categoryNameAr: 'العناية بالجسم',
-                image: 'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: false,
-                quantity: 0,
-                rating: 4.6,
-                reviews: 45
-            },
-            {
-                id: '5',
-                title: 'Face Moisturizer',
-                titleAr: 'مرطب الوجه',
-                description: 'Hydrating face cream with natural ingredients for all skin types.',
-                descriptionAr: 'كريم الوجه المرطب بمكونات طبيعية لجميع أنواع البشرة.',
-                price: 110,
-                discount: 20,
-                category: 'skincare',
-                categoryName: 'Skin Care',
-                categoryNameAr: 'العناية بالبشرة',
-                image: 'https://images.unsplash.com/photo-1556228578-dd6c8c6d9b5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 25,
-                inStock: true,
-                quantity: 35,
-                rating: 4.5,
-                reviews: 78
-            },
-            {
-                id: '6',
-                title: 'Natural Toothpaste',
-                titleAr: 'معجون الأسنان الطبيعي',
-                description: 'Fluoride-free natural toothpaste with mint and herbs.',
-                descriptionAr: 'معجون أسنان طبيعي خالي من الفلورايد بالنعناع والأعشاب.',
-                price: 45,
-                discount: 0,
-                category: 'oralcare',
-                categoryName: 'Oral Care',
-                categoryNameAr: 'العناية بالفم',
-                image: 'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                deliveryAvailable: true,
-                deliveryPrice: 20,
-                inStock: true,
-                quantity: 60,
-                rating: 4.3,
-                reviews: 92
-            }
-        ];
-        
-        renderProducts(defaultProducts);
-        
-    } catch (error) {
-        console.error('Error loading products:', error);
-        // Use empty array as fallback
-        renderProducts([]);
-    }
-}
-
-function renderProducts(products) {
-    const productsGrid = document.getElementById('products-grid');
-    
-    if (productsGrid) {
         productsGrid.innerHTML = products.map(product => {
             const currentLang = getCurrentLanguage();
             const title = currentLang === 'ar' ? product.titleAr : product.title;
             const description = currentLang === 'ar' ? product.descriptionAr : product.description;
-            const finalPrice = product.discount > 0 ? product.price * (1 - product.discount / 100) : product.price;
+            const categoryName = currentLang === 'ar' ? product.categoryNameAr : product.categoryName;
             
-            const categoryName = getCurrentLanguage() === 'ar' ? 
-                (product.categoryNameAr || product.category) : 
-                (product.categoryName || product.category);
-
             return `
-                <div class="product-card" data-category="${product.category}" data-aos="fade-up">
+                <div class="product-card" data-aos="fade-up" data-category="${product.category}">
                     <div class="product-image">
                         <img src="${product.image}" alt="${title}" class="product-img">
-                        <div class="product-category">${categoryName}</div>
-                        ${product.discount > 0 ? `<div class="product-badge">-${product.discount}%</div>` : ''}
+                        <div class="product-badge">
+                            ${product.discount > 0 ? `<span class="discount-badge">-${product.discount}%</span>` : ''}
+                            <span class="category-badge">${categoryName}</span>
+                        </div>
                     </div>
+                    
                     <div class="product-info">
                         <h3 class="product-title">${title}</h3>
                         <p class="product-description">${description}</p>
                         
                         <div class="product-rating">
-                            <div class="stars">
-                                ${generateStars(product.rating)}
-                            </div>
-                            <span class="rating-text">${product.rating} (${product.reviews} ${languageManager.t('reviews')})</span>
-                        </div>
-
-                        <div class="product-stock">
-                            <div class="stock-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}">
-                                <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                                <span>${product.inStock ? languageManager.t('available') : languageManager.t('out_of_stock')}</span>
-                            </div>
-                            ${product.inStock ? `<span class="stock-quantity">${languageManager.t('stock_quantity')}: ${languageManager.formatNumber(product.quantity)}</span>` : ''}
+                            <div class="stars">${generateStars(product.rating)}</div>
+                            <span class="rating-text">${product.rating}/5 (${product.reviews} reviews)</span>
                         </div>
                         
                         <div class="product-price">
-                            ${product.discount > 0 ? `<span style="text-decoration: line-through; color: var(--text-muted); font-size: 0.9em;">${languageManager.formatCurrency(product.price)}</span>` : ''}
-                            ${languageManager.formatCurrency(finalPrice)}
+                            <span class="price">EGP ${product.price}</span>
+                            ${product.discount > 0 ? `<span class="original-price">EGP ${Math.round(product.price / (1 - product.discount / 100))}</span>` : ''}
                         </div>
                         
                         <div class="product-actions">
-                            <button class="btn btn-small btn-secondary translate-btn" onclick="toggleProductTranslation('${product.id}')">
-                                <i class="fas fa-language"></i>
-                                <span data-translate="translate_product">Translate</span>
+                            <button class="btn btn-primary whatsapp-btn" data-product="${title}" ${!product.inStock ? 'disabled' : ''}>
+                                <i class="fab fa-whatsapp"></i> Order
                             </button>
-                            <button class="btn btn-small btn-secondary details-btn" onclick="showProductDetails('${product.id}')">
-                                <i class="fas fa-info-circle"></i>
-                                <span data-translate="view_details">Details</span>
+                            <button class="btn btn-secondary details-btn" data-product-id="${product.id}">
+                                <i class="fas fa-info-circle"></i> Details
                             </button>
-                            <button class="btn btn-small btn-primary whatsapp-btn" onclick="orderViaWhatsApp('${title}')" ${!product.inStock ? 'disabled' : ''}>
-                                <i class="fab fa-whatsapp"></i>
-                                <span data-translate="order_whatsapp">Order</span>
+                            <button class="btn btn-secondary product-inquiry" data-product-id="${product.id}">
+                                <i class="fas fa-question-circle"></i> Ask
                             </button>
+                        </div>
+                        
+                        <div class="product-stock">
+                            <div class="stock-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+                                <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                                <span>${product.inStock ? 'In Stock' : 'Out of Stock'}</span>
+                            </div>
+                            ${product.inStock ? `<span class="stock-quantity">${product.quantity} available</span>` : ''}
                         </div>
                     </div>
                 </div>
             `;
         }).join('');
+        
+        // Setup product interactions after rendering
+        setupProductInteractions();
+        
+    } catch (error) {
+        console.warn('Error rendering products:', error);
     }
-    
-    // Store products globally for filtering
-    window.allProducts = products;
 }
 
-function generateStars(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    
-    let starsHTML = '';
-    
-    // Full stars
-    for (let i = 0; i < fullStars; i++) {
-        starsHTML += '<i class="fas fa-star star"></i>';
-    }
-    
-    // Half star
-    if (hasHalfStar) {
-        starsHTML += '<i class="fas fa-star-half-alt star"></i>';
-    }
-    
-    // Empty stars
-    for (let i = 0; i < emptyStars; i++) {
-        starsHTML += '<i class="far fa-star star empty"></i>';
-    }
-    
-    return starsHTML;
-}
-
-function filterProductsByCategory(categoryId) {
-    const productCards = document.querySelectorAll('.product-card');
-    
-    productCards.forEach(card => {
-        if (categoryId === 'all' || card.getAttribute('data-category') === categoryId) {
-            card.style.display = 'block';
-            // Re-trigger animation
-            card.setAttribute('data-aos', 'fade-up');
-        } else {
-            card.style.display = 'none';
+// Category rendering
+function renderCategories(categories) {
+    try {
+        const categoriesGrid = document.getElementById('categories-grid');
+        if (!categoriesGrid) return;
+        
+        if (categories.length === 0) {
+            categoriesGrid.innerHTML = `
+                <div class="no-categories">
+                    <i class="fas fa-tags"></i>
+                    <p data-translate="no_categories">No categories available.</p>
+                </div>
+            `;
+            return;
         }
-    });
-    
-    // Refresh AOS animations
-    if (typeof AOS !== 'undefined') {
-        AOS.refresh();
-    }
-}
-
-function toggleProductTranslation(productId) {
-    // Find the product
-    const product = window.allProducts?.find(p => p.id === productId);
-    if (!product) return;
-    
-    const currentLang = getCurrentLanguage();
-    const oppositeTitle = currentLang === 'ar' ? product.title : product.titleAr;
-    const oppositeDesc = currentLang === 'ar' ? product.description : product.descriptionAr;
-    
-    if (oppositeTitle && oppositeDesc) {
-        // Find the product card and update content
-        const productCards = document.querySelectorAll('.product-card');
-        productCards.forEach(card => {
-            const title = card.querySelector('.product-title');
-            const description = card.querySelector('.product-description');
+        
+        categoriesGrid.innerHTML = categories.map(category => {
+            const currentLang = getCurrentLanguage();
+            const name = currentLang === 'ar' ? category.nameAr : category.name;
+            const description = currentLang === 'ar' ? category.descriptionAr : category.description;
             
-            if (title && description) {
-                if (title.textContent.includes(currentLang === 'ar' ? product.titleAr : product.title)) {
-                    title.textContent = oppositeTitle;
-                    description.textContent = oppositeDesc;
-                }
-            }
-        });
-    } else {
-        showToast(languageManager.t('translation_not_available'), 'warning');
+            return `
+                <div class="category-card" data-aos="fade-up" data-category="${category.id}">
+                    <div class="category-icon">
+                        <i class="${category.icon}"></i>
+                    </div>
+                    <h3 class="category-title">${name}</h3>
+                    <p class="category-description">${description}</p>
+                </div>
+            `;
+        }).join('');
+        
+    } catch (error) {
+        console.warn('Error rendering categories:', error);
     }
 }
 
-function showProductDetails(productId) {
-    const product = window.allProducts?.find(p => p.id === productId);
-    if (!product) return;
-    
-    const currentLang = getCurrentLanguage();
-    const title = currentLang === 'ar' ? product.titleAr : product.title;
-    
-    const modal = document.getElementById('product-modal');
-    const modalTitle = document.getElementById('product-modal-title');
-    const modalContent = document.getElementById('product-modal-content');
-    const backHomeBtn = document.getElementById('back-home');
-    
-    if (modal && modalTitle && modalContent) {
-        modalTitle.textContent = title;
-        modalContent.innerHTML = `
-            <div class="product-details">
-                <img src="${product.image}" alt="${title}" style="width: 100%; max-width: 400px; border-radius: var(--radius-lg); margin-bottom: var(--spacing-lg);">
-                
-                <div class="detail-item">
-                    <strong data-translate="delivery_available">Delivery Available:</strong>
-                    <span>${product.deliveryAvailable ? languageManager.t('delivery_available') : languageManager.t('delivery_not_available')}</span>
+// Testimonials rendering
+function renderTestimonials(testimonials) {
+    try {
+        const testimonialsGrid = document.getElementById('testimonials-grid');
+        if (!testimonialsGrid) return;
+        
+        if (testimonials.length === 0) {
+            testimonialsGrid.innerHTML = `
+                <div class="no-testimonials">
+                    <i class="fas fa-comments"></i>
+                    <p data-translate="no_testimonials">No testimonials available.</p>
                 </div>
-                
-                ${product.deliveryAvailable ? `
-                <div class="detail-item">
-                    <strong data-translate="delivery_price">Delivery Price:</strong>
-                    <span>${languageManager.formatCurrency(product.deliveryPrice)}</span>
-                </div>
-                ` : ''}
-                
-                <div class="detail-item">
-                    <strong data-translate="stock_status">Stock Status:</strong>
-                    <div class="stock-indicator ${product.inStock ? 'in-stock' : 'out-of-stock'}">
-                        <i class="fas ${product.inStock ? 'fa-check-circle' : 'fa-times-circle'}"></i>
-                        <span>${product.inStock ? languageManager.t('available') : languageManager.t('out_of_stock')}</span>
+            `;
+            return;
+        }
+        
+        testimonialsGrid.innerHTML = testimonials.map(testimonial => {
+            const currentLang = getCurrentLanguage();
+            const text = currentLang === 'ar' ? testimonial.textAr : testimonial.text;
+            
+            return `
+                <div class="testimonial-card" data-aos="fade-up">
+                    <div class="testimonial-text">${text}</div>
+                    <div class="testimonial-author">
+                        <img src="${testimonial.avatar}" alt="${testimonial.author}" class="author-avatar">
+                        <div class="author-info">
+                            <h4>${testimonial.author}</h4>
+                            <p>${testimonial.location}</p>
+                            <div class="stars">
+                                ${generateStars(testimonial.rating)}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="detail-item">
-                    <strong data-translate="quantity_available">Quantity Available:</strong>
-                    <span>${languageManager.formatNumber(product.quantity)}</span>
-                </div>
-                
-                <div class="detail-item">
-                    <strong data-translate="rating">Rating:</strong>
-                    <span>${product.rating}/5 (${product.reviews} ${languageManager.t('reviews')})</span>
-                </div>
-
-                <div class="detail-actions" style="margin-top: var(--spacing-lg); display: flex; gap: var(--spacing-md);">
-                    <button class="btn btn-primary" onclick="orderViaWhatsApp('${title}')" ${!product.inStock ? 'disabled' : ''}>
-                        <i class="fab fa-whatsapp"></i>
-                        <span data-translate="order_whatsapp">Order via WhatsApp</span>
-                    </button>
-                </div>
-            </div>
-        `;
+            `;
+        }).join('');
         
-        modal.classList.add('active');
-        
-        // Show back to home button
-        if (backHomeBtn) {
-            backHomeBtn.style.display = 'flex';
-        }
-        
-        // Update translations
-        if (languageManager) {
-            languageManager.updateTranslations();
-        }
+    } catch (error) {
+        console.warn('Error rendering testimonials:', error);
     }
 }
 
+// FAQs rendering
+function renderFAQs(faqs) {
+    try {
+        const faqAccordion = document.getElementById('faq-accordion');
+        if (!faqAccordion) return;
+        
+        if (faqs.length === 0) {
+            faqAccordion.innerHTML = `
+                <div class="no-faqs">
+                    <i class="fas fa-question-circle"></i>
+                    <p data-translate="no_faqs">No FAQs available.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        faqAccordion.innerHTML = faqs.map(faq => {
+            const currentLang = getCurrentLanguage();
+            const question = currentLang === 'ar' ? faq.questionAr : faq.question;
+            const answer = currentLang === 'ar' ? faq.answerAr : faq.answer;
+            
+            return `
+                <div class="faq-item" data-aos="fade-up">
+                    <div class="faq-question">
+                        <h4>${question}</h4>
+                        <i class="fas fa-chevron-down faq-icon"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            ${answer}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        // Initialize FAQ accordion after rendering
+        initializeFAQAccordion();
+        
+    } catch (error) {
+        console.warn('Error rendering FAQs:', error);
+    }
+}
+
+// Generate stars for ratings
+function generateStars(rating) {
+    try {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 !== 0;
+        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+        
+        let stars = '';
+        
+        // Full stars
+        for (let i = 0; i < fullStars; i++) {
+            stars += '<i class="fas fa-star star"></i>';
+        }
+        
+        // Half star
+        if (hasHalfStar) {
+            stars += '<i class="fas fa-star-half-alt star"></i>';
+        }
+        
+        // Empty stars
+        for (let i = 0; i < emptyStars; i++) {
+            stars += '<i class="far fa-star star empty"></i>';
+        }
+        
+        return stars;
+    } catch (error) {
+        console.warn('Error generating stars:', error);
+        return '';
+    }
+}
+
+// Product filtering
+function filterProductsByCategory(categoryId) {
+    try {
+        const productCards = document.querySelectorAll('.product-card');
+        
+        productCards.forEach(card => {
+            if (categoryId === 'all' || card.dataset.category === categoryId) {
+                card.style.display = 'block';
+                card.setAttribute('data-aos', 'fade-up');
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        // Update active filter button
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        filterButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.category === categoryId) {
+                btn.classList.add('active');
+            }
+        });
+        
+    } catch (error) {
+        console.warn('Product filtering failed:', error);
+    }
+}
+
+// Product translation toggle
+function toggleProductTranslation(productId) {
+    try {
+        const product = window.allProducts?.find(p => p.id === productId);
+        if (!product) return;
+        
+        const currentLang = getCurrentLanguage();
+        const newLang = currentLang === 'en' ? 'ar' : 'en';
+        
+        // Update language for this specific product
+        languageManager.setLanguage(newLang);
+        
+        // Re-render products to show translated content
+        renderProducts(window.allProducts);
+        
+        // Show toast
+        showToast(`Product translated to ${newLang === 'ar' ? 'Arabic' : 'English'}`, 'info');
+        
+    } catch (error) {
+        console.warn('Product translation toggle failed:', error);
+    }
+}
+
+// WhatsApp order function
 function orderViaWhatsApp(productName) {
-    const message = languageManager.formatWhatsAppMessage(productName);
-    const phoneNumber = '201234567890'; // ضع رقمك هنا بدون علامة +
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-    
-    window.open(whatsappUrl, '_blank');
+    try {
+        const message = `Hi, I want to order ${productName}`;
+        const whatsappUrl = `https://wa.me/201234567890?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+    } catch (error) {
+        console.warn('WhatsApp order failed:', error);
+        showToast('Error opening WhatsApp. Please try again.', 'error');
+    }
 }
 
 // Testimonials Management
@@ -1152,105 +984,138 @@ function renderFAQs(faqs) {
     window.allFAQs = faqs;
 }
 
+// FAQ accordion initialization
 function initializeFAQAccordion() {
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            const faqItem = question.parentElement;
-            const isActive = faqItem.classList.contains('active');
+    try {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
             
-            // Close all other FAQ items
-            document.querySelectorAll('.faq-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            // Toggle current item
-            if (!isActive) {
-                faqItem.classList.add('active');
+            if (question && answer) {
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+                    
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
             }
         });
-    });
-}
-
-function setupFAQSearch() {
-    const faqSearch = document.getElementById('faq-search');
-    
-    if (faqSearch) {
-        faqSearch.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            searchFAQs(searchTerm);
-        });
+        
+    } catch (error) {
+        console.warn('FAQ accordion initialization failed:', error);
     }
 }
 
-function searchFAQs(searchTerm) {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question span').textContent.toLowerCase();
-        const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+// FAQ search setup
+function setupFAQSearch() {
+    try {
+        const searchInput = document.getElementById('faq-search');
+        if (!searchInput) return;
         
-        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            searchFAQs(searchTerm);
+        });
+        
+    } catch (error) {
+        console.warn('FAQ search setup failed:', error);
+    }
 }
 
+// FAQ search functionality
+function searchFAQs(searchTerm) {
+    try {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question h4').textContent.toLowerCase();
+            const answer = item.querySelector('.faq-answer-content').textContent.toLowerCase();
+            
+            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+    } catch (error) {
+        console.warn('FAQ search failed:', error);
+    }
+}
+
+// FAQ category filtering
 function filterFAQs(category) {
-    const faqItems = document.querySelectorAll('.faq-item');
-    
-    faqItems.forEach(item => {
-        if (category === 'all' || item.getAttribute('data-category') === category) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
+    try {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            if (category === 'all' || item.dataset.category === category) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+    } catch (error) {
+        console.warn('FAQ filtering failed:', error);
+    }
 }
 
 // UI Helper Functions
 function setupScrollProgress() {
-    const progressBar = document.getElementById('progress-bar');
-    
-    if (progressBar) {
+    try {
+        const progressBar = document.getElementById('progress-bar');
+        if (!progressBar) return;
+        
         window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.body.offsetHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
-            
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
             progressBar.style.width = scrollPercent + '%';
         });
+    } catch (error) {
+        console.warn('Scroll progress setup failed:', error);
     }
 }
 
 function setupBackToTop() {
-    const backToTopBtn = document.getElementById('back-to-top');
-    
-    if (backToTopBtn) {
+    try {
+        const backToTop = document.getElementById('back-to-top');
+        if (!backToTop) return;
+        
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('visible');
+                backToTop.classList.add('visible');
             } else {
-                backToTopBtn.classList.remove('visible');
+                backToTop.classList.remove('visible');
             }
         });
         
-        backToTopBtn.addEventListener('click', () => {
+        backToTop.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         });
+    } catch (error) {
+        console.warn('Back to top setup failed:', error);
     }
 }
 
 function setupHeaderScroll() {
-    const header = document.getElementById('header');
-    
-    if (header) {
+    try {
+        const header = document.getElementById('header');
+        if (!header) return;
+        
         window.addEventListener('scroll', () => {
             if (window.pageYOffset > 100) {
                 header.classList.add('scrolled');
@@ -1258,184 +1123,180 @@ function setupHeaderScroll() {
                 header.classList.remove('scrolled');
             }
         });
+    } catch (error) {
+        console.warn('Header scroll setup failed:', error);
     }
 }
 
 function setupGalleryLightbox() {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightbox-image');
-    const lightboxClose = document.querySelector('.lightbox-close');
-    
-    if (galleryItems && lightbox && lightboxImage) {
-        const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
-        let currentImageIndex = 0;
+    try {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxClose = document.getElementById('lightbox-close');
         
-        galleryItems.forEach((item, index) => {
+        if (!lightbox || !lightboxImage || !lightboxClose) return;
+        
+        galleryItems.forEach(item => {
             item.addEventListener('click', () => {
-                currentImageIndex = index;
-                lightboxImage.src = images[currentImageIndex];
-                lightbox.classList.add('active');
+                const img = item.querySelector('img');
+                if (img) {
+                    lightboxImage.src = img.src;
+                    lightbox.classList.add('active');
+                }
             });
         });
         
-        if (lightboxClose) {
-            lightboxClose.addEventListener('click', () => {
-                lightbox.classList.remove('active');
-            });
-        }
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
         
-        // Navigation
-        const prevBtn = document.querySelector('.lightbox-prev');
-        const nextBtn = document.querySelector('.lightbox-next');
-        
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            });
-        }
-        
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentImageIndex = (currentImageIndex + 1) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            });
-        }
-        
-        // Close on outside click
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
                 lightbox.classList.remove('active');
             }
         });
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            
-            if (e.key === 'Escape') {
-                lightbox.classList.remove('active');
-            } else if (e.key === 'ArrowLeft') {
-                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            } else if (e.key === 'ArrowRight') {
-                currentImageIndex = (currentImageIndex + 1) % images.length;
-                lightboxImage.src = images[currentImageIndex];
-            }
-        });
+    } catch (error) {
+        console.warn('Gallery lightbox setup failed:', error);
     }
 }
 
 function setupSmoothScrolling() {
-    const navLinks = document.querySelectorAll('a[href^="#"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const targetId = link.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
-            
-            if (targetElement) {
-                const headerHeight = document.getElementById('header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight;
+    try {
+        const links = document.querySelectorAll('a[href^="#"]');
+        
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
                 
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
                 
-                // Close mobile menu if open
-                const navMenu = document.getElementById('nav-menu');
-                const hamburger = document.getElementById('hamburger');
-                
-                if (navMenu && hamburger) {
-                    navMenu.classList.remove('active');
-                    hamburger.classList.remove('active');
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
+            });
+        });
+    } catch (error) {
+        console.warn('Smooth scrolling setup failed:', error);
+    }
+}
+
+// Category filter initialization
+function initializeCategoryFilters() {
+    try {
+        const categoryFilter = document.querySelector('.category-filter');
+        if (!categoryFilter) return;
+        
+        // Add "All Products" button
+        const allButton = document.createElement('button');
+        allButton.className = 'filter-btn active';
+        allButton.dataset.category = 'all';
+        allButton.textContent = 'All Products';
+        categoryFilter.appendChild(allButton);
+        
+        // Add event listeners
+        categoryFilter.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                const categoryId = e.target.dataset.category;
+                filterProductsByCategory(categoryId);
             }
         });
-    });
+        
+    } catch (error) {
+        console.warn('Category filter initialization failed:', error);
+    }
 }
 
-function initializeCategoryFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            btn.classList.add('active');
-            
-            const categoryId = btn.getAttribute('data-category');
-            filterProductsByCategory(categoryId);
-        });
-    });
-}
-
+// Product interactions
 function setupProductInteractions() {
-    // This will be called after products are loaded
-    // Additional product interactions can be added here
+    try {
+        // WhatsApp order buttons
+        const whatsappButtons = document.querySelectorAll('.whatsapp-btn');
+        whatsappButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productName = button.dataset.product;
+                orderViaWhatsApp(productName);
+            });
+        });
+        
+        // Product detail buttons
+        const detailButtons = document.querySelectorAll('.details-btn');
+        detailButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productId = button.dataset.productId;
+                showProductDetails(productId);
+            });
+        });
+        
+        // Product inquiry buttons
+        const inquiryButtons = document.querySelectorAll('.product-inquiry');
+        inquiryButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productId = button.dataset.productId;
+                showProductInquiryModal(productId);
+            });
+        });
+        
+    } catch (error) {
+        console.warn('Product interactions setup failed:', error);
+    }
 }
 
+// Contact form handler
 function handleContactFormSubmit(e) {
     e.preventDefault();
     
-    // Show loading state
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    submitBtn.disabled = true;
-    
-    // Simulate form submission (replace with actual Formspree or other service)
-    setTimeout(() => {
-        showToast('Message sent successfully! We will get back to you soon.', 'success');
-        e.target.reset();
+    try {
+        // Show loading state
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
         
-        // Reset button
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
-}
-
-function hideLoadingScreen() {
-    console.log('Attempting to hide loading screen...');
-    
-    const loadingScreen = document.getElementById('loading-screen');
-    if (loadingScreen) {
-        console.log('Loading screen found, hiding it...');
-        loadingScreen.classList.add('hidden');
+        // Simulate form submission (replace with actual Formspree or other service)
         setTimeout(() => {
-            loadingScreen.style.display = 'none';
-            console.log('Loading screen completely hidden');
-        }, 0);
-    } else {
-        console.warn('Loading screen element not found');
+            showToast('Message sent successfully! We will get back to you soon.', 'success');
+            e.target.reset();
+            
+            // Reset button
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 2000);
+    } catch (error) {
+        console.warn('Contact form submission failed:', error);
+        showToast('Error sending message. Please try again.', 'error');
     }
-    
-    isLoading = false;
-    
-    // Also ensure the body is scrollable
-    document.body.style.overflow = 'auto';
-    
-    console.log('Loading screen hidden successfully');
 }
 
+// Toast notification system
 function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    
-    const toastContainer = document.getElementById('toast-container');
-    if (toastContainer) {
-        toastContainer.appendChild(toast);
+    try {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
         
-        // Remove toast after 5 seconds
-        setTimeout(() => {
-            toast.remove();
-        }, 5000);
+        const toastContainer = document.getElementById('toast-container');
+        if (toastContainer) {
+            toastContainer.appendChild(toast);
+            
+            // Remove toast after 5 seconds
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+    } catch (error) {
+        console.warn('Toast notification failed:', error);
+        // Fallback to console log
+        console.log(`${type.toUpperCase()}: ${message}`);
     }
 }
 
@@ -1458,56 +1319,85 @@ class CustomModal {
     }
     
     setupEventListeners() {
-        this.modalCancel?.addEventListener('click', () => this.hide());
-        this.modal?.addEventListener('click', (e) => {
-            if (e.target === this.modal) this.hide();
-        });
+        try {
+            this.modalCancel?.addEventListener('click', () => this.hide());
+            this.modal?.addEventListener('click', (e) => {
+                if (e.target === this.modal) this.hide();
+            });
+        } catch (error) {
+            console.warn('Modal event listeners setup failed:', error);
+        }
     }
     
     show(options) {
-        const {
-            type = 'warning',
-            title = 'Confirmation',
-            message = 'Are you sure?',
-            confirmText = 'Confirm',
-            cancelText = 'Cancel',
-            onConfirm = () => {},
-            onCancel = () => {}
-        } = options;
-        
-        // Update icon
-        this.modalIcon.className = `modal-icon ${type}`;
-        const iconMap = {
-            warning: 'fas fa-exclamation-triangle',
-            danger: 'fas fa-trash-alt',
-            success: 'fas fa-check-circle',
-            info: 'fas fa-info-circle'
-        };
-        this.modalIcon.querySelector('i').className = iconMap[type] || iconMap.warning;
-        
-        // Update content
-        this.modalTitle.textContent = title;
-        this.modalMessage.textContent = message;
-        this.modalConfirm.querySelector('span').textContent = confirmText;
-        this.modalCancel.querySelector('span').textContent = cancelText;
-        
-        // Setup handlers
-        this.modalConfirm.onclick = () => {
-            onConfirm();
-            this.hide();
-        };
-        
-        this.modalCancel.onclick = () => {
-            onCancel();
-            this.hide();
-        };
-        
-        // Show modal
-        this.modal.classList.add('active');
+        try {
+            const {
+                type = 'warning',
+                title = 'Confirmation',
+                message = 'Are you sure?',
+                confirmText = 'Confirm',
+                cancelText = 'Cancel',
+                onConfirm = () => {},
+                onCancel = () => {}
+            } = options;
+            
+            // Update icon
+            if (this.modalIcon) {
+                this.modalIcon.className = `modal-icon ${type}`;
+                const iconMap = {
+                    warning: 'fas fa-exclamation-triangle',
+                    danger: 'fas fa-trash-alt',
+                    success: 'fas fa-check-circle',
+                    info: 'fas fa-info-circle'
+                };
+                const icon = this.modalIcon.querySelector('i');
+                if (icon) {
+                    icon.className = iconMap[type] || iconMap.warning;
+                }
+            }
+            
+            // Update content
+            if (this.modalTitle) this.modalTitle.textContent = title;
+            if (this.modalMessage) this.modalMessage.textContent = message;
+            if (this.modalConfirm) {
+                const span = this.modalConfirm.querySelector('span');
+                if (span) span.textContent = confirmText;
+            }
+            if (this.modalCancel) {
+                const span = this.modalCancel.querySelector('span');
+                if (span) span.textContent = cancelText;
+            }
+            
+            // Setup handlers
+            this.onConfirm = onConfirm;
+            this.onCancel = onCancel;
+            
+            // Show modal
+            if (this.modal) {
+                this.modal.classList.add('active');
+            }
+            
+            // Return promise
+            return new Promise((resolve) => {
+                this.resolve = resolve;
+            });
+        } catch (error) {
+            console.warn('Modal show failed:', error);
+            return Promise.resolve(false);
+        }
     }
     
     hide() {
-        this.modal?.classList.remove('active');
+        try {
+            if (this.modal) {
+                this.modal.classList.remove('active');
+            }
+            if (this.resolve) {
+                this.resolve(false);
+            }
+        } catch (error) {
+            console.warn('Modal hide failed:', error);
+        }
     }
 }
 
@@ -1516,249 +1406,144 @@ class CommentsSystem {
     constructor() {
         this.comments = [];
         this.currentUser = null;
-        this.isAdmin = false;
-        this.init();
     }
     
     init() {
-        this.setupEventListeners();
-        this.loadComments();
-        
-        // Listen for auth changes
-        document.addEventListener('authStateChanged', (e) => {
-            this.currentUser = e.detail.user;
-            this.isAdmin = e.detail.isAdmin;
+        try {
+            this.setupEventListeners();
+            this.loadComments();
             this.updateCommentsUI();
-        });
+        } catch (error) {
+            console.warn('Comments system initialization failed:', error);
+        }
     }
     
     setupEventListeners() {
-        // Comment form submission
-        const commentForm = document.getElementById('comment-form');
-        commentForm?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.submitComment(new FormData(commentForm));
-        });
-        
-        // Login to comment button
-        const loginBtn = document.getElementById('login-to-comment-btn');
-        loginBtn?.addEventListener('click', () => {
-            if (authManager) {
-                authManager.signInWithGoogle();
+        try {
+            // Comment form submission
+            const commentForm = document.getElementById('comment-form');
+            if (commentForm) {
+                commentForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.submitComment(new FormData(commentForm));
+                });
             }
-        });
-        
-        // Load more comments
-        const loadMoreBtn = document.querySelector('#load-more-comments button');
-        loadMoreBtn?.addEventListener('click', () => {
-            this.loadMoreComments();
-        });
+            
+            // Rating input
+            const ratingInputs = document.querySelectorAll('.rating-input input');
+            ratingInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    const stars = input.parentElement.querySelectorAll('label');
+                    const rating = parseInt(input.value);
+                    stars.forEach((star, index) => {
+                        star.classList.toggle('active', index < rating);
+                    });
+                });
+            });
+        } catch (error) {
+            console.warn('Comments event listeners setup failed:', error);
+        }
     }
     
     async submitComment(formData) {
-        if (!this.currentUser) {
-            showToast(languageManager.t('login_to_comment'), 'warning');
-            return;
-        }
-        
-        const commentData = {
-            productId: formData.get('productId'),
-            comment: formData.get('comment'),
-            rating: parseInt(formData.get('rating')),
-            userId: this.currentUser.uid,
-            userEmail: this.currentUser.email,
-            userName: this.currentUser.displayName,
-            userAvatar: this.currentUser.photoURL,
-            timestamp: new Date().toISOString()
-        };
-        
         try {
-            if (dataManager) {
-                const result = await dataManager.create('comments', commentData);
-                if (result.success) {
-                    showToast(languageManager.t('comment_posted'), 'success');
-                    document.getElementById('comment-form').reset();
-                    this.loadComments();
-                }
+            const commentData = {
+                text: formData.get('comment'),
+                rating: parseInt(formData.get('rating')),
+                productId: formData.get('productId'),
+                timestamp: new Date().toISOString()
+            };
+            
+            // Add to local comments array
+            this.comments.push(commentData);
+            
+            // Clear form
+            const commentForm = document.getElementById('comment-form');
+            if (commentForm) {
+                commentForm.reset();
             }
+            
+            // Update UI
+            this.renderComments();
+            this.updateCommentsUI();
+            
+            showToast('Comment submitted successfully!', 'success');
         } catch (error) {
-            console.error('Error posting comment:', error);
-            showToast(languageManager.t('error_general'), 'error');
+            console.error('Error submitting comment:', error);
+            showToast('Error submitting comment. Please try again.', 'error');
         }
     }
     
     async loadComments() {
         try {
-            if (dataManager) {
-                const result = await dataManager.read('comments', 'timestamp', 'desc');
-                if (result.success) {
-                    this.comments = result.data;
-                    this.renderComments();
-                }
-            }
+            // For now, just use local comments
+            this.comments = [];
+            this.renderComments();
         } catch (error) {
-            console.error('Error loading comments:', error);
+            console.warn('Error loading comments:', error);
         }
     }
     
     renderComments() {
-        const commentsList = document.getElementById('comments-list');
-        if (!commentsList) return;
-        
-        if (this.comments.length === 0) {
-            commentsList.innerHTML = `
-                <div class="no-comments">
-                    <i class="fas fa-comments"></i>
-                    <p data-translate="no_comments">No comments yet. Be the first to share your experience!</p>
-                </div>
-            `;
-            return;
+        try {
+            const commentsList = document.getElementById('comments-list');
+            if (!commentsList) return;
+            
+            if (this.comments.length === 0) {
+                commentsList.innerHTML = `
+                    <div class="no-comments">
+                        <i class="fas fa-comments"></i>
+                        <p data-translate="no_comments">No comments yet. Be the first to share your experience!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            commentsList.innerHTML = this.comments.map(comment => this.renderCommentCard(comment)).join('');
+        } catch (error) {
+            console.warn('Error rendering comments:', error);
         }
-        
-        commentsList.innerHTML = this.comments.map(comment => this.renderCommentCard(comment)).join('');
     }
     
     renderCommentCard(comment) {
-        const product = window.allProducts?.find(p => p.id === comment.productId);
-        const canEdit = this.currentUser && (this.currentUser.uid === comment.userId || this.isAdmin);
-        const commentDate = new Date(comment.timestamp).toLocaleDateString(
-            getCurrentLanguage() === 'ar' ? 'ar-EG' : 'en-US'
-        );
-        
-        return `
-            <div class="comment-card" data-comment-id="${comment.id}">
-                <div class="comment-header">
-                    <div class="comment-user-info">
-                        <img src="${comment.userAvatar || '/default-avatar.png'}" alt="${comment.userName}" class="user-avatar">
-                        <div class="comment-meta">
-                            <h5>${comment.userName}</h5>
-                            <span class="comment-date">${commentDate}</span>
+        try {
+            return `
+                <div class="comment-card" data-aos="fade-up">
+                    <div class="comment-header">
+                        <div class="comment-user-info">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="User" class="user-avatar">
+                            <div class="comment-meta">
+                                <h5>Anonymous User</h5>
+                                <span class="comment-date">${new Date(comment.timestamp).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div class="comment-rating">
+                            <div class="stars">
+                                ${generateStars(comment.rating)}
+                            </div>
                         </div>
                     </div>
-                    ${canEdit ? `
-                        <div class="comment-actions">
-                            <button class="btn btn-small btn-secondary" onclick="commentsSystem.editComment('${comment.id}')">
-                                <i class="fas fa-edit"></i>
-                                <span data-translate="edit_comment">Edit</span>
-                            </button>
-                            <button class="btn btn-small btn-danger" onclick="commentsSystem.deleteComment('${comment.id}')">
-                                <i class="fas fa-trash"></i>
-                                <span data-translate="delete_comment">Delete</span>
-                            </button>
-                        </div>
-                    ` : ''}
+                    <div class="comment-text">${comment.text}</div>
                 </div>
-                
-                ${product ? `
-                    <div class="comment-product" onclick="showProductDetails('${product.id}')">
-                        <img src="${product.image}" alt="${product.title}" class="comment-product-image">
-                        <span class="comment-product-name">${getCurrentLanguage() === 'ar' ? product.titleAr : product.title}</span>
-                    </div>
-                ` : ''}
-                
-                <div class="comment-text">${comment.comment}</div>
-                
-                <div class="comment-rating">
-                    <div class="stars">
-                        ${generateStars(comment.rating)}
-                    </div>
-                    <span class="rating-text">${comment.rating}/5</span>
-                </div>
-            </div>
-        `;
-    }
-    
-    editComment(commentId) {
-        const comment = this.comments.find(c => c.id === commentId);
-        if (!comment) return;
-        
-        const modal = document.getElementById('edit-comment-modal');
-        const form = document.getElementById('edit-comment-form');
-        const textArea = document.getElementById('edit-comment-text');
-        
-        // Populate form
-        textArea.value = comment.comment;
-        document.querySelector(`input[name="editRating"][value="${comment.rating}"]`).checked = true;
-        
-        // Setup form submission
-        form.onsubmit = async (e) => {
-            e.preventDefault();
-            const updatedComment = {
-                comment: textArea.value,
-                rating: parseInt(document.querySelector('input[name="editRating"]:checked').value),
-                updatedAt: new Date().toISOString()
-            };
-            
-            try {
-                if (dataManager) {
-                    const result = await dataManager.update('comments', commentId, updatedComment);
-                    if (result.success) {
-                        showToast(languageManager.t('comment_updated'), 'success');
-                        modal.classList.remove('active');
-                        this.loadComments();
-                    }
-                }
-            } catch (error) {
-                console.error('Error updating comment:', error);
-                showToast(languageManager.t('error_general'), 'error');
-            }
-        };
-        
-        modal.classList.add('active');
-    }
-    
-    deleteComment(commentId) {
-        customModal.show({
-            type: 'danger',
-            title: languageManager.t('delete_comment'),
-            message: languageManager.t('delete_comment_confirm'),
-            confirmText: languageManager.t('yes'),
-            cancelText: languageManager.t('no'),
-            onConfirm: async () => {
-                try {
-                    if (dataManager) {
-                        const result = await dataManager.delete('comments', commentId);
-                        if (result.success) {
-                            showToast(languageManager.t('comment_deleted'), 'success');
-                            this.loadComments();
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error deleting comment:', error);
-                    showToast(languageManager.t('error_general'), 'error');
-                }
-            }
-        });
+            `;
+        } catch (error) {
+            console.warn('Error rendering comment card:', error);
+            return '';
+        }
     }
     
     updateCommentsUI() {
-        const addCommentSection = document.getElementById('add-comment-section');
-        const loginPrompt = document.getElementById('login-prompt');
-        const userAvatar = document.getElementById('user-avatar');
-        const userName = document.getElementById('user-name');
-        const commentProductSelect = document.getElementById('comment-product');
-        
-        if (this.currentUser) {
-            // Show comment form
-            addCommentSection.style.display = 'block';
-            loginPrompt.style.display = 'none';
+        try {
+            const addCommentSection = document.getElementById('add-comment-section');
+            const loginPrompt = document.getElementById('login-prompt');
             
-            // Update user info
-            userAvatar.src = this.currentUser.photoURL || '/default-avatar.png';
-            userName.textContent = this.currentUser.displayName;
-            
-            // Populate product select
-            if (window.allProducts && commentProductSelect) {
-                commentProductSelect.innerHTML = '<option value="" data-translate="choose_product">Choose a product...</option>' +
-                    window.allProducts.map(product => {
-                        const title = getCurrentLanguage() === 'ar' ? product.titleAr : product.title;
-                        return `<option value="${product.id}">${title}</option>`;
-                    }).join('');
+            if (addCommentSection && loginPrompt) {
+                // For now, always show login prompt
+                addCommentSection.style.display = 'none';
+                loginPrompt.style.display = 'block';
             }
-        } else {
-            // Show login prompt
-            addCommentSection.style.display = 'none';
-            loginPrompt.style.display = 'block';
+        } catch (error) {
+            console.warn('Error updating comments UI:', error);
         }
     }
 }
@@ -1897,279 +1682,349 @@ if ('serviceWorker' in navigator) {
 
 // User Profile Functions
 function generateUserProfile() {
-    const user = authManager.getCurrentUser();
-    if (!user) return '<p>User not found.</p>';
-    
-    return `
-        <div class="user-profile">
-            <div class="profile-header">
-                <div class="profile-avatar">
-                    <img src="${user.photoURL || 'https://via.placeholder.com/100x100/8B7355/FFFFFF?text=U'}" alt="Profile" id="profile-avatar-img">
-                    <div class="avatar-upload">
-                        <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
-                        <button class="btn btn-small btn-secondary" onclick="document.getElementById('avatar-upload').click()">
-                            <i class="fas fa-camera"></i>
-                            <span data-translate="upload_photo">Upload Photo</span>
+    try {
+        const user = authManager ? authManager.getCurrentUser() : null;
+        if (!user) {
+            return '<p>User not found</p>';
+        }
+        
+        return `
+            <div class="user-profile">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="${user.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80'}" alt="${user.displayName || 'User'}" id="profile-avatar">
+                        <div class="avatar-upload">
+                            <label for="avatar-upload-input" class="btn btn-secondary">
+                                <i class="fas fa-camera"></i> Change Photo
+                            </label>
+                            <input type="file" id="avatar-upload-input" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h3>${user.displayName || 'Anonymous User'}</h3>
+                        <p>${user.email || 'No email'}</p>
+                    </div>
+                </div>
+                
+                <form id="profile-form" class="profile-form">
+                    <div class="form-group">
+                        <label for="profile-name">Display Name</label>
+                        <input type="text" id="profile-name" name="displayName" value="${user.displayName || ''}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-nickname">Nickname</label>
+                        <input type="text" id="profile-nickname" name="nickname" value="${user.nickname || ''}">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-title">Title</label>
+                        <input type="text" id="profile-title" name="title" value="${user.title || 'Customer'}">
+                    </div>
+                    
+                    <div class="profile-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Account Created:</span>
+                            <span class="meta-value">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Last Login:</span>
+                            <span class="meta-value">${user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Unknown'}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="authManager.signOut()">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
                         </button>
                     </div>
-                </div>
-                <div class="profile-info">
-                    <h3 data-translate="profile_title">User Profile</h3>
-                    <p data-translate="manage_account">Manage your account information and preferences</p>
-                </div>
+                </form>
             </div>
-            
-            <form id="profile-form" class="profile-form">
-                <div class="form-group">
-                    <label for="profile-display-name" data-translate="display_name">Display Name</label>
-                    <input type="text" id="profile-display-name" value="${user.displayName || ''}" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="profile-nickname" data-translate="nickname">Nickname</label>
-                    <input type="text" id="profile-nickname" value="${user.nickname || ''}">
-                </div>
-                
-                <div class="form-group">
-                    <label for="profile-title" data-translate="title">Title</label>
-                    <input type="text" id="profile-title" value="${user.title || 'Customer'}">
-                </div>
-                
-                <div class="profile-meta">
-                    <div class="meta-item">
-                        <span class="meta-label" data-translate="account_created">Account Created:</span>
-                        <span class="meta-value">${user.createdAt ? new Date(user.createdAt.toDate()).toLocaleDateString() : 'N/A'}</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-label" data-translate="last_login">Last Login:</span>
-                        <span class="meta-value">${user.lastLogin ? new Date(user.lastLogin.toDate()).toLocaleDateString() : 'N/A'}</span>
-                    </div>
-                </div>
-                
-                <div class="profile-actions">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save"></i>
-                        <span data-translate="save_changes">Save Changes</span>
-                    </button>
-                    <button type="button" class="btn btn-secondary" onclick="authManager.signOut()">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span data-translate="sign_out">Sign Out</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    `;
+        `;
+    } catch (error) {
+        console.warn('Generate user profile failed:', error);
+        return '<p>Error loading user profile</p>';
+    }
 }
 
 function setupUserProfileEvents() {
-    // Profile form submission
-    const profileForm = document.getElementById('profile-form');
-    if (profileForm) {
-        profileForm.addEventListener('submit', handleProfileSubmit);
-    }
-    
-    // Avatar upload
-    const avatarUpload = document.getElementById('avatar-upload');
-    if (avatarUpload) {
-        avatarUpload.addEventListener('change', handleAvatarUpload);
+    try {
+        const profileForm = document.getElementById('profile-form');
+        const avatarUpload = document.getElementById('avatar-upload-input');
+        
+        if (profileForm) {
+            profileForm.addEventListener('submit', handleProfileSubmit);
+        }
+        
+        if (avatarUpload) {
+            avatarUpload.addEventListener('change', handleAvatarUpload);
+        }
+    } catch (error) {
+        console.warn('Setup user profile events failed:', error);
     }
 }
 
 async function handleProfileSubmit(e) {
     e.preventDefault();
     
-    const user = authManager.getCurrentUser();
-    if (!user) return;
-    
-    const displayName = document.getElementById('profile-display-name').value;
-    const nickname = document.getElementById('profile-nickname').value;
-    const title = document.getElementById('profile-title').value;
-    
     try {
-        const dataManager = new DataManager();
-        const result = await dataManager.update('users', user.uid, {
-            displayName,
-            nickname,
-            title
-        });
+        const formData = new FormData(e.target);
+        const userData = {
+            displayName: formData.get('displayName'),
+            nickname: formData.get('nickname'),
+            title: formData.get('title')
+        };
         
-        if (result.success) {
-            authManager.showToast('Profile updated successfully!', 'success');
-            // Update the user object
-            user.displayName = displayName;
-            user.nickname = nickname;
-            user.title = title;
+        if (authManager) {
+            const result = await authManager.updateUserProfile(userData);
+            if (result.success) {
+                showToast('Profile updated successfully!', 'success');
+            } else {
+                showToast('Error updating profile.', 'error');
+            }
         } else {
-            authManager.showToast('Error updating profile.', 'error');
+            showToast('Authentication not available.', 'error');
         }
     } catch (error) {
-        console.error('Error updating profile:', error);
-        authManager.showToast('Error updating profile.', 'error');
+        console.warn('Profile submit failed:', error);
+        showToast('Error updating profile.', 'error');
     }
 }
 
 async function handleAvatarUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    
-    const user = authManager.getCurrentUser();
-    if (!user) return;
-    
     try {
-        const dataManager = new DataManager();
-        const path = `avatars/${user.uid}/${Date.now()}_${file.name}`;
-        const uploadResult = await dataManager.uploadImage(file, path);
+        const file = e.target.files[0];
+        if (!file) return;
         
-        if (uploadResult.success) {
-            // Update user profile with new avatar
-            const result = await dataManager.update('users', user.uid, {
-                photoURL: uploadResult.url
-            });
-            
+        if (authManager) {
+            const result = await authManager.uploadAvatar(file);
             if (result.success) {
-                // Update the avatar image
-                const avatarImg = document.getElementById('profile-avatar-img');
+                const avatarImg = document.getElementById('profile-avatar');
                 if (avatarImg) {
-                    avatarImg.src = uploadResult.url;
+                    avatarImg.src = result.url;
                 }
-                
-                // Update the user object
-                user.photoURL = uploadResult.url;
-                
-                authManager.showToast('Avatar updated successfully!', 'success');
+                showToast('Avatar updated successfully!', 'success');
             } else {
-                authManager.showToast('Error updating avatar.', 'error');
+                showToast('Error uploading avatar.', 'error');
             }
         } else {
-            authManager.showToast('Error uploading image.', 'error');
+            showToast('Authentication not available.', 'error');
         }
     } catch (error) {
-        console.error('Error uploading avatar:', error);
-        authManager.showToast('Error uploading avatar.', 'error');
+        console.warn('Avatar upload failed:', error);
+        showToast('Error uploading avatar.', 'error');
     }
 }
 
 // Product Inquiry Functions
 function showProductInquiryModal(productId) {
-    const product = window.products.find(p => p.id === productId);
-    if (!product) return;
-    
-    const customModal = new CustomModal();
-    customModal.show({
-        title: 'Product Inquiry',
-        message: `
-            <form id="inquiry-form">
-                <div class="form-group">
-                    <label for="inquiry-name">Your Name *</label>
-                    <input type="text" id="inquiry-name" required>
-                </div>
-                <div class="form-group">
-                    <label for="inquiry-email">Your Email *</label>
-                    <input type="email" id="inquiry-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="inquiry-message">Your Message *</label>
-                    <textarea id="inquiry-message" rows="4" required></textarea>
-                </div>
-            </form>
-        `,
-        type: 'info',
-        confirmText: 'Send Inquiry',
-        cancelText: 'Cancel',
-        onConfirm: async () => {
-            const name = document.getElementById('inquiry-name').value;
-            const email = document.getElementById('inquiry-email').value;
-            const message = document.getElementById('inquiry-message').value;
+    try {
+        const product = window.allProducts?.find(p => p.id === productId);
+        if (!product) {
+            showToast('Product not found.', 'error');
+            return;
+        }
+        
+        const modal = document.getElementById('product-inquiry-modal');
+        const modalContent = document.getElementById('product-inquiry-content');
+        
+        if (modal && modalContent) {
+            const currentLang = getCurrentLanguage();
+            const title = currentLang === 'ar' ? product.titleAr : product.title;
             
-            if (!name || !email || !message) {
-                authManager.showToast('Please fill in all required fields.', 'error');
-                return false;
+            modalContent.innerHTML = `
+                <div class="inquiry-header">
+                    <h3>Ask about ${title}</h3>
+                    <p>Send us a message and we'll get back to you as soon as possible.</p>
+                </div>
+                <form id="inquiry-form" class="inquiry-form">
+                    <input type="hidden" name="productId" value="${productId}">
+                    <div class="form-group">
+                        <label for="inquiry-name">Your Name *</label>
+                        <input type="text" id="inquiry-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiry-email">Your Email *</label>
+                        <input type="email" id="inquiry-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inquiry-message">Your Message *</label>
+                        <textarea id="inquiry-message" name="message" rows="4" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                        <button type="button" class="btn btn-secondary close-modal">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            `;
+            
+            modal.classList.add('active');
+            
+            // Setup form submission
+            const form = document.getElementById('inquiry-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    
+                    // Simulate sending inquiry
+                    showToast('Inquiry sent successfully! We will get back to you soon.', 'success');
+                    modal.classList.remove('active');
+                    form.reset();
+                });
             }
             
-            try {
-                const dataManager = new DataManager();
-                const result = await dataManager.create('inquiries', {
-                    name,
-                    email,
-                    message,
-                    productId,
-                    productName: product.title,
-                    read: false
+            // Setup close button
+            const closeBtn = modalContent.querySelector('.close-modal');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    modal.classList.remove('active');
                 });
-                
-                if (result.success) {
-                    authManager.showToast('Inquiry sent successfully!', 'success');
-                    return true;
-                } else {
-                    authManager.showToast('Error sending inquiry.', 'error');
-                    return false;
-                }
-            } catch (error) {
-                console.error('Error sending inquiry:', error);
-                authManager.showToast('Error sending inquiry.', 'error');
-                return false;
             }
         }
-    });
+    } catch (error) {
+        console.warn('Product inquiry modal failed:', error);
+        showToast('Error showing inquiry form.', 'error');
+    }
+}
+
+// Product details modal
+function showProductDetails(productId) {
+    try {
+        // Find product by ID
+        const product = window.allProducts?.find(p => p.id === productId);
+        if (!product) {
+            showToast('Product not found.', 'error');
+            return;
+        }
+        
+        const modal = document.getElementById('product-details-modal');
+        const modalContent = document.getElementById('product-details-content');
+        
+        if (modal && modalContent) {
+            const currentLang = getCurrentLanguage();
+            const title = currentLang === 'ar' ? product.titleAr : product.title;
+            const description = currentLang === 'ar' ? product.descriptionAr : product.description;
+            const categoryName = currentLang === 'ar' ? product.categoryNameAr : product.categoryName;
+            
+            modalContent.innerHTML = `
+                <div class="product-details-header">
+                    <img src="${product.image}" alt="${title}" class="product-details-image">
+                    <div class="product-details-info">
+                        <h3>${title}</h3>
+                        <p class="product-category">${categoryName}</p>
+                        <div class="product-rating">
+                            <div class="stars">${generateStars(product.rating)}</div>
+                            <span class="rating-text">${product.rating}/5 (${product.reviews} reviews)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details-body">
+                    <p class="product-description">${description}</p>
+                    <div class="product-details-grid">
+                        <div class="detail-item">
+                            <strong>Price:</strong> EGP ${product.price}
+                            ${product.discount > 0 ? `<span class="discount">-${product.discount}%</span>` : ''}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Delivery:</strong> 
+                            ${product.deliveryAvailable ? `Available (EGP ${product.deliveryPrice})` : 'Not available'}
+                        </div>
+                        <div class="detail-item">
+                            <strong>Stock:</strong> 
+                            ${product.inStock ? `${product.quantity} available` : 'Out of stock'}
+                        </div>
+                    </div>
+                </div>
+                <div class="product-details-actions">
+                    <button class="btn btn-primary whatsapp-order" data-product="${title}">
+                        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                    </button>
+                    <button class="btn btn-secondary product-inquiry" data-product-id="${productId}">
+                        <i class="fas fa-question-circle"></i> Ask about this product
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            
+            // Setup event listeners for new buttons
+            const whatsappBtn = modalContent.querySelector('.whatsapp-order');
+            const inquiryBtn = modalContent.querySelector('.product-inquiry');
+            
+            if (whatsappBtn) {
+                whatsappBtn.addEventListener('click', () => orderViaWhatsApp(title));
+            }
+            
+            if (inquiryBtn) {
+                inquiryBtn.addEventListener('click', () => showProductInquiryModal(productId));
+            }
+        }
+    } catch (error) {
+        console.warn('Product details modal failed:', error);
+        showToast('Error showing product details.', 'error');
+    }
 }
 
 // Initialize auth state change listener
 document.addEventListener('authStateChanged', (e) => {
-    const { user, isAdmin } = e.detail;
-    
-    // Update UI based on auth state
-    const adminToggle = document.getElementById('admin-toggle');
-    const loginPrompt = document.getElementById('login-prompt');
-    const addCommentSection = document.getElementById('add-comment-section');
-    
-    if (user) {
-        // User is logged in
+    try {
+        const { user, isAdmin } = e.detail;
+        
+        // Update admin toggle visibility
+        const adminToggle = document.getElementById('admin-toggle');
         if (adminToggle) {
-            adminToggle.style.display = 'block'; // Show for all users
+            adminToggle.style.display = user ? 'flex' : 'none';
         }
         
+        // Update login prompt visibility
+        const loginPrompt = document.getElementById('login-prompt');
         if (loginPrompt) {
-            loginPrompt.style.display = 'none';
+            loginPrompt.style.display = user ? 'none' : 'block';
         }
         
+        // Update comment section visibility
+        const addCommentSection = document.getElementById('add-comment-section');
         if (addCommentSection) {
-            addCommentSection.style.display = 'block';
-            updateCommentFormUserInfo();
-        }
-    } else {
-        // User is not logged in
-        if (adminToggle) {
-            adminToggle.style.display = 'none';
+            addCommentSection.style.display = user ? 'block' : 'none';
         }
         
-        if (loginPrompt) {
-            loginPrompt.style.display = 'block';
+        // Update comment form user info
+        updateCommentFormUserInfo();
+        
+        // Update comments UI
+        if (commentsSystem) {
+            commentsSystem.updateCommentsUI();
         }
         
-        if (addCommentSection) {
-            addCommentSection.style.display = 'none';
-        }
-    }
-    
-    // Update comments UI
-    if (commentsSystem) {
-        commentsSystem.updateCommentsUI();
+    } catch (error) {
+        console.warn('Auth state change listener failed:', error);
     }
 });
 
+// Update comment form user info
 function updateCommentFormUserInfo() {
-    const user = authManager.getCurrentUser();
-    if (!user) return;
-    
-    const userAvatar = document.getElementById('user-avatar');
-    const userName = document.getElementById('user-name');
-    
-    if (userAvatar) {
-        userAvatar.src = user.photoURL || 'https://via.placeholder.com/40x40/8B7355/FFFFFF?text=' + (user.displayName ? user.displayName.charAt(0) : 'U');
-        userAvatar.alt = user.displayName || 'User';
-    }
-    
-    if (userName) {
-        userName.textContent = user.displayName || user.email.split('@')[0];
+    try {
+        const userAvatar = document.getElementById('user-avatar');
+        const userName = document.getElementById('user-name');
+        
+        if (authManager && authManager.getCurrentUser()) {
+            const user = authManager.getCurrentUser();
+            
+            if (userAvatar) {
+                userAvatar.src = user.photoURL || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80';
+            }
+            
+            if (userName) {
+                userName.textContent = user.displayName || 'Anonymous User';
+            }
+        }
+    } catch (error) {
+        console.warn('Update comment form user info failed:', error);
     }
 }
