@@ -1,44 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lavender Soap - Handmade & Pure</title>
-    <meta name="description" content="Nourish your skin naturally with our handmade lavender soap. Chemical-free, natural ingredients.">
+    <title>ASK FITNESS - Build Your Body, Build Your Power</title>
+    <meta name="description" content="Transform your physique with ASK, a professional bodybuilding coach with 8+ years of experience and 500+ successful transformations.">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    <!-- Framer Motion CDN -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#8B7355">
-    
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
 </head>
 <body>
     <!-- Loading Screen -->
     <div id="loading-screen" class="loading-screen">
         <div class="loader">
-            <div class="leaf-loader">
-                <i class="fas fa-leaf"></i>
+            <div class="power-loader">
+                <i class="fas fa-dumbbell"></i>
             </div>
-            <p data-translate="loading">Loading...</p>
+            <p>Loading Power...</p>
         </div>
     </div>
 
@@ -51,57 +41,47 @@
             <div class="nav-container">
                 <!-- Logo -->
                 <div class="nav-logo">
-                    <i class="fas fa-leaf"></i>
-                    <span data-translate="brand_name">NaturalCare</span>
+                    <div class="logo-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <span class="logo-text">ASK FITNESS</span>
                 </div>
 
                 <!-- Navigation Menu -->
                 <ul class="nav-menu" id="nav-menu">
                     <li class="nav-item">
-                        <a href="#home" class="nav-link" data-translate="nav_home">Home</a>
+                        <a href="#home" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#products" class="nav-link" data-translate="nav_products">Products</a>
+                        <a href="#about" class="nav-link">About</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#about" class="nav-link" data-translate="nav_about">About</a>
+                        <a href="#programs" class="nav-link">Programs</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#testimonials" class="nav-link" data-translate="nav_testimonials">Reviews</a>
+                        <a href="#stats" class="nav-link">Success Stats</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#faq" class="nav-link" data-translate="nav_faq">FAQ</a>
+                        <a href="#video" class="nav-link">Video</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#contact" class="nav-link" data-translate="nav_contact">Contact</a>
+                        <a href="#faq" class="nav-link">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#contact" class="nav-link">Contact</a>
                     </li>
                 </ul>
 
                 <!-- Header Controls -->
                 <div class="header-controls">
-                    <!-- Theme Toggle -->
-                    <button id="theme-toggle" class="control-btn" data-tooltip="Switch Theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-
-                    <!-- Language Toggle -->
-                    <button id="language-toggle" class="control-btn" data-tooltip="Switch Language">
-                        <i class="fas fa-language"></i>
-                        <span class="lang-indicator">EN</span>
-                    </button>
-
-                    <!-- Admin Access -->
-                    <button id="admin-toggle" class="control-btn" data-tooltip="Admin Dashboard" style="display: none;">
-                        <i class="fas fa-user-shield"></i>
-                    </button>
-
-                    <!-- Back to Home (for internal pages) -->
-                    <button id="back-home" class="control-btn" data-tooltip="Back to Home" style="display: none;">
-                        <i class="fas fa-home"></i>
-                    </button>
+                    <!-- CTA Button -->
+                    <a href="#contact" class="btn btn-glow btn-cta">
+                        <span>Join Now</span>
+                        <i class="fas fa-rocket"></i>
+                    </a>
 
                     <!-- Mobile Menu Toggle -->
-                    <button class="hamburger" id="hamburger" data-tooltip="Menu">
+                    <button class="hamburger" id="hamburger">
                         <span class="bar"></span>
                         <span class="bar"></span>
                         <span class="bar"></span>
@@ -115,93 +95,61 @@
     <main class="main-content">
         <!-- Hero Section -->
         <section id="home" class="hero">
+            <div class="hero-background">
+                <div class="hero-video-container">
+                    <video autoplay muted loop class="hero-video">
+                        <source src="https://player.vimeo.com/external/434045526.sd.mp4?s=c27eecc69a27dbc4ff2b87d38afc35f1a9e7c02d&profile_id=139&oauth2_token_id=57447761" type="video/mp4">
+                    </video>
+                    <div class="hero-overlay"></div>
+                </div>
+                <div class="particle-system" id="particles"></div>
+            </div>
+            
             <div class="hero-container">
-                <div class="hero-content" data-aos="fade-up">
+                <div class="hero-content">
                     <div class="hero-text">
-                        <h1 class="hero-title" data-translate="hero_title">Lavender Soap – Handmade & Pure</h1>
-                        <p class="hero-subtitle" data-translate="hero_subtitle">Nourish your skin naturally. No chemicals. No worries.</p>
+                        <div class="hero-badge">
+                            <i class="fas fa-trophy"></i>
+                            <span>Professional Bodybuilding Coach</span>
+                        </div>
                         
-                        <!-- Social Media Links -->
-                        <div class="hero-social-section" data-aos="fade-up" data-aos-delay="200">
-                            <p class="social-title" data-translate="follow_us">Follow us on social media</p>
-                            <div class="social-links-hero">
-                                <a href="#" class="social-link facebook" data-tooltip="Facebook" target="_blank">
-                                    <i class="fab fa-facebook-f"></i>
-                                    <span>Facebook</span>
-                                </a>
-                                <a href="#" class="social-link instagram" data-tooltip="Instagram" target="_blank">
-                                    <i class="fab fa-instagram"></i>
-                                    <span>Instagram</span>
-                                </a>
-                                <a href="#" class="social-link tiktok" data-tooltip="TikTok" target="_blank">
-                                    <i class="fab fa-tiktok"></i>
-                                    <span>TikTok</span>
-                                </a>
-                                <a href="#" class="social-link twitter" data-tooltip="Twitter" target="_blank">
-                                    <i class="fab fa-x-twitter"></i>
-                                    <span>Twitter</span>
-                                </a>
-                                <a href="#" class="social-link linkedin" data-tooltip="LinkedIn" target="_blank">
-                                    <i class="fab fa-linkedin-in"></i>
-                                    <span>LinkedIn</span>
-                                </a>
+                        <h1 class="hero-title">
+                            <span class="title-line">Build your body,</span>
+                            <span class="title-line">Build your power</span>
+                            <span class="title-highlight">— with ASK 💪</span>
+                        </h1>
+                        
+                        <p class="hero-subtitle">
+                            Transform your physique with 8+ years of professional coaching experience. 
+                            Join 500+ successful transformations and unlock your true potential.
+                        </p>
+                        
+                        <div class="hero-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">8+</div>
+                                <div class="stat-label">Years Experience</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">500+</div>
+                                <div class="stat-label">Clients Transformed</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Dedication</div>
                             </div>
                         </div>
 
-                        <div class="hero-buttons" data-aos="fade-up" data-aos-delay="300">
-                            <a href="#products" class="btn btn-primary">
-                                <span data-translate="order_now">Order Now</span>
+                        <div class="hero-buttons">
+                            <a href="#programs" class="btn btn-primary btn-glow">
+                                <span>Start Your Journey</span>
                                 <i class="fas fa-arrow-right"></i>
                             </a>
-                            <a href="#about" class="btn btn-secondary">
-                                <span data-translate="learn_more">Learn More</span>
+                            <a href="#video" class="btn btn-secondary btn-glass">
+                                <i class="fas fa-play"></i>
+                                <span>Watch Story</span>
                             </a>
                         </div>
                     </div>
-                    
-                    <div class="hero-image" data-aos="fade-left" data-aos-delay="100">
-                        <div class="hero-image-container">
-                            <img src="https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Lavender Soap" class="hero-img">
-                            <div class="floating-elements">
-                                <div class="floating-icon leaf-1">
-                                    <i class="fas fa-leaf"></i>
-                                </div>
-                                <div class="floating-icon flower-1">
-                                    <i class="fas fa-spa"></i>
-                                </div>
-                                <div class="floating-icon droplet-1">
-                                    <i class="fas fa-tint"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Product Categories -->
-        <section id="categories" class="categories-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="categories_title" data-aos="fade-up">Product Categories</h2>
-                <div class="categories-grid" id="categories-grid">
-                    <!-- Categories will be dynamically loaded -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Products Section -->
-        <section id="products" class="products-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="products_title" data-aos="fade-up">Our Natural Products</h2>
-                
-                <!-- Category Filter -->
-                <div class="category-filter" data-aos="fade-up" data-aos-delay="100">
-                    <button class="filter-btn active" data-category="all" data-translate="filter_all">All Products</button>
-                </div>
-
-                <!-- Products Grid -->
-                <div class="products-grid" id="products-grid">
-                    <!-- Products will be dynamically loaded -->
                 </div>
             </div>
         </section>
@@ -209,167 +157,308 @@
         <!-- About Section -->
         <section id="about" class="about-section">
             <div class="container">
-                <div class="about-content" data-aos="fade-up">
-                    <div class="about-text">
-                        <h2 class="section-title" data-translate="about_title">About Our Products</h2>
-                        <p class="about-description" data-translate="about_description">
-                            Our handmade natural products are crafted with love and care using the finest organic ingredients. 
-                            Each product is made in small batches to ensure quality and freshness, bringing you the pure essence of nature.
-                        </p>
-                        
-                        <div class="benefits-list">
-                            <div class="benefit-item" data-aos="fade-up" data-aos-delay="100">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-leaf"></i>
+                <div class="about-content">
+                    <div class="about-image">
+                        <div class="image-container">
+                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="ASK Training" class="about-img">
+                            <div class="image-glow"></div>
+                            <div class="floating-elements">
+                                <div class="floating-icon icon-1">
+                                    <i class="fas fa-dumbbell"></i>
                                 </div>
-                                <div class="benefit-text">
-                                    <h3 data-translate="benefit_natural_title">100% Natural</h3>
-                                    <p data-translate="benefit_natural_desc">No harmful chemicals or artificial additives</p>
+                                <div class="floating-icon icon-2">
+                                    <i class="fas fa-fire"></i>
                                 </div>
-                            </div>
-                            
-                            <div class="benefit-item" data-aos="fade-up" data-aos-delay="200">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-hand-holding-heart"></i>
-                                </div>
-                                <div class="benefit-text">
-                                    <h3 data-translate="benefit_handmade_title">Handmade</h3>
-                                    <p data-translate="benefit_handmade_desc">Crafted with traditional methods and care</p>
-                                </div>
-                            </div>
-                            
-                            <div class="benefit-item" data-aos="fade-up" data-aos-delay="300">
-                                <div class="benefit-icon">
-                                    <i class="fas fa-spa"></i>
-                                </div>
-                                <div class="benefit-text">
-                                    <h3 data-translate="benefit_gentle_title">Gentle & Safe</h3>
-                                    <p data-translate="benefit_gentle_desc">Suitable for all skin types, even sensitive skin</p>
+                                <div class="floating-icon icon-3">
+                                    <i class="fas fa-bolt"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="about-image" data-aos="fade-left">
-                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Natural Ingredients" class="about-img">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Gallery Section -->
-        <section id="gallery" class="gallery-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="gallery_title" data-aos="fade-up">Product Gallery</h2>
-                <div class="gallery-grid" data-aos="fade-up" data-aos-delay="100">
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
-                        <img src="https://images.unsplash.com/photo-1556909049-f4ba35d1c211?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Lavender Soap 1">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
+                    <div class="about-text">
+                        <div class="section-badge">
+                            <i class="fas fa-user-tie"></i>
+                            <span>About ASK</span>
                         </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
-                        <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Natural Ingredients">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
-                        <img src="https://images.unsplash.com/photo-1605464315542-f6344c543d5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Handmade Process">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-aos="zoom-in" data-aos-delay="400">
-                        <img src="https://images.unsplash.com/photo-1596755389378-c31d21fd1273?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Natural Skincare">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-expand"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonials Section -->
-        <section id="testimonials" class="testimonials-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="testimonials_title" data-aos="fade-up">What Our Customers Say</h2>
-                <div class="testimonials-grid" id="testimonials-grid">
-                    <!-- Testimonials will be dynamically loaded -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Comments Section -->
-        <section id="comments" class="comments-section">
-            <div class="container">
-                <h2 class="section-title" data-translate="comments_title" data-aos="fade-up">Customer Comments</h2>
-                
-                <!-- Add Comment Form (Only for logged-in users) -->
-                <div class="add-comment-section" id="add-comment-section" style="display: none;">
-                    <div class="comment-form-header">
-                        <img id="user-avatar" src="" alt="User Avatar" class="user-avatar">
-                        <div class="user-info">
-                            <h4 id="user-name"></h4>
-                            <p data-translate="write_comment">Write a comment</p>
-                        </div>
-                    </div>
-                    <form id="comment-form" class="comment-form">
-                        <div class="form-group">
-                            <label for="comment-product" data-translate="select_product">Select Product:</label>
-                            <select id="comment-product" name="productId" required>
-                                <option value="" data-translate="choose_product">Choose a product...</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="comment-text" data-translate="your_comment">Your Comment:</label>
-                            <textarea id="comment-text" name="comment" rows="4" placeholder="Share your experience..." data-translate="comment_placeholder" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="comment-rating" data-translate="rating">Rating:</label>
-                            <div class="rating-input">
-                                <input type="radio" id="star5" name="rating" value="5">
-                                <label for="star5"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star4" name="rating" value="4">
-                                <label for="star4"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star3" name="rating" value="3">
-                                <label for="star3"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star2" name="rating" value="2">
-                                <label for="star2"><i class="fas fa-star"></i></label>
-                                <input type="radio" id="star1" name="rating" value="1">
-                                <label for="star1"><i class="fas fa-star"></i></label>
+                        
+                        <h2 class="section-title">Your Transformation Architect</h2>
+                        
+                        <p class="about-description">
+                            With over 8 years of dedicated experience in professional bodybuilding and fitness coaching, 
+                            ASK has transformed the lives of 500+ individuals. From beginners to advanced athletes, 
+                            every journey is crafted with precision, passion, and proven methodologies.
+                        </p>
+                        
+                        <div class="achievements-list">
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <div class="achievement-text">
+                                    <h3>Certified Professional</h3>
+                                    <p>NASM Certified Personal Trainer & Nutrition Specialist</p>
+                                </div>
+                            </div>
+                            
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="achievement-text">
+                                    <h3>500+ Success Stories</h3>
+                                    <p>Transformed physiques and changed lives across the globe</p>
+                                </div>
+                            </div>
+                            
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="achievement-text">
+                                    <h3>Proven Results</h3>
+                                    <p>Data-driven approach with measurable outcomes</p>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            <span data-translate="post_comment">Post Comment</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Login Prompt for Non-logged Users -->
-                <div class="login-prompt" id="login-prompt">
-                    <div class="login-prompt-content">
-                        <i class="fas fa-user-circle"></i>
-                        <h3 data-translate="login_to_comment">Login to post comments</h3>
-                        <p data-translate="login_comment_desc">Sign in with your Google account to share your experience with our products.</p>
-                        <button id="login-to-comment-btn" class="btn btn-primary">
-                            <i class="fab fa-google"></i>
-                            <span data-translate="sign_in_google">Sign in with Google</span>
-                        </button>
+                        
+                        <div class="about-cta">
+                            <a href="#contact" class="btn btn-primary btn-glow">
+                                <span>Start Your Transformation</span>
+                                <i class="fas fa-rocket"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Comments List -->
-                <div class="comments-list" id="comments-list">
-                    <!-- Comments will be dynamically loaded -->
+        <!-- Programs Section -->
+        <section id="programs" class="programs-section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-fire"></i>
+                        <span>Training Programs</span>
+                    </div>
+                    <h2 class="section-title">Choose Your Path to Power</h2>
+                    <p class="section-subtitle">
+                        Tailored programs designed to maximize your potential and achieve extraordinary results
+                    </p>
                 </div>
+                
+                <div class="programs-grid">
+                    <div class="program-card" data-program="muscle">
+                        <div class="card-glow"></div>
+                        <div class="card-header">
+                            <div class="program-icon">
+                                <i class="fas fa-dumbbell"></i>
+                            </div>
+                            <h3 class="program-title">Build Muscle</h3>
+                            <p class="program-subtitle">Mass & Strength</p>
+                        </div>
+                        <div class="card-body">
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Progressive Overload Training</li>
+                                <li><i class="fas fa-check"></i> Hypertrophy Focused Workouts</li>
+                                <li><i class="fas fa-check"></i> Strength Building Protocols</li>
+                                <li><i class="fas fa-check"></i> Recovery Optimization</li>
+                            </ul>
+                            <div class="program-price">
+                                <span class="price">$199</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#contact" class="btn btn-program">
+                                <span>Get Started</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
 
-                <!-- Load More Comments -->
-                <div class="load-more-section" id="load-more-comments" style="display: none;">
-                    <button class="btn btn-secondary">
-                        <span data-translate="load_more_comments">Load More Comments</span>
-                    </button>
+                    <div class="program-card featured" data-program="fat-loss">
+                        <div class="card-glow"></div>
+                        <div class="featured-badge">
+                            <i class="fas fa-crown"></i>
+                            <span>Most Popular</span>
+                        </div>
+                        <div class="card-header">
+                            <div class="program-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <h3 class="program-title">Fat Loss</h3>
+                            <p class="program-subtitle">Lean & Shredded</p>
+                        </div>
+                        <div class="card-body">
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> HIIT & Cardio Protocols</li>
+                                <li><i class="fas fa-check"></i> Metabolic Training</li>
+                                <li><i class="fas fa-check"></i> Fat Loss Nutrition</li>
+                                <li><i class="fas fa-check"></i> Body Composition Tracking</li>
+                            </ul>
+                            <div class="program-price">
+                                <span class="price">$249</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#contact" class="btn btn-program">
+                                <span>Get Started</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="program-card" data-program="online">
+                        <div class="card-glow"></div>
+                        <div class="card-header">
+                            <div class="program-icon">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <h3 class="program-title">Online Coaching</h3>
+                            <p class="program-subtitle">Remote Training</p>
+                        </div>
+                        <div class="card-body">
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Personalized Workouts</li>
+                                <li><i class="fas fa-check"></i> Weekly Check-ins</li>
+                                <li><i class="fas fa-check"></i> Video Form Analysis</li>
+                                <li><i class="fas fa-check"></i> 24/7 Support</li>
+                            </ul>
+                            <div class="program-price">
+                                <span class="price">$149</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#contact" class="btn btn-program">
+                                <span>Get Started</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="program-card" data-program="nutrition">
+                        <div class="card-glow"></div>
+                        <div class="card-header">
+                            <div class="program-icon">
+                                <i class="fas fa-apple-alt"></i>
+                            </div>
+                            <h3 class="program-title">Nutrition Plans</h3>
+                            <p class="program-subtitle">Fuel Your Goals</p>
+                        </div>
+                        <div class="card-body">
+                            <ul class="program-features">
+                                <li><i class="fas fa-check"></i> Custom Meal Plans</li>
+                                <li><i class="fas fa-check"></i> Macro Tracking</li>
+                                <li><i class="fas fa-check"></i> Supplement Guidance</li>
+                                <li><i class="fas fa-check"></i> Recipe Database</li>
+                            </ul>
+                            <div class="program-price">
+                                <span class="price">$99</span>
+                                <span class="period">/month</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#contact" class="btn btn-program">
+                                <span>Get Started</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Stats Section -->
+        <section id="stats" class="stats-section">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Success Stats</span>
+                    </div>
+                    <h2 class="section-title">Numbers That Speak Power</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" data-target="500">0</div>
+                        <div class="stat-label">Clients Transformed</div>
+                        <div class="stat-description">Success stories across the globe</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-number" data-target="8">0</div>
+                        <div class="stat-label">Years Experience</div>
+                        <div class="stat-description">Professional coaching expertise</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-number" data-target="95">0</div>
+                        <div class="stat-label">Success Rate</div>
+                        <div class="stat-description">Clients achieving their goals</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div class="stat-number" data-target="10000">0</div>
+                        <div class="stat-label">Workouts Delivered</div>
+                        <div class="stat-description">Personalized training sessions</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section id="video" class="video-section">
+            <div class="container">
+                <div class="video-content">
+                    <div class="video-header">
+                        <div class="section-badge">
+                            <i class="fas fa-play"></i>
+                            <span>My Story</span>
+                        </div>
+                        <h2 class="section-title">The Journey to Excellence</h2>
+                        <p class="section-subtitle">
+                            Discover the passion, dedication, and methodology behind ASK's transformative approach
+                        </p>
+                    </div>
+                    
+                    <div class="video-container">
+                        <div class="video-thumbnail">
+                            <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="ASK Training Video">
+                            <div class="video-overlay"></div>
+                            <button class="play-button" id="playButton">
+                                <div class="play-icon">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                                <div class="pulse-ring"></div>
+                                <div class="pulse-ring-2"></div>
+                            </button>
+                        </div>
+                        
+                        <div class="video-player" id="videoPlayer" style="display: none;">
+                            <iframe 
+                                src="https://player.vimeo.com/video/434045526?autoplay=1&title=0&byline=0&portrait=0" 
+                                frameborder="0" 
+                                allow="autoplay; fullscreen; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -377,29 +466,89 @@
         <!-- FAQ Section -->
         <section id="faq" class="faq-section">
             <div class="container">
-                <h2 class="section-title" data-translate="faq_title" data-aos="fade-up">Frequently Asked Questions</h2>
-                
-                <!-- FAQ Search -->
-                <div class="faq-search" data-aos="fade-up" data-aos-delay="100">
-                    <div class="search-container">
-                        <input type="text" id="faq-search" placeholder="Search FAQs..." data-translate="faq_search_placeholder">
-                        <i class="fas fa-search search-icon"></i>
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
                     </div>
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">
+                        Get answers to the most common questions about training with ASK
+                    </p>
                 </div>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What makes ASK's coaching approach different?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                ASK combines 8+ years of professional experience with a data-driven approach. Every program is personalized based on your goals, body type, and lifestyle. The focus is on sustainable results through proven methodologies and continuous support.
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- FAQ Categories -->
-                <div class="faq-categories" data-aos="fade-up" data-aos-delay="200">
-                    <button class="faq-category-btn active" data-category="all" data-translate="faq_all">All</button>
-                </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>How quickly can I expect to see results?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Most clients start seeing noticeable changes within 4-6 weeks of consistent training. However, significant transformations typically occur within 12-16 weeks. Results depend on your starting point, consistency, and adherence to the program.
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- FAQ Accordion -->
-                <div class="faq-accordion" id="faq-accordion" data-aos="fade-up" data-aos-delay="300">
-                    <!-- FAQs will be dynamically loaded -->
-                </div>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Do I need access to a gym for the programs?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Programs can be adapted for both gym and home environments. ASK provides equipment alternatives and modifications to ensure you can train effectively regardless of your setup. Online coaching includes equipment recommendations based on your space and budget.
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Load More FAQs -->
-                <div class="faq-load-more" style="display: none;">
-                    <button id="load-more-faq" class="btn btn-secondary" data-translate="load_more_faq">View More FAQs</button>
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What level of support do I get during the program?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                All clients receive comprehensive support including weekly check-ins, form corrections, program adjustments, and direct access to ASK for questions. Premium programs include daily communication and real-time feedback on your progress.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Are nutrition plans included in the coaching programs?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Yes, all coaching programs include personalized nutrition guidance. This covers macro calculations, meal timing, supplement recommendations, and recipe suggestions tailored to your goals and dietary preferences.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Can I switch between programs if my goals change?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Absolutely! ASK understands that goals evolve. Programs can be modified or switched based on your changing objectives. This flexibility ensures you're always working towards what matters most to you at any given time.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -407,60 +556,114 @@
         <!-- Contact Section -->
         <section id="contact" class="contact-section">
             <div class="container">
-                <h2 class="section-title" data-translate="contact_title" data-aos="fade-up">Get In Touch</h2>
+                <div class="section-header">
+                    <div class="section-badge">
+                        <i class="fas fa-rocket"></i>
+                        <span>Get Started</span>
+                    </div>
+                    <h2 class="section-title">Ready to Transform?</h2>
+                    <p class="section-subtitle">
+                        Take the first step towards your ultimate physique. Let's build something extraordinary together.
+                    </p>
+                </div>
                 
                 <div class="contact-content">
-                    <div class="contact-info" data-aos="fade-right">
-                        <div class="contact-item">
+                    <div class="contact-info">
+                        <div class="contact-card">
                             <div class="contact-icon">
-                                <i class="fas fa-phone"></i>
+                                <i class="fab fa-instagram"></i>
                             </div>
                             <div class="contact-details">
-                                <h3 data-translate="contact_phone">Phone</h3>
-                                <p>+20 123 456 7890</p> <!-- ضع رقمك هنا -->
+                                <h3>Instagram</h3>
+                                <p>Follow the journey</p>
+                                <a href="https://instagram.com/ask_fitness" target="_blank" class="contact-link">
+                                    @ask_fitness
+                                </a>
                             </div>
                         </div>
                         
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="contact-details">
-                                <h3 data-translate="contact_email">Email</h3>
-                                <p>info@naturalcare.com</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
+                        <div class="contact-card">
                             <div class="contact-icon">
                                 <i class="fab fa-whatsapp"></i>
                             </div>
                             <div class="contact-details">
-                                <h3 data-translate="contact_whatsapp">WhatsApp</h3>
-                                <a href="https://wa.me/201234567890" class="whatsapp-link" target="_blank">
-                                    <span data-translate="contact_whatsapp_text">Chat with us</span>
+                                <h3>WhatsApp</h3>
+                                <p>Direct messaging</p>
+                                <a href="https://wa.me/1234567890" target="_blank" class="contact-link">
+                                    Chat Now
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fab fa-tiktok"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>TikTok</h3>
+                                <p>Training tips & motivation</p>
+                                <a href="https://tiktok.com/@ask_fitness" target="_blank" class="contact-link">
+                                    @ask_fitness
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fab fa-youtube"></i>
+                            </div>
+                            <div class="contact-details">
+                                <h3>YouTube</h3>
+                                <p>Workout tutorials</p>
+                                <a href="https://youtube.com/@askfitness" target="_blank" class="contact-link">
+                                    ASK Fitness
                                 </a>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="contact-form" data-aos="fade-left">
-                        <form id="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+                    <div class="contact-form-container">
+                        <form id="contact-form" class="contact-form">
                             <div class="form-group">
-                                <input type="text" name="name" placeholder="Your Name" data-translate="form_name" required>
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                                <div class="input-glow"></div>
                             </div>
+                            
                             <div class="form-group">
-                                <input type="email" name="email" placeholder="Your Email" data-translate="form_email" required>
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="input-glow"></div>
                             </div>
+                            
                             <div class="form-group">
-                                <input type="tel" name="phone" placeholder="Your Phone" data-translate="form_phone">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone">
+                                <div class="input-glow"></div>
                             </div>
+                            
                             <div class="form-group">
-                                <textarea name="message" placeholder="Your Message" data-translate="form_message" rows="5" required></textarea>
+                                <label for="goal">Primary Goal</label>
+                                <select id="goal" name="goal" required>
+                                    <option value="">Select your goal</option>
+                                    <option value="muscle">Build Muscle</option>
+                                    <option value="fat-loss">Fat Loss</option>
+                                    <option value="strength">Increase Strength</option>
+                                    <option value="general">General Fitness</option>
+                                </select>
+                                <div class="input-glow"></div>
                             </div>
-                            <button type="submit" class="btn btn-primary">
-                                <span data-translate="form_submit">Send Message</span>
+                            
+                            <div class="form-group">
+                                <label for="message">Tell me about your fitness journey</label>
+                                <textarea id="message" name="message" rows="4" placeholder="Share your current situation, goals, and what you're looking for in a coach..."></textarea>
+                                <div class="input-glow"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-submit btn-glow">
+                                <span>Start My Transformation</span>
                                 <i class="fas fa-paper-plane"></i>
+                                <div class="btn-particles"></div>
                             </button>
                         </form>
                     </div>
@@ -473,162 +676,68 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
+                <div class="footer-brand">
                     <div class="footer-logo">
-                        <i class="fas fa-leaf"></i>
-                        <span data-translate="brand_name">NaturalCare</span>
+                        <div class="logo-icon">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <span class="logo-text">ASK FITNESS</span>
                     </div>
-                    <p class="footer-description" data-translate="footer_description">
-                        Bringing you the finest natural handmade products for a healthier lifestyle.
+                    <p class="footer-description">
+                        Transforming lives through professional bodybuilding coaching. 
+                        Build your body, build your power, build your future.
                     </p>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 data-translate="footer_quick_links">Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home" data-translate="nav_home">Home</a></li>
-                        <li><a href="#products" data-translate="nav_products">Products</a></li>
-                        <li><a href="#about" data-translate="nav_about">About</a></li>
-                        <li><a href="#contact" data-translate="nav_contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 data-translate="footer_connect">Connect With Us</h3>
                     <div class="footer-social">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://instagram.com/ask_fitness" class="social-link" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://wa.me/1234567890" class="social-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="https://tiktok.com/@ask_fitness" class="social-link" target="_blank">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://youtube.com/@askfitness" class="social-link" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#programs">Programs</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h3>Programs</h3>
+                        <ul>
+                            <li><a href="#programs">Build Muscle</a></li>
+                            <li><a href="#programs">Fat Loss</a></li>
+                            <li><a href="#programs">Online Coaching</a></li>
+                            <li><a href="#programs">Nutrition Plans</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p data-translate="footer_copyright">&copy; 2024 NaturalCare. All rights reserved.</p>
-                <div class="footer-legal">
-                    <a href="#" data-translate="footer_privacy">Privacy Policy</a>
-                    <a href="#" data-translate="footer_terms">Terms of Service</a>
-                </div>
+                <p>&copy; 2024 ASK FITNESS. All rights reserved. Built with 💪 and passion.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Admin Dashboard Modal -->
-    <div id="admin-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 data-translate="admin_dashboard">Admin Dashboard</h2>
-                <span class="close-modal" id="close-admin-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <!-- Admin content will be loaded here -->
-                <div id="admin-content"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Details Modal -->
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="product-modal-title">Product Details</h2>
-                <span class="close-modal" id="close-product-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div id="product-modal-content"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Gallery Lightbox -->
-    <div id="lightbox" class="lightbox">
-        <div class="lightbox-content">
-            <span class="lightbox-close">&times;</span>
-            <img id="lightbox-image" src="" alt="">
-            <div class="lightbox-nav">
-                <button class="lightbox-prev">&lt;</button>
-                <button class="lightbox-next">&gt;</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Custom Modal for Confirmations and Alerts -->
-    <div id="custom-modal" class="modal custom-modal">
-        <div class="modal-content custom-modal-content">
-            <div class="modal-header custom-modal-header">
-                <div class="modal-icon" id="modal-icon">
-                    <i class="fas fa-question-circle"></i>
-                </div>
-                <h3 id="modal-title">Confirmation</h3>
-            </div>
-            <div class="modal-body custom-modal-body">
-                <p id="modal-message">Are you sure you want to proceed?</p>
-            </div>
-            <div class="modal-footer custom-modal-footer">
-                <button id="modal-cancel" class="btn btn-secondary">
-                    <span data-translate="cancel">Cancel</span>
-                </button>
-                <button id="modal-confirm" class="btn btn-primary">
-                    <span data-translate="confirm">Confirm</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Comment Modal -->
-    <div id="edit-comment-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 data-translate="edit_comment">Edit Comment</h3>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="edit-comment-form">
-                    <div class="form-group">
-                        <label for="edit-comment-text" data-translate="your_comment">Your Comment:</label>
-                        <textarea id="edit-comment-text" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit-comment-rating" data-translate="rating">Rating:</label>
-                        <div class="rating-input">
-                            <input type="radio" id="edit-star5" name="editRating" value="5">
-                            <label for="edit-star5"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="edit-star4" name="editRating" value="4">
-                            <label for="edit-star4"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="edit-star3" name="editRating" value="3">
-                            <label for="edit-star3"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="edit-star2" name="editRating" value="2">
-                            <label for="edit-star2"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="edit-star1" name="editRating" value="1">
-                            <label for="edit-star1"><i class="fas fa-star"></i></label>
-                        </div>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary close-modal">
-                            <span data-translate="cancel">Cancel</span>
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            <span data-translate="save_changes">Save Changes</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="toast-container"></div>
-
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="back-to-top" data-tooltip="Back to Top">
+    <button id="back-to-top" class="back-to-top">
         <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="firebase-config.js"></script>
-    <script src="translations.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
